@@ -1,7 +1,9 @@
 ---
-import type { PostProps } from "../types";
+import { Link } from "../components/Link";
+import { formatDate } from "../lib/formatDate";
+import type { PostFrontmatter } from "../types";
 
-const posts: PostProps[] = await Astro.glob("./**/*.{md,mdx}");
+const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 ---
 
 <html lang="en">
@@ -12,16 +14,24 @@ const posts: PostProps[] = await Astro.glob("./**/*.{md,mdx}");
     <title>Astro</title>
   </head>
   <body>
-    <h1>zaduma</h1>
-    <ul>
+    <h1 class="text-gray-600">zaduma</h1>
+    <ul class="max-w-2xl mt-6">
       {
-        posts.map((post) => {
+        posts.map(({ frontmatter }) => {
+          console.log(">> post.frontmatter", frontmatter);
+
+          const date = new Date(frontmatter.date);
           return (
             <li>
-              <a href={post.url}>
-								<h2>{post.frontmatter.title}</h2>
-								<time>{post.frontmatter.date}</time>
-							</a>
+              <Link
+                href={frontmatter.path}
+                class="flex flex-row gap-2 justify-between decoration-transparent"
+              >
+                <h2 class="text-gray-800">{frontmatter.title}</h2>
+                <time datetime={date.toISOString()} class="text-gray-600">
+                  {formatDate(date)}
+                </time>
+              </Link>
             </li>
           );
         })

@@ -1,0 +1,25 @@
+---
+import { Link } from "../components/Link";
+import type { PostFrontmatter } from "../types";
+
+export const getStaticPaths = async () => {
+  const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+
+  return posts.map((post) => {
+    return {
+      params: {
+        path: post.frontmatter.path.replace(/^\//, ""),
+      },
+      props: post,
+    };
+  });
+};
+
+const { Content } = Astro.props;
+
+const mdxComponents = {
+  a: Link,
+};
+---
+
+<Content components={mdxComponents} />
