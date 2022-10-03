@@ -1,5 +1,6 @@
 ---
 import type { MarkdownLayoutProps } from 'astro';
+import { formatDate } from '../lib/formatDate';
 import BaseLayout from "./BaseLayout.astro";
 
 type Props = MarkdownLayoutProps<{
@@ -10,9 +11,10 @@ type Props = MarkdownLayoutProps<{
 }>;
 const { frontmatter } = Astro.props;
 
+const date = new Date(frontmatter.date)
 ---
 <BaseLayout title={frontmatter.title}>
     <h1>{frontmatter.title}</h1>
+    <time datetime={date.toISOString()}>{formatDate(date)}</time>
     <slot />
-    <p>Written on: {frontmatter.date}</p>
 </BaseLayout>

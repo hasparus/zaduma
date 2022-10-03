@@ -3,7 +3,7 @@ import type { MarkdownHeading, MarkdownLayoutProps } from "astro";
 export interface PostFrontmatter {
   layout?: string;
   title: string;
-  date: Date;
+  date: string;
 }
 
 interface BasePostProps {

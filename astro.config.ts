@@ -7,6 +7,7 @@ import type { RemarkPlugins } from "astro";
 import type { RemarkPlugin } from "@astrojs/markdown-remark/dist/types";
 import type { PostFrontmatter, PostProps } from "./src/types";
 import { titleCase } from "./src/lib/titleCase";
+import { execSync } from "node:child_process";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -35,7 +36,12 @@ const derivedTitleAndDatePlugin: RemarkPlugin<
     }
 
     if (!frontmatter.date) {
-      
+      const createdAt = execSync(
+        `git log -1 --format="%ai" --reverse ${file.path}`,
+        { encoding: "utf-8" }
+      ).trim();
+
+      frontmatter.date = createdAt;
     }
   };
 };
