@@ -1,0 +1,20 @@
+.zaduma-prose {
+  @apply text-gray-800;
+
+  & > p {
+    @apply max-w-2xl;
+  }
+
+  & > :where(h1, h2, h3, h4, h5, h6) {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & > :not(:last-child) {
+    margin-bottom: 2rem;
+  }
+}
