@@ -4,14 +4,18 @@ export interface PostFrontmatter {
   layout?: string;
   title: string;
   date: string;
+  path: string;
 }
 
 interface BasePostProps {
   file: string;
-  // this would be undefined for markdown files outside of `src/pages`, but
-  // we are not going to have those.
-  url: string;
   frontmatter: PostFrontmatter;
+  /** We keep posts outside of pages/ directory,
+   *  so we have to compute this URL manually.
+   *  It's stored in `frontmatter.path`
+   */
+  url?: undefined;
+  path: string;
 }
 
 /** @see https://docs.astro.build/en/guides/markdown-content/#markdown-layout-props */

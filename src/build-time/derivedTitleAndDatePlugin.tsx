@@ -1,6 +1,5 @@
-import { execSync } from "node:child_process";
-
 import type { RemarkPlugin } from "@astrojs/markdown-remark/dist/types";
+import { execSync } from "node:child_process";
 
 import type { PostFrontmatter, PostProps } from "../types";
 
@@ -16,10 +15,15 @@ export const derivedTitleAndDatePlugin: RemarkPlugin<
     }
 
     if (!frontmatter.date) {
-      const createdAt = execSync(
+      let createdAt = execSync(
         `git log -1 --format="%ai" --reverse ${file.path}`,
         { encoding: "utf-8" }
       ).trim();
+
+      if (!createdAt) {
+        // if the file wasn't committed yet, we use the current date
+        createdAt = new Date().toISOString();
+      }
 
       frontmatter.date = createdAt;
     }
