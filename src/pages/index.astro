@@ -18,8 +18,6 @@ const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
     <ul class="max-w-2xl mt-6">
       {
         posts.map(({ frontmatter }) => {
-          console.log(">> post.frontmatter", frontmatter);
-
           const date = new Date(frontmatter.date);
           return (
             <li>
