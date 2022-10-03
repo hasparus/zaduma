@@ -9,5 +9,15 @@ module.exports = {
         project: require.resolve("./tsconfig.json"),
       },
     },
+    {
+      files: ["*.astro"],
+      parser: "astro-eslint-parser",
+      parserOptions: {
+        parser: "@typescript-eslint/parser",
+        extraFileExtensions: [".astro"],
+      },
+      rules: {},
+    },
+    // ...
   ],
 };

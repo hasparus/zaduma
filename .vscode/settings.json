@@ -1,11 +1,30 @@
 {
   "prettier.documentSelectors": ["**/*.astro"],
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "astro"
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "astro"
+  ],
+
   "files.associations": {
     "*.css": "css",
     "*.mdx": "markdown" // extensions for Markdown are better suited for writing
   },
+
   "css.customData": ["./.vscode/css-custom-data.json"],
   "css.validate": false,
+
   "tailwindCSS.experimental.classRegex": [
     ["classList={{([^)]*)}}", "\"([^\"]*)\""],
     ["classList={{([^)]*)}}", "`([^`]*)`"],
