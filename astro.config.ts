@@ -1,50 +1,17 @@
-// @ts-check
 import { defineConfig } from "astro/config";
 import { fileURLToPath } from "node:url";
-import { dirname, resolve, relative } from "node:path";
+import { dirname, resolve } from "node:path";
 import mdx from "@astrojs/mdx";
 import type { RemarkPlugins } from "astro";
-import type { RemarkPlugin } from "@astrojs/markdown-remark/dist/types";
-import type { PostFrontmatter, PostProps } from "./src/types";
+
 import { titleCase } from "./src/lib/titleCase";
-import { execSync } from "node:child_process";
+import {
+  defaultLayoutPlugin,
+  derivedTitleAndDatePlugin,
+} from "./src/build-time";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const defaultLayoutPlugin: RemarkPlugin<[{ layoutPath: string }]> = ({
-  layoutPath,
-}: {
-  layoutPath: string;
-}) => {
-  return (_tree, file) => {
-    const data = file.data as { astro: PostProps };
-
-    data.astro.frontmatter.layout = relative(file.dirname!, layoutPath);
-  };
-};
-
-const derivedTitleAndDatePlugin: RemarkPlugin<
-  [{ title: (fileStem: string) => string }]
-> = ({ title }) => {
-  return (_tree, file) => {
-    const data = file.data as { astro: PostProps };
-    const frontmatter = data.astro.frontmatter as Partial<PostFrontmatter>;
-
-    if (!frontmatter.title) {
-      frontmatter.title = title(file.stem || "");
-    }
-
-    if (!frontmatter.date) {
-      const createdAt = execSync(
-        `git log -1 --format="%ai" --reverse ${file.path}`,
-        { encoding: "utf-8" }
-      ).trim();
-
-      frontmatter.date = createdAt;
-    }
-  };
-};
 
 const remarkPlugins: RemarkPlugins = [
   [
