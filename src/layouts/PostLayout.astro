@@ -23,7 +23,10 @@ const date = new Date(frontmatter.date);
   <main class="zaduma-prose">
     <Link href="/">← back</Link>
     <h1>{frontmatter.title}</h1>
-    <time datetime={date.toISOString()} class="text-gray-600">
+    <time
+      datetime={date.toISOString()}
+      class="text-gray-600 dark:text-gray-400"
+    >
       {formatDate(date)}
     </time>
     <slot />

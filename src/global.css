@@ -9,4 +9,11 @@ html {
 
 body {
   padding: 1rem;
+  @apply text-gray-800 bg-white;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    @apply bg-gray-900 text-gray-200;
+  }
 }

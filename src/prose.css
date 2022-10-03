@@ -1,6 +1,4 @@
 .zaduma-prose {
-  @apply text-gray-800;
-
   & > p {
     @apply max-w-2xl;
   }
