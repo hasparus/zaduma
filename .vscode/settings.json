@@ -1,6 +1,14 @@
 {
-  "prettier.documentSelectors": ["**/*.astro"]
-  // "[astro]": {
-  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
-  // }
+  "prettier.documentSelectors": ["**/*.astro"],
+  "files.associations": {
+    "*.css": "css",
+    "*.mdx": "markdown" // extensions for Markdown are better suited for writing
+  },
+  "css.customData": ["./.vscode/css-custom-data.json"],
+  "css.validate": false,
+  "tailwindCSS.experimental.classRegex": [
+    ["classList={{([^)]*)}}", "\"([^\"]*)\""],
+    ["classList={{([^)]*)}}", "`([^`]*)`"],
+    ["classList={{([^)]*)}}", "'([^']*)'"]
+  ]
 }
