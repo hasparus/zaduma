@@ -12,9 +12,10 @@ Inside of your Astro project, you'll see the following folders and files:
 <code>
 ├── public/
 ├── posts/
-│   └── rebuilding-a-blog.mdx — posts written in <a href="https://mdxjs.com/">MDX</a>
+│   └── <b>rebuilding-a-blog.mdx</b> — posts written in <a href="https://mdxjs.com/">MDX</a>
 ├── src/
 │   ├── build-time/* — remark plugins
+│   ├── global-styles/* — fonts, body and prose styles
 │   ├── layouts/
 │   │   ├── <b>BaseLayout.astro</b> — UI shared between all pages
 │   │   └── <b>PostLayout.astro</b> — layout for all posts
@@ -22,12 +23,14 @@ Inside of your Astro project, you'll see the following folders and files:
 │   ├── pages/
 │   │   ├── <b>[path].astro</b>
 │   │   └── <b>index.astro</b>
-│   ├── env.d.ts
-│   ├── font.css
-│   ├── global.css
-│   ├── prose.css
-│   └── types.ts
-└── package.json
+│   ├── <b>env.d.ts</b>
+│   └── <b>types.ts</b>
+├── <b>astro.config.ts</b>
+├── <b>package.json</b>
+├── <b>postcss.config.cjs</b>
+├── <b>tailwind.config.cjs</b> — Tailwind config and theme — colors, fonts
+└── <b>tsconfig.json</b>
+
 </code>
 </pre>
 
