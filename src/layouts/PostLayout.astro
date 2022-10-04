@@ -1,19 +1,19 @@
 ---
 import type { MarkdownLayoutProps } from "astro";
 
-import { Link } from "../components/Link";
 import { formatDate } from "../lib/formatDate";
+import { Link } from "../lib/Link";
 
 import BaseLayout from "./BaseLayout.astro";
 
 import "../prose.css";
 
 type Props = MarkdownLayoutProps<{
-  // Define frontmatter props here
   title: string;
   author: string;
   date: string;
 }>;
+
 const { frontmatter } = Astro.props;
 
 const date = new Date(frontmatter.date);

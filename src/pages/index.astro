@@ -1,6 +1,6 @@
 ---
-import { Link } from "../components/Link";
 import { formatDate } from "../lib/formatDate";
+import { Link } from "../lib/Link";
 import type { PostFrontmatter } from "../types";
 
 const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
@@ -11,7 +11,7 @@ const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
-    <title>Astro</title>
+    <title>zaduma</title>
   </head>
   <body>
     <h1 class="text-gray-600">zaduma</h1>
