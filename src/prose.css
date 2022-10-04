@@ -4,6 +4,33 @@
   --serif: "Brygada 1918";
   --italic-serif: italic 444 1.15em var(--serif);
 
+  & > :not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+
+  /* #region text — p, em, and strong */
+
+  & > p {
+    @apply max-w-2xl;
+  }
+
+  & p {
+    line-height: 1.7;
+  }
+
+  & em {
+    font: var(--italic-serif);
+  }
+
+  & strong,
+  & strong > em {
+    font-weight: 700;
+  }
+
+  /* #endregion */
+
+  /* #region lists */
+
   & ul {
     list-style-type: disc;
     list-style-position: outside;
@@ -41,25 +68,12 @@
     }
   }
 
-  & > p {
-    @apply max-w-2xl;
-  }
+  /* #endregion */
 
-  & p {
-    line-height: 1.7;
-  }
-
-  & em {
-    font: var(--italic-serif);
-  }
+  /* #region text boxes — blockquote and aside */
 
   & blockquote {
     font: 400 1.2em var(--serif);
-  }
-
-  & strong,
-  & strong > em {
-    font-weight: 700;
   }
 
   & :where(h1, h2, h3, h4, h5, h6) {
@@ -69,7 +83,8 @@
     font: 555 1em var(--sans);
   }
 
-  & > :not(:last-child) {
-    margin-bottom: 1.5rem;
+  & aside {
   }
+
+  /* #endregion */
 }
