@@ -3,17 +3,20 @@
 @tailwind utilities;
 
 html {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+
+  font-size: 15px;
 }
 
 body {
-  padding: 1rem;
-  @apply text-gray-800 bg-white;
+  @apply text-gray-800 bg-white p-4 lg:p-8;
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    @apply bg-gray-900 text-gray-300;
+    @apply bg-gray-900 text-gray-200;
   }
 }
