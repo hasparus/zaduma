@@ -81,9 +81,38 @@
     margin-bottom: 1.5rem;
 
     font: 555 1em var(--sans);
+
+    &::before {
+      @apply text-gray-400 dark:text-gray-600;
+    }
+  }
+
+  & > h1::before {
+    content: "# ";
+  }
+  & > h2::before {
+    content: "## ";
+  }
+  & > h3::before {
+    content: "### ";
   }
 
   & aside {
+  }
+
+  /* #endregion */
+
+  /* #region code snippets — code and pre */
+
+  & pre {
+    @apply rounded-md text-sm px-4 py-3;
+
+    tab-size: 4;
+    overflow-x: auto;
+
+    & code {
+      @apply font-mono;
+    }
   }
 
   /* #endregion */
