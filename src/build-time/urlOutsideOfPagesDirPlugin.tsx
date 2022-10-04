@@ -14,6 +14,7 @@ export const urlOutsideOfPagesDirPlugin: RemarkPlugin<
       "/" +
       relative(absoluteDirPath, file.path)
         .replace(/\\/g, "/")
-        .replace(file.extname || "", "");
+        .replace(file.extname || "", "")
+        .replace(/ /g, "-");
   };
 };
