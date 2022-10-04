@@ -1,4 +1,6 @@
 ---
+import GrainOverlay from "../lib/GrainOverlay.astro";
+
 import "../global-styles/base.css";
 import "../global-styles/font.css";
 
@@ -19,5 +21,6 @@ const { title } = Astro.props;
   </head>
   <body>
     <slot />
+    <GrainOverlay />
   </body>
 </html>

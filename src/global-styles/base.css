@@ -12,7 +12,7 @@ html {
 }
 
 body {
-  @apply text-gray-800 bg-white p-4 lg:p-8;
+  @apply text-gray-800 bg-white p-4 lg:p-8 relative min-h-screen;
 }
 
 @media (prefers-color-scheme: dark) {
