@@ -35,4 +35,9 @@ const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
       })
     }
   </ul>
+  <style>
+    ul:hover li:not(:hover) :where(h2, time) {
+      @apply text-gray-600 dark:text-gray-500;
+    }
+  </style>
 </BaseLayout>
