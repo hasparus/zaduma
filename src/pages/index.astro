@@ -23,9 +23,10 @@ const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
             <li>
               <Link
                 href={frontmatter.path}
-                class="flex flex-row gap-2 justify-between decoration-transparent dark:decoration-transparent"
+                class="flex flex-row gap-2 justify-between"
+                noUnderline
               >
-                <h2 class="text-gray-800 dark:text-gray-300">
+                <h2 class="text-gray-800 dark:text-gray-300 font-sans">
                   {frontmatter.title}
                 </h2>
                 <time
