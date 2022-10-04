@@ -1,5 +1,6 @@
-import { relative } from "node:path";
 import type { RemarkPlugin } from "@astrojs/markdown-remark/dist/types";
+import { relative } from "node:path";
+
 import type { PostProps } from "../types";
 
 export const defaultLayoutPlugin: RemarkPlugin<[{ layoutPath: string }]> = ({
