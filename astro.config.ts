@@ -48,4 +48,9 @@ export default defineConfig({
     }),
     solidJs(),
   ],
+  vite: {
+    ssr: {
+      noExternal: ["@fontsource/inter", "@fontsource/brygada-1918"],
+    },
+  },
 });

@@ -15,6 +15,8 @@
     "@astrojs/mdx": "^0.11.3",
     "@astrojs/solid-js": "^1.1.0",
     "@astrojs/tailwind": "^2.0.2",
+    "@fontsource/brygada-1918": "^4.5.11",
+    "@fontsource/inter": "^4.5.13",
     "astro": "^1.4.2",
     "astro-eslint-parser": "^0.6.2",
     "solid-js": "^1.4.3",

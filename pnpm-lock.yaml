@@ -6,6 +6,8 @@ specifiers:
   '@astrojs/solid-js': ^1.1.0
   '@astrojs/tailwind': ^2.0.2
   '@edgeandnode/eslint-config': ^1.0.3
+  '@fontsource/brygada-1918': ^4.5.11
+  '@fontsource/inter': ^4.5.13
   '@types/node': ^18.8.0
   astro: ^1.4.2
   astro-eslint-parser: ^0.6.2
@@ -25,6 +27,8 @@ dependencies:
   '@astrojs/mdx': 0.11.3
   '@astrojs/solid-js': 1.1.0_solid-js@1.5.7
   '@astrojs/tailwind': 2.0.2_tailwindcss@3.1.8
+  '@fontsource/brygada-1918': 4.5.11
+  '@fontsource/inter': 4.5.13
   astro: 1.4.2
   astro-eslint-parser: 0.6.2
   solid-js: 1.5.7
@@ -559,6 +563,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@fontsource/brygada-1918/4.5.11:
+    resolution: {integrity: sha512-BOqBowdAlbByX23ppEsS3syJ6zCGSwQ3XcUesIc72dILimqdgHmxzgZIoQfMhmkGZePjVhKmnfQD6J3ZsqTS3w==}
+    dev: false
+
+  /@fontsource/inter/4.5.13:
+    resolution: {integrity: sha512-nABtF6jNZZHrotLRiGBByhG7NKJGJHgMbX5W8v6C/7nSdyiWtMRfZX7AMIECDLYGUOEArZDeVO/SbkgwKLrLJw==}
+    dev: false
 
   /@humanwhocodes/config-array/0.10.7:
     resolution: {integrity: sha512-MDl6D6sBsaV452/QSdX+4CXIjZhIcI0PELsxUjk4U828yd58vk3bTIvk/6w5FY+4hIy9sLW0sfrV7K7Kc++j/w==}
