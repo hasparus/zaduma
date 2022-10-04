@@ -1,4 +1,5 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate } from "../lib/formatDate";
 import { Link } from "../lib/Link";
 import type { PostFrontmatter } from "../types";
@@ -6,40 +7,32 @@ import type { PostFrontmatter } from "../types";
 const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <title>zaduma</title>
-  </head>
-  <body>
-    <h1 class="text-gray-600">zaduma</h1>
-    <ul class="max-w-2xl mt-6">
-      {
-        posts.map(({ frontmatter }) => {
-          const date = new Date(frontmatter.date);
-          return (
-            <li>
-              <Link
-                href={frontmatter.path}
-                class="flex flex-row gap-2 justify-between"
-                noUnderline
+<BaseLayout title="zaduma">
+  <h1 class="text-gray-600 dark:text-gray-500">zaduma</h1>
+  <ul class="max-w-2xl mt-6">
+    {
+      posts.map(({ frontmatter }) => {
+        const date = new Date(frontmatter.date);
+        return (
+          <li>
+            <Link
+              href={frontmatter.path}
+              class="flex flex-row gap-2 justify-between"
+              noUnderline
+            >
+              <h2 class="text-gray-800 dark:text-gray-300 font-sans">
+                {frontmatter.title}
+              </h2>
+              <time
+                datetime={date.toISOString()}
+                class="text-gray-600 dark:text-gray-400"
               >
-                <h2 class="text-gray-800 dark:text-gray-300 font-sans">
-                  {frontmatter.title}
-                </h2>
-                <time
-                  datetime={date.toISOString()}
-                  class="text-gray-600 dark:text-gray-400"
-                >
-                  {formatDate(date)}
-                </time>
-              </Link>
-            </li>
-          );
-        })
-      }
-    </ul>
-  </body>
-</html>
+                {formatDate(date)}
+              </time>
+            </Link>
+          </li>
+        );
+      })
+    }
+  </ul>
+</BaseLayout>
