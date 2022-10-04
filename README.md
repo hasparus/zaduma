@@ -12,24 +12,24 @@ Inside of your Astro project, you'll see the following folders and files:
 <code>
 ├── public/
 ├── posts/
-│   └── <b>rebuilding-a-blog.mdx</b> — posts written in <a href="https://mdxjs.com/">MDX</a>
+│   └── <i>rebuilding-a-blog.mdx</i> — posts written in <a href="https://mdxjs.com/">MDX</a>
 ├── src/
 │   ├── build-time/* — remark plugins
 │   ├── global-styles/* — fonts, body and prose styles
 │   ├── layouts/
-│   │   ├── <b>BaseLayout.astro</b> — UI shared between all pages
-│   │   └── <b>PostLayout.astro</b> — layout for all posts
+│   │   ├── <i>BaseLayout.astro</i> — UI shared between all pages
+│   │   └── <i>PostLayout.astro</i> — layout for all posts
 │   ├── lib/* — reusable utils and UI components
 │   ├── pages/
-│   │   ├── <b>[path].astro</b>
-│   │   └── <b>index.astro</b>
-│   ├── <b>env.d.ts</b>
-│   └── <b>types.ts</b>
-├── <b>astro.config.ts</b>
-├── <b>package.json</b>
-├── <b>postcss.config.cjs</b>
-├── <b>tailwind.config.cjs</b> — Tailwind config and theme — colors, fonts
-└── <b>tsconfig.json</b>
+│   │   ├── <i>[path].astro</i>
+│   │   └── <i>index.astro</i>
+│   ├── <i>env.d.ts</i>
+│   └── <i>types.ts</i>
+├── <i>astro.config.ts</i>
+├── <i>package.json</i>
+├── <i>postcss.config.cjs</i>
+├── <i>tailwind.config.cjs</i> — Tailwind config and theme — colors, fonts
+└── <i>tsconfig.json</i>
 
 </code>
 </pre>
