@@ -1,11 +1,72 @@
 .zaduma-prose {
+  /* TODO: Get rid of thesse two and apply Tailwind styles */
+  --sans: "Inter";
+  --serif: "Brygada 1918";
+  --italic-serif: italic 444 1.15em var(--serif);
+
+  & ul {
+    list-style-type: disc;
+    list-style-position: outside;
+    padding-left: 1em;
+  }
+
+  & ol {
+    counter-reset: ol;
+    list-style-type: none;
+    padding: 0;
+
+    & li {
+      --l: 1.5em;
+      text-indent: calc(-1 * var(--l));
+      padding-left: var(--l);
+
+      &:before {
+        @apply text-gray-600 dark:text-gray-400;
+
+        counter-increment: ol;
+        content: counter(ol) ".";
+        font: var(--italic-serif);
+        font-size: 1em;
+        font-weight: 700;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        text-align: right;
+        min-width: 0.75em;
+        margin-right: 0.5em;
+        user-select: none;
+      }
+    }
+  }
+
   & > p {
     @apply max-w-2xl;
+  }
+
+  & p {
+    line-height: 1.7;
+  }
+
+  & em {
+    font: var(--italic-serif);
+  }
+
+  & blockquote {
+    font: 400 1.2em var(--serif);
+  }
+
+  & strong,
+  & strong > em {
+    font-weight: 700;
   }
 
   & :where(h1, h2, h3, h4, h5, h6) {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+
+    font: 555 1em var(--sans);
   }
 
   & > :not(:last-child) {
