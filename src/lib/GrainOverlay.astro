@@ -1,4 +1,13 @@
+---
+interface Props {
+  /** number between 0 and 1 */
+  opacity: number;
+}
+const { opacity } = Astro.props;
+---
+
 <div
-  class="absolute inset-0 mix-blend-difference bg-[url('/grain.svg')] pointer-events-none select-none opacity-25"
+  style={{ opacity }}
+  class="absolute inset-0 mix-blend-difference bg-[url('/grain.svg')] pointer-events-none select-none"
 >
 </div>
