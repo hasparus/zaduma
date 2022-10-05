@@ -1,5 +1,5 @@
-We're using [Shiki Twoslash](https://shikijs.github.io/twoslash/) to highlight
-TypeScript and JavaScript code.
+We're using [Shiki Twoslash](https://shikijs.github.io/twoslash/) to add
+compiler information to TypeScript and JavaScript code snippets.
 
 ```ts twoslash
 // @module: esnext
@@ -8,7 +8,16 @@ export function absolute(num: number) {
   if (num < 0) return num * -1;
   return num;
 }
+
 // @filename: index.ts
 import { absolute } from "./maths";
 const value = absolute(-1);
+```
+
+Pretty neat, isn't it?
+
+```ts twoslash
+// @errors: 2339
+const welcome = "Jak się masz?";
+const words = welcome.contains(" ");
 ```

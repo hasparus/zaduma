@@ -104,14 +104,21 @@
 
   /* #region code snippets — code and pre */
 
+  & code {
+    @apply font-mono;
+    /* We decrease letter spacing to make inline code stand out less from the
+       surrounding text. */
+    letter-spacing: -0.01em;
+  }
+
   & pre {
-    @apply md:rounded-md text-sm -mx-4 p-4;
+    @apply md:rounded-md text-sm -mx-4 p-4 overflow-x-auto;
 
     tab-size: 2;
-    overflow-x: auto;
 
     & code {
-      @apply font-mono;
+      /* Reset letter-spacing that was increased above. */
+      letter-spacing: unset;
     }
   }
 
