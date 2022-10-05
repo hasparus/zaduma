@@ -1,0 +1,23 @@
+diff --git a/lib/plugin/recma-jsx-rewrite.js b/lib/plugin/recma-jsx-rewrite.js
+index 1e82a1e41b18b16cb5d2f2a66b07e2d9544c55db..eb5286a273f095bedb693ec587917d6162164108 100644
+--- a/lib/plugin/recma-jsx-rewrite.js
++++ b/lib/plugin/recma-jsx-rewrite.js
+@@ -387,11 +387,13 @@ export function recmaJsxRewrite(options = {}) {
+               })
+             }
+ 
+-            statements.push({
+-              type: 'VariableDeclaration',
+-              kind: 'const',
+-              declarations
+-            })
++            if (declarations.length > 0) {
++              statements.push({
++                type: 'VariableDeclaration',
++                kind: 'const',
++                declarations
++              })
++            }
+           }
+ 
+           /** @type {string} */
