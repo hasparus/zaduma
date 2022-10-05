@@ -105,9 +105,9 @@
   /* #region code snippets — code and pre */
 
   & pre {
-    @apply rounded-md text-sm px-4 py-3;
+    @apply md:rounded-md text-sm -mx-4 p-4;
 
-    tab-size: 4;
+    tab-size: 2;
     overflow-x: auto;
 
     & code {

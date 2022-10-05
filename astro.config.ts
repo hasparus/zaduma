@@ -5,6 +5,8 @@ import type { RemarkPlugins } from "astro";
 import { defineConfig } from "astro/config";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import shikiTwoslash from "remark-shiki-twoslash";
+import remarkSupersub from "remark-supersub";
 
 import {
   defaultLayoutPlugin,
@@ -26,6 +28,8 @@ const remarkPlugins: RemarkPlugins = [
     { absoluteDirPath: resolve(__dirname, "./posts") },
   ],
   [derivedTitleAndDatePlugin, { title: titleCase }],
+  remarkSupersub as any /* types aren't up to date but it works well */,
+  [shikiTwoslash, { themes: ["github-light", "github-dark"] }],
 ];
 
 // https://astro.build/config
@@ -33,6 +37,8 @@ export default defineConfig({
   markdown: {
     remarkPlugins,
     extendDefaultPlugins: true,
+    // We'll highlight using Shiki Twoslash remark plugin
+    syntaxHighlight: false,
   },
   integrations: [
     tailwind({
