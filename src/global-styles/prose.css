@@ -121,7 +121,21 @@
     @apply text-gray-600 dark:text-gray-400;
   }
 
+  & aside {
+    @apply text-sm;
+  }
+
   /* #endregion */
+
+  /* #region images and pictures */
+
+  & img {
+    @apply md:-mx-4;
+    width: calc(100% + 2rem);
+    max-width: initial;
+  }
+
+  /* #region */
 
   /* #region headings — h1, h2, h3... */
 
@@ -144,9 +158,6 @@
   }
   & > h3::before {
     content: "### ";
-  }
-
-  & aside {
   }
 
   /* #endregion */
