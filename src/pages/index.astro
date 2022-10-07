@@ -8,8 +8,8 @@ const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 ---
 
 <BaseLayout title="zaduma">
-  <h1 class="text-gray-600 dark:text-gray-500">zaduma</h1>
-  <ul class="max-w-2xl mt-6">
+  <h1 slot="header-content" class="text-gray-600 dark:text-gray-500">zaduma</h1>
+  <ul class="max-w-2xl">
     {
       posts.map(({ frontmatter }) => {
         const date = new Date(frontmatter.date);
@@ -37,7 +37,7 @@ const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
   </ul>
   <style>
     ul:hover li:not(:hover) :where(h2, time) {
-      @apply text-gray-600 dark:text-gray-500;
+      @apply text-gray-600 dark:text-gray-500 transition-colors;
     }
   </style>
 </BaseLayout>
