@@ -1,0 +1,12 @@
+/* MDX */
+
+.footnotes {
+  & .data-footnote-backref {
+    /* Without this, footnote back references will be rendered with an emoji. */
+    @apply font-serif;
+  }
+
+  & ol > li > p {
+    @apply inline -mx-1;
+  }
+}
