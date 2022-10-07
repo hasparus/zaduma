@@ -1,0 +1,15 @@
+---
+import grainSvg from "./grain.svg";
+
+interface Props {
+  /** number between 0 and 1 */
+  opacity: number;
+}
+const { opacity } = Astro.props;
+---
+
+<div
+  style={{ opacity, background: `url(${grainSvg})` }}
+  class="absolute inset-0 mix-blend-difference pointer-events-none select-none"
+>
+</div>
