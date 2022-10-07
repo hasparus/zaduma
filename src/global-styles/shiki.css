@@ -2,11 +2,11 @@
   display: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  .shiki.github-light {
+html.dark {
+  & .shiki.github-light {
     display: none;
   }
-  .shiki.github-dark {
+  & .shiki.github-dark {
     display: block;
   }
 }

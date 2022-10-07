@@ -1,0 +1,11 @@
+<script is:inline>
+  const setClass = (isDark) =>
+    document.documentElement.classList.toggle("dark", isDark);
+
+  const scheme = localStorage.getItem("ⲍ 🎨");
+  const mql = window.matchMedia("(prefers-color-scheme: dark)");
+
+  setClass(scheme === "dark" || (!scheme && mql.matches));
+
+  mql.onchange = (e) => setClass(e.matches);
+</script>

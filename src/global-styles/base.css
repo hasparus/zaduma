@@ -9,14 +9,12 @@ html {
   touch-action: manipulation;
 
   font-size: 15px;
+
+  &.dark {
+    color-scheme: dark;
+  }
 }
 
 body {
-  @apply text-gray-800 bg-white p-4 md:p-8 relative min-h-screen;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    @apply bg-gray-900 text-gray-200;
-  }
+  @apply text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900 p-4 md:p-8 relative min-h-screen;
 }
