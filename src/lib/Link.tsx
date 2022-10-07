@@ -18,7 +18,7 @@ export function Link(props: LinkProps) {
           !own.noUnderline,
         "p-2 -mx-2 whitespace-nowrap rounded-sm before:rounded-sm transition-colors relative":
           true,
-        "zm-hover-before": true,
+        "zaduma-hover-before": true,
       }}
       {...rest}
     />

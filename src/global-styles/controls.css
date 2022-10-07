@@ -1,4 +1,4 @@
-.zm-hover-before {
+.zaduma-hover-before {
   @apply relative before:rounded-sm before:transition-colors before:bg-transparent
    before:content-[''] before:absolute before:inset-0 before:-z-10 before:pointer-events-none
    hover:before:bg-gray-100 dark:hover:before:bg-gray-800/60 focus:before:bg-gray-100 dark:focus:before:bg-gray-800/60;

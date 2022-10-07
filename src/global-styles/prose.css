@@ -7,7 +7,7 @@
   @apply max-w-2xl;
 
   & > :not(:last-child) {
-    margin-bottom: 1.5rem;
+    @apply mb-6;
   }
 
   /* #region text — p, em, and strong */

@@ -13,7 +13,7 @@ export function ColorSchemeSelect() {
   const currentOption = options.find((o) => o.value === currentScheme);
 
   return (
-    <div class="zm-hover-before cursor-pointer rounded-sm">
+    <div class="zaduma-hover-before cursor-pointer rounded-sm">
       <select
         class={
           "bg-transparent cursor-pointer appearance-none rounded-sm p-2 px-8" +
