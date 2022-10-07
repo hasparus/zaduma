@@ -3,9 +3,11 @@
     document.documentElement.classList.toggle("dark", isDark);
 
   const scheme = localStorage.getItem("ⲍ 🎨");
-  const mql = window.matchMedia("(prefers-color-scheme: dark)");
 
-  setClass(scheme === "dark" || (!scheme && mql.matches));
-
-  mql.onchange = (e) => setClass(e.matches);
+  if (!scheme) {
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    setClass(mql.matches);
+    mql.onchange = (e) => setClass(e.matches);
+    window.ⲍ_schemeMql = mql;
+  } else setClass(scheme === "dark");
 </script>

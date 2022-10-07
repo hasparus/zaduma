@@ -2,11 +2,27 @@ const STORAGE_KEY = "ⲍ 🎨";
 
 export type ColorScheme = "light" | "dark" | /* system */ null;
 
-export const setScheme = (scheme: ColorScheme): void => {
-  const isDark =
-    scheme === "dark" ||
-    (!scheme && window.matchMedia("(prefers-color-scheme: dark)").matches);
+const setClass = (isDark: boolean) =>
   document.documentElement.classList.toggle("dark", isDark);
+
+export const setScheme = (scheme: ColorScheme): void => {
+  {
+    let isDark: boolean;
+    if (scheme) {
+      if (window.ⲍ_schemeMql) window.ⲍ_schemeMql.onchange = null;
+
+      isDark = scheme === "dark";
+    } else {
+      const mql = (window.ⲍ_schemeMql ||= window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ));
+
+      mql.onchange = (e) => setClass(e.matches);
+      isDark = mql.matches;
+    }
+
+    document.documentElement.classList.toggle("dark", isDark);
+  }
 
   if (typeof localStorage !== "undefined") {
     if (scheme) localStorage.setItem(STORAGE_KEY, scheme);
@@ -24,3 +40,9 @@ export const getStoredScheme = (): ColorScheme => {
 export const getEffectiveScheme = (): "dark" | "light" => {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
 };
+
+declare global {
+  interface Window {
+    ⲍ_schemeMql?: MediaQueryList;
+  }
+}
