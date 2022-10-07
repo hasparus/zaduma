@@ -1,8 +1,6 @@
 # zaduma, a minimal Astro template
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/hasparus/zaduma/tree/main)
 
 ## 🚀 Project Structure
 
@@ -10,7 +8,7 @@ Inside of your Astro project, you'll see the following folders and files:
 
 <pre>
 <code>
-├── public/
+├── public/ — <i>static assets</i>
 ├── posts/
 │   └── rebuilding-a-blog.mdx — <i>posts written in <a href="https://mdxjs.com/">MDX</a></i>
 ├── src/
@@ -32,8 +30,6 @@ Inside of your Astro project, you'll see the following folders and files:
 └── tsconfig.json
 </code>
 </pre>
-
-Any static assets, like images, can be placed in the `public/` directory.
 
 ## 🧞 Commands
 
