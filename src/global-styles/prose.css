@@ -4,15 +4,13 @@
   --serif: "Brygada 1918";
   --italic-serif: italic 444 1.15em var(--serif);
 
+  @apply max-w-2xl;
+
   & > :not(:last-child) {
     margin-bottom: 1.5rem;
   }
 
   /* #region text — p, em, and strong */
-
-  & > p {
-    @apply max-w-2xl;
-  }
 
   & p {
     line-height: 1.7;
@@ -43,9 +41,8 @@
     padding: 0;
 
     & li {
-      --l: 1.5em;
-      text-indent: calc(-1 * var(--l));
-      padding-left: var(--l);
+      text-indent: -1.5em;
+      padding-left: 1.5em;
 
       &:before {
         @apply text-gray-600 dark:text-gray-400;
@@ -72,9 +69,61 @@
 
   /* #region text boxes — blockquote and aside */
 
+  /*
+   * Example of blockquote with attribution:
+   *
+   *  <figure>
+   *    <blockquote cite="https://www.huxley.net/bnw/four.html">
+   *      <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced.</p>
+   *    </blockquote>
+   *    <figcaption>
+   *      —Aldous Huxley, <cite>
+   *        <a href="https://www.huxley.net/bnw/four.html">
+   *          Brave New World
+   *        </a>
+   *      </cite>
+   *    </figcaption>
+   *  </figure>
+   */
+
   & blockquote {
-    font: 400 1.2em var(--serif);
+    @apply bg-gray-100 dark:bg-gray-800 rounded-sm py-4 px-6;
+
+    font: 444 1.15em var(--serif);
+
+    position: relative;
+    quotes: "“" "”" "‘" "’";
+
+    &:after,
+    &:before {
+      @apply text-4xl leading-none text-gray-300 dark:text-gray-600 font-black;
+      position: absolute;
+    }
+
+    &:before {
+      content: open-quote;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -0.5rem);
+    }
+
+    &:after {
+      content: close-quote;
+      bottom: 0;
+      right: 0;
+      transform: translate(50%, calc(50% + 0.25rem));
+    }
   }
+
+  & figure > figcaption {
+    @apply px-6;
+    font: italic 400 1em var(--serif);
+    @apply text-gray-600 dark:text-gray-400;
+  }
+
+  /* #endregion */
+
+  /* #region headings — h1, h2, h3... */
 
   & :where(h1, h2, h3, h4, h5, h6) {
     margin-top: 1.5rem;
