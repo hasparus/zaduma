@@ -21,7 +21,7 @@ const date = new Date(frontmatter.date);
 
 <BaseLayout title={frontmatter.title}>
   <main class="zaduma-prose py-4">
-    <header class="flex justify-between items-center max-w-2xl">
+    <header class="flex justify-between items-center">
       <h1 class="!my-0">{frontmatter.title}</h1>
       <time
         datetime={date.toISOString()}
