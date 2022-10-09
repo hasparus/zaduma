@@ -5,6 +5,12 @@ import { Link } from "../lib/Link";
 import type { PostFrontmatter } from "../types";
 
 const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+posts.sort((a, b) => {
+  return (
+    new Date(a.frontmatter.date).getTime() -
+    new Date(b.frontmatter.date).getTime()
+  );
+});
 ---
 
 <BaseLayout title="zaduma">
