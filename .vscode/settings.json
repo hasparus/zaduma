@@ -29,5 +29,7 @@
     ["classList={{([^)]*)}}", "\"([^\"]*)\""],
     ["classList={{([^)]*)}}", "`([^`]*)`"],
     ["classList={{([^)]*)}}", "'([^']*)'"]
-  ]
+  ],
+
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

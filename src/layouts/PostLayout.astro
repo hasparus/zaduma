@@ -2,19 +2,18 @@
 import type { MarkdownLayoutProps } from "astro";
 
 import { formatDate } from "../lib/formatDate";
+import type { PostFrontmatter } from "../types";
 
 import BaseLayout from "./BaseLayout.astro";
 
 import "../global-styles/prose.css";
 import "../global-styles/shiki.css";
 
-type Props = MarkdownLayoutProps<{
-  title: string;
-  author: string;
-  date: string;
-}>;
+type Props = MarkdownLayoutProps<PostFrontmatter>;
 
 const { frontmatter } = Astro.props;
+
+console.log("frontmatter.readingTime", frontmatter.readingTime);
 
 const date = new Date(frontmatter.date);
 ---
