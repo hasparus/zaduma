@@ -1,6 +1,6 @@
 ---
-import { ColorSchemeSelect } from "../lib/color-scheme/ColorSchemeSelect";
 import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
+import { CommandCenter } from "../lib/CommandCenter";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
 import { Link } from "../lib/Link";
 
@@ -33,7 +33,8 @@ const { title } = Astro.props;
       <slot name="header-content">
         <Link href="/">← back</Link>
       </slot>
-      <ColorSchemeSelect client:only="solid" />
+      <CommandCenter client:load />
+      <!-- <ColorSchemeSelect client:only="solid" /> -->
     </header>
     <slot />
     <GrainOverlay opacity={0.25} />
