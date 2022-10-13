@@ -4,7 +4,7 @@
   --serif: "Brygada 1918";
   --italic-serif: italic 444 1.15em var(--serif);
 
-  @apply max-w-2xl;
+  @apply max-w-container;
 
   & > :not(:last-child) {
     @apply mb-6;
@@ -14,6 +14,7 @@
 
   & p {
     line-height: 1.7;
+    @apply max-w-prose;
   }
 
   & em {
@@ -174,10 +175,13 @@
   & pre {
     @apply md:rounded-md text-sm -mx-4 p-4 overflow-x-auto;
 
+    /* Needed to fit 80 monospaced characters with Fira Code in 43rem space. */
+    padding-right: calc(1rem - 1px);
+
     tab-size: 2;
 
     & code {
-      /* Reset letter-spacing that was increased above. */
+      /* Reset letter-spacing that was increased above in `.zaduma-prose code`. */
       letter-spacing: unset;
     }
   }

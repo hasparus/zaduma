@@ -56,6 +56,9 @@ module.exports = {
       gray: tailwindColors.neutral,
     },
     extend: {
+      maxWidth: {
+        container: "43rem",
+      },
       animation: {
         "scale-up": "scale-up 150ms ease-in",
       },
