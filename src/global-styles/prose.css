@@ -128,16 +128,6 @@
 
   /* #endregion */
 
-  /* #region images and pictures */
-
-  & img {
-    @apply md:-mx-4;
-    width: calc(100% + 2rem);
-    max-width: initial;
-  }
-
-  /* #region */
-
   /* #region headings — h1, h2, h3... */
 
   & :where(h1, h2, h3, h4, h5, h6) {
