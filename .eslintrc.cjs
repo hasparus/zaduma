@@ -8,6 +8,10 @@ module.exports = {
       parserOptions: {
         project: require.resolve("./tsconfig.json"),
       },
+      rules: {
+        "react/jsx-key": "off",
+        "react/style-prop-object": "off",
+      },
     },
     {
       files: ["*.astro"],
