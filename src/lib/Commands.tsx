@@ -1,6 +1,7 @@
 import {
   createEffect,
   createSignal,
+  JSX,
   Match,
   onCleanup,
   onMount,
@@ -63,7 +64,7 @@ export function Commands() {
       const { shiftKey, altKey } = event;
       const key = event.code.replace(/^Key|^Digit/, "").toLowerCase();
 
-      console.log({ key });
+      console.log("key: ", key);
 
       const found = keybindings.get(
         [cmdKey && "cmd", shiftKey && "shift", altKey && "alt", key]
@@ -91,16 +92,17 @@ export function Commands() {
 
   return (
     <CommandCenter>
-      <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-2 rounded-sm" />
+      <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-2 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
       <CommandCenterDialog
         onClose={() => setPage(undefined)}
         ref={(ref) => (dialog = ref)}
         class={
           "backdrop:bg-white backdrop:bg-opacity-25" +
+          " dark:backdrop:bg-black dark:backdrop:bg-opacity-25" +
           " mx-auto transform rounded-xl bg-white" +
           " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
           " backdrop-blur backdrop-filter transition-all" +
-          " relative p-0 bg-white w-96 max-w-full"
+          " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
         }
       >
         <div class="flex justify-end">
@@ -117,7 +119,11 @@ export function Commands() {
         <div class="px-2">
           <CommandInput
             aria-label="Commands"
-            class="py-2 indent-2 w-full focus:outline-none border-b"
+            class={
+              "py-2 indent-2 w-full focus:outline-none border-b" +
+              " dark:border-gray-700 bg-transparent" +
+              " my-1"
+            }
             placeholder="What do you need?"
             autofocus
           />
@@ -127,12 +133,12 @@ export function Commands() {
                 <CommandItem shortcut="alt+t" onClick={handleShortcut}>
                   Set Theme
                 </CommandItem>
-                <CommandGroup heading="Posts">
+                <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
                   <CommandItem shortcut="/" onClick={handleShortcut}>
                     Search Posts
                   </CommandItem>
                 </CommandGroup>
-                <CommandGroup heading="Links">
+                <CommandGroup heading={<GroupHeading>Links</GroupHeading>}>
                   <CommandItem href="">Twitter</CommandItem>
                   <CommandItem href="">GitHub</CommandItem>
                   <CommandItem href="">Contact</CommandItem>
@@ -154,6 +160,7 @@ export function Commands() {
             </Match>
           </Switch>
         </div>
+        <footer class="pb-2" />
       </CommandCenterDialog>
     </CommandCenter>
   );
@@ -181,7 +188,10 @@ function CommandItem(props: CommandItemProps) {
 
   return (
     <CommandCenterItem
-      class="p-2 cursor-pointer zaduma-hover-before focus-visible:outline-black flex justify-between"
+      class={
+        "p-2 cursor-pointer zaduma-hover-before focus-visible:outline-black flex justify-between" +
+        " text-gray-700 dark:text-gray-300"
+      }
       tabIndex={-1}
       onClick={(event) => {
         event.preventDefault();
@@ -192,5 +202,13 @@ function CommandItem(props: CommandItemProps) {
       {own.children}
       {own.shortcut && <Shortcut class="ml-1" shortcut={own.shortcut} />}
     </CommandCenterItem>
+  );
+}
+
+function GroupHeading(props: { children: JSX.Element }) {
+  return (
+    <span class="text-xs p-2 font-semibold text-gray-400 dark:text-gray-500 uppercase leading-none tracking-wider">
+      {props.children}
+    </span>
   );
 }

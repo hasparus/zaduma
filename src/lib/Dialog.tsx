@@ -15,7 +15,6 @@ export function Dialog(props: DialogProps) {
     HTMLDialogElement,
     MouseEvent
   > = (event) => {
-    console.log("click");
     if (event.target === event.currentTarget) {
       event.currentTarget.close("dismiss");
       props.onClose?.();

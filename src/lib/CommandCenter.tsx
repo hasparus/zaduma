@@ -82,7 +82,7 @@ export function CommandGroup(props: CommandGroupProps) {
   const headingId = createUniqueId();
 
   return (
-    <div>
+    <>
       <Show when={!!props.heading}>
         <div aria-hidden id={headingId}>
           {props.heading}
@@ -94,7 +94,7 @@ export function CommandGroup(props: CommandGroupProps) {
       >
         {props.children}
       </div>
-    </div>
+    </>
   );
 }
 

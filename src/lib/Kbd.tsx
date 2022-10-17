@@ -10,6 +10,7 @@ export function Kbd(props: KbdProps) {
       {...rest}
       class={
         "p-1 border border-b-2 rounded-md bg-gray-50" +
+        " dark:border-gray-700 dark:bg-gray-800" +
         " tracking-tighter leading-none text-xs" +
         (own.class ? ` ${own.class}` : "")
       }
