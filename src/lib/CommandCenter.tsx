@@ -1,6 +1,8 @@
 import {
+  children,
   createContext,
   createEffect,
+  createMemo,
   createSelector,
   createSignal,
   createUniqueId,
@@ -18,13 +20,17 @@ type CommandCenterCtx = {
   setDialogRef: (ref: HTMLDialogElement | undefined) => void;
   open: () => void;
   isSelected: (command: string) => boolean;
+  matchesFilter: (command: string) => boolean;
+  onInput: (filter: string) => void;
 };
 const CommandCenterCtx = createContext<CommandCenterCtx>({
-  listId: "",
   inputId: "",
+  listId: "",
   setDialogRef: () => {},
   open: () => {},
   isSelected: () => false,
+  matchesFilter: () => true,
+  onInput: () => {},
 });
 
 const useCtx = () => useContext(CommandCenterCtx);
@@ -51,19 +57,39 @@ export function CommandCenterTrigger(props: CommandCenterTriggerProps) {
 
 export interface CommandCenterProps {
   children: JSX.Element;
+  inputId?: string;
 }
 
 export function CommandCenter(props: CommandCenterProps) {
   const dialogRef = {
     current: undefined as HTMLDialogElement | undefined,
   };
-  const inputId = createUniqueId();
+  let inputId = createUniqueId();
   const listId = createUniqueId();
 
+  if (props.inputId) {
+    inputId = props.inputId;
+  }
+
+  const [inputValue, onInput] = createSignal("");
   const [selectedCommand, selectCommand] = createSignal<string>("");
   const isSelected = createSelector(selectedCommand);
 
+  const match = (option: string, pattern: string) => {
+    return option.toLowerCase().includes(pattern.toLowerCase());
+  };
+
+  const matchesFilter = createSelector<string, string>(inputValue, match);
+
+  const getOptions = (): HTMLElement[] =>
+    Array.from(dialogRef.current?.querySelectorAll('[role="option"]') || []);
+
   createEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog) {
+      dialog.addEventListener("close", () => selectCommand(""));
+    }
+
     const onKeyDown = (event: KeyboardEvent) => {
       const dialog = dialogRef.current;
       if (!dialog) return;
@@ -71,14 +97,11 @@ export function CommandCenter(props: CommandCenterProps) {
       let move: -1 | 1;
 
       switch (event.key) {
-        // case 'ArrowDown'
         case "ArrowUp":
-        case "k":
           move = -1;
           break;
 
         case "ArrowDown":
-        case "j":
           move = 1;
           break;
 
@@ -86,16 +109,17 @@ export function CommandCenter(props: CommandCenterProps) {
           return;
       }
 
+      document.getElementById(inputId)?.focus();
+
       selectCommand((prev) => {
-        const commands: HTMLElement[] = Array.from(
-          dialog.querySelectorAll('[role="option"]')
-        );
+        const commands = getOptions();
         const current = dialog.querySelector(
           '[aria-selected="true"]'
         ) as HTMLElement;
 
         if (!current) {
           const next = move === 1 ? commands[0] : commands.at(-1);
+
           if (!next) return prev;
           return getCommandText(next);
         }
@@ -116,8 +140,8 @@ export function CommandCenter(props: CommandCenterProps) {
   return (
     <CommandCenterCtx.Provider
       value={{
-        inputId,
         listId,
+        inputId,
         setDialogRef: (ref) => {
           dialogRef.current = ref;
         },
@@ -125,6 +149,20 @@ export function CommandCenter(props: CommandCenterProps) {
           dialogRef.current?.showModal();
         },
         isSelected,
+        matchesFilter,
+        onInput: (pattern) => {
+          onInput(pattern);
+
+          if (!match(selectedCommand(), pattern)) {
+            for (const element of getOptions()) {
+              const text = getCommandText(element);
+              if (match(text, pattern)) {
+                selectCommand(text);
+                break;
+              }
+            }
+          }
+        },
       }}
     >
       {props.children}
@@ -139,11 +177,23 @@ export interface CommandGroupProps {
 
 export function CommandGroup(props: CommandGroupProps) {
   const headingId = createUniqueId();
+  const { matchesFilter } = useCtx();
+
+  const kids = children(() => props.children);
+  const allChildrenAreHidden = createMemo(() => {
+    const ks = (Array.isArray(kids()) ? kids() : [kids()]) as HTMLElement[];
+
+    return ks.every((element) => !matchesFilter(getCommandText(element)));
+  });
 
   return (
     <>
       <Show when={!!props.heading}>
-        <div aria-hidden id={headingId}>
+        <div
+          aria-hidden
+          id={headingId}
+          style={{ display: allChildrenAreHidden() ? "none" : "" }}
+        >
           {props.heading}
         </div>
       </Show>
@@ -162,7 +212,7 @@ export interface CommandItemProps extends JSX.HTMLAttributes<HTMLDivElement> {
 }
 
 export function CommandItem(props: CommandItemProps) {
-  const { isSelected } = useCtx();
+  const { isSelected, matchesFilter } = useCtx();
 
   const res = (
     <div role="option" aria-selected="false" {...props}>
@@ -171,14 +221,17 @@ export function CommandItem(props: CommandItemProps) {
   ) as HTMLElement;
 
   createEffect(() => {
-    res.ariaSelected = String(isSelected(getCommandText(res)));
+    const text = getCommandText(res);
+
+    res.ariaSelected = String(isSelected(text));
+    res.style.display = matchesFilter(text) ? "" : "none";
   });
 
   return res;
 }
 
 export interface CommandInputProps
-  extends JSX.InputHTMLAttributes<HTMLInputElement> {
+  extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "onChange" | "id"> {
   "aria-label": string;
 }
 
@@ -188,6 +241,9 @@ export function CommandInput(props: CommandInputProps) {
   return (
     <input
       autocomplete="off"
+      onInput={(event) => {
+        ctx.onInput(event.currentTarget.value);
+      }}
       {...{
         /**
          * Safari only
@@ -217,6 +273,12 @@ export function CommandCenterDialog(props: CommandCenterDialogProps) {
   return (
     <Dialog
       {...props}
+      style={{
+        margin: "0 auto",
+        position: "fixed",
+        "max-height": "361px",
+        top: "calc(50% - 180px)",
+      }}
       ref={(dialog) => {
         ctx.setDialogRef(dialog);
         props.ref?.(dialog);
@@ -227,4 +289,12 @@ export function CommandCenterDialog(props: CommandCenterDialogProps) {
 
 function getCommandText(element: HTMLElement) {
   return element.textContent || element.innerText;
+}
+
+export function CommandList(
+  props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "id">
+) {
+  const { listId } = useCtx();
+
+  return <div id={listId} {...props} />;
 }

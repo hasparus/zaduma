@@ -38,14 +38,7 @@ export function Dialog(props: DialogProps) {
       }}
       {...rest}
     >
-      <form
-        method="dialog"
-        onSubmit={() => {
-          props.onClose?.();
-        }}
-      >
-        {own.children}
-      </form>
+      {own.children}
     </dialog>
   );
 }
@@ -53,6 +46,13 @@ export function Dialog(props: DialogProps) {
 export interface DialogCloseButtonProps
   extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "value"> {}
 
-export function DialogCloseButton(ps: DialogCloseButtonProps) {
-  return <button value="cancel" {...ps} />;
+export function DialogCloseButton(props: DialogCloseButtonProps) {
+  return (
+    <button
+      onClick={(event) => {
+        event.currentTarget.closest("dialog")?.close("dismiss");
+      }}
+      {...props}
+    />
+  );
 }

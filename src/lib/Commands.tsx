@@ -19,6 +19,7 @@ import {
   CommandInput,
   CommandItem as CommandCenterItem,
   CommandItemProps as CommandCenterItemProps,
+  CommandList,
 } from "./CommandCenter";
 import { DialogCloseButton } from "./Dialog";
 import { isMac } from "./isMac";
@@ -26,12 +27,14 @@ import { Kbd } from "./Kbd";
 import { parseKeys } from "./parseKeys";
 import { Shortcut } from "./Shortcut";
 
+const INPUT_ID = "command-input";
+
 export function Commands() {
   const [clientside, setClientside] = createSignal(false);
   onMount(() => setClientside(true)); // workaround for Astro + Solid Hydration issue
 
   return (
-    <CommandCenter>
+    <CommandCenter inputId={INPUT_ID}>
       <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-2 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
       <Show when={clientside()} keyed>
         {() => <CommandsPalette />}
@@ -51,8 +54,30 @@ export function CommandsPalette() {
     dialog?.close();
   };
 
+  const getSelected = () =>
+    dialog?.querySelector('[aria-selected="true"]') as HTMLElement;
+
   const keybindings = new Map<string, () => void>([
-    ["backspace", () => setPage(undefined)],
+    [
+      "backspace",
+      () => {
+        setPage(undefined);
+      },
+    ],
+    [
+      "escape",
+      () => {
+        setPage(undefined);
+      },
+    ],
+    [
+      "enter",
+      () => {
+        if (document.activeElement?.id === INPUT_ID) {
+          getSelected()?.click();
+        }
+      },
+    ],
     [
       "alt+t",
       () => {
@@ -79,15 +104,13 @@ export function CommandsPalette() {
       const cmdKey = isMac() ? event.metaKey : event.ctrlKey;
       const { shiftKey, altKey } = event;
 
-      const modifiers = [cmdKey && "cmd", shiftKey && "shift", altKey && "alt"]
-        .filter(Boolean)
-        .join("+");
+      const modifiers = [cmdKey && "cmd", shiftKey && "shift", altKey && "alt"];
 
       const { code, key } = parseKeys(event);
 
       const found =
-        keybindings.get(`${modifiers}+${code}`) ||
-        keybindings.get(`${modifiers}+${key}`);
+        keybindings.get(plus(...modifiers, code)) ||
+        keybindings.get(plus(...modifiers, key));
 
       if (found) {
         if (cmdKey || altKey) event.preventDefault();
@@ -111,7 +134,7 @@ export function CommandsPalette() {
         " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
         " mx-auto transform rounded-xl bg-white" +
         " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
-        " backdrop-blur backdrop-filter transition-all" +
+        " transition-all" +
         " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
       }
     >
@@ -121,7 +144,7 @@ export function CommandsPalette() {
           <span class="sr-only">Close</span>
         </DialogCloseButton>
       </div>
-      <div class="px-2">
+      <CommandList class="px-2">
         <CommandInput
           aria-label="Commands"
           class={
@@ -164,7 +187,7 @@ export function CommandsPalette() {
             </CommandItem>
           </Match>
         </Switch>
-      </div>
+      </CommandList>
       <footer class="pb-2" />
     </CommandCenterDialog>
   );
@@ -217,4 +240,8 @@ function GroupHeading(props: { children: JSX.Element }) {
       {props.children}
     </span>
   );
+}
+
+function plus(...xs: (string | boolean | undefined | null)[]) {
+  return xs.filter(Boolean).join("+");
 }
