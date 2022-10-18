@@ -85,11 +85,6 @@ export function CommandCenter(props: CommandCenterProps) {
     Array.from(dialogRef.current?.querySelectorAll('[role="option"]') || []);
 
   createEffect(() => {
-    const dialog = dialogRef.current;
-    if (dialog) {
-      dialog.addEventListener("close", () => selectCommand(""));
-    }
-
     const onKeyDown = (event: KeyboardEvent) => {
       const dialog = dialogRef.current;
       if (!dialog) return;
@@ -144,6 +139,12 @@ export function CommandCenter(props: CommandCenterProps) {
         inputId,
         setDialogRef: (ref) => {
           dialogRef.current = ref;
+
+          ref?.addEventListener("close", () => {
+            selectCommand("");
+            onInput("");
+            (document.getElementById(inputId) as HTMLInputElement).value = "";
+          });
         },
         open: () => {
           dialogRef.current?.showModal();
