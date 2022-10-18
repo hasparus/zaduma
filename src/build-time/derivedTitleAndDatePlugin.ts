@@ -16,7 +16,7 @@ export const derivedTitleAndDatePlugin: RemarkPlugin<
 
     if (!frontmatter.date) {
       let createdAt = execSync(
-        `git log -1 --format="%ai" --reverse "${file.path}"`,
+        `git log --follow --diff-filter=A --find-renames=40% --format="%ai" "${file.path}"`,
         { encoding: "utf-8" }
       ).trim();
 
