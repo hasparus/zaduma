@@ -1,4 +1,5 @@
 import type { JSX } from "solid-js";
+import { For } from "solid-js";
 
 import { isMac } from "./isMac";
 import { Kbd } from "./Kbd";
@@ -19,20 +20,22 @@ export function Shortcut(props: ShortcutProps) {
         "inline-flex gap-1": true,
       }}
     >
-      {props.shortcut.split("+").map((key) => {
-        let style = "";
+      <For each={props.shortcut.split("+")}>
+        {(key) => {
+          let style = "";
 
-        if (!IS_MAC && key === "cmd") {
-          key = "ctrl";
-        }
+          if (!IS_MAC && key === "cmd") {
+            key = "ctrl";
+          }
 
-        if (key === "shift") {
-          style = "font-family: Inter";
-          key = "⇧";
-        }
+          if (key === "shift") {
+            style = "font-family: Inter";
+            key = "⇧";
+          }
 
-        return <Kbd style={style}>{key}</Kbd>;
-      })}
+          return <Kbd style={style}>{key}</Kbd>;
+        }}
+      </For>
     </span>
   );
 }

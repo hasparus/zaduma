@@ -5,6 +5,7 @@ import {
   Match,
   onCleanup,
   onMount,
+  Show,
   splitProps,
   Switch,
 } from "solid-js";
@@ -22,9 +23,24 @@ import {
 import { DialogCloseButton } from "./Dialog";
 import { isMac } from "./isMac";
 import { Kbd } from "./Kbd";
+import { parseKeys } from "./parseKeys";
 import { Shortcut } from "./Shortcut";
 
 export function Commands() {
+  const [clientside, setClientside] = createSignal(false);
+  onMount(() => setClientside(true)); // workaround for Astro + Solid Hydration issue
+
+  return (
+    <CommandCenter>
+      <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-2 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
+      <Show when={clientside()} keyed>
+        {() => <CommandsPalette />}
+      </Show>
+    </CommandCenter>
+  );
+}
+
+export function CommandsPalette() {
   const [page, setPage] = createSignal<undefined | "theme">();
   let dialog: HTMLDialogElement | undefined;
 
@@ -67,13 +83,7 @@ export function Commands() {
         .filter(Boolean)
         .join("+");
 
-      const code = event.code.replace(/^Key|^Digit/, "").toLowerCase();
-      const key = event.key.toLowerCase();
-
-      console.log({
-        code,
-        key,
-      });
+      const { code, key } = parseKeys(event);
 
       const found =
         keybindings.get(`${modifiers}+${code}`) ||
@@ -92,84 +102,71 @@ export function Commands() {
 
   const handleShortcut = (shortcut: string) => keybindings.get(shortcut)?.();
 
-  // Temporary
-  onMount(() => {
-    document.querySelector("dialog")!.showModal();
-  });
-
   return (
-    <CommandCenter>
-      <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-2 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
-      <CommandCenterDialog
-        onClose={() => setPage(undefined)}
-        ref={(ref) => (dialog = ref)}
-        class={
-          "backdrop:bg-white backdrop:bg-opacity-30" +
-          " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
-          " mx-auto transform rounded-xl bg-white" +
-          " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
-          " backdrop-blur backdrop-filter transition-all" +
-          " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
-        }
-      >
-        <div class="flex justify-end">
-          <DialogCloseButton class="p-2 cursor-pointer group focus:outline-none">
-            <Kbd
-              aria-hidden
-              class="group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline"
-            >
-              esc
-            </Kbd>
-            <span class="sr-only">Close</span>
-          </DialogCloseButton>
-        </div>
-        <div class="px-2">
-          <CommandInput
-            aria-label="Commands"
-            class={
-              "py-2 indent-2 w-full focus:outline-none border-b" +
-              " dark:border-gray-700 bg-transparent" +
-              " my-1"
-            }
-            placeholder="What do you need?"
-            autofocus
-          />
-          <Switch
-            fallback={
-              <>
-                <CommandItem shortcut="alt+t" onClick={handleShortcut}>
-                  Set Theme
+    <CommandCenterDialog
+      onClose={() => setPage(undefined)}
+      ref={(ref) => (dialog = ref)}
+      class={
+        "backdrop:bg-white backdrop:bg-opacity-30" +
+        " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
+        " mx-auto transform rounded-xl bg-white" +
+        " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
+        " backdrop-blur backdrop-filter transition-all" +
+        " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
+      }
+    >
+      <div class="flex justify-end">
+        <DialogCloseButton class="p-2 cursor-pointer group focus:outline-none">
+          <Kbd aria-hidden>esc</Kbd>
+          <span class="sr-only">Close</span>
+        </DialogCloseButton>
+      </div>
+      <div class="px-2">
+        <CommandInput
+          aria-label="Commands"
+          class={
+            "py-2 indent-2 w-full focus:outline-none border-b" +
+            " dark:border-gray-700 bg-transparent" +
+            " my-1"
+          }
+          placeholder="What do you need?"
+          autofocus
+        />
+        <Switch
+          fallback={
+            <>
+              <CommandItem shortcut="alt+t" onClick={handleShortcut}>
+                Set Theme
+              </CommandItem>
+              <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
+                <CommandItem shortcut="/" onClick={handleShortcut}>
+                  Search Posts
                 </CommandItem>
-                <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
-                  <CommandItem shortcut="/" onClick={handleShortcut}>
-                    Search Posts
-                  </CommandItem>
-                </CommandGroup>
-                <CommandGroup heading={<GroupHeading>Links</GroupHeading>}>
-                  <CommandItem href="">Twitter</CommandItem>
-                  <CommandItem href="">GitHub</CommandItem>
-                  <CommandItem href="">Contact</CommandItem>
-                  <CommandItem href="">RSS</CommandItem>
-                </CommandGroup>
-              </>
-            }
-          >
-            <Match when={page() === "theme"}>
-              <CommandItem shortcut="1" onClick={handleShortcut}>
-                Set Theme to Light
-              </CommandItem>
-              <CommandItem shortcut="2" onClick={handleShortcut}>
-                Set Theme to Dark
-              </CommandItem>
-              <CommandItem shortcut="3" onClick={handleShortcut}>
-                Set Theme to System
-              </CommandItem>
-            </Match>
-          </Switch>
-        </div>
-        <footer class="pb-2" />
-      </CommandCenterDialog>
-    </CommandCenter>
+              </CommandGroup>
+              <CommandGroup heading={<GroupHeading>Links</GroupHeading>}>
+                <CommandItem href="">Twitter</CommandItem>
+                <CommandItem href="">GitHub</CommandItem>
+                <CommandItem href="">Contact</CommandItem>
+                <CommandItem href="">RSS</CommandItem>
+              </CommandGroup>
+            </>
+          }
+        >
+          <Match when={page() === "theme"}>
+            <CommandItem shortcut="1" onClick={handleShortcut}>
+              Set Theme to Light
+            </CommandItem>
+            <CommandItem shortcut="2" onClick={handleShortcut}>
+              Set Theme to Dark
+            </CommandItem>
+            <CommandItem shortcut="3" onClick={handleShortcut}>
+              Set Theme to System
+            </CommandItem>
+          </Match>
+        </Switch>
+      </div>
+      <footer class="pb-2" />
+    </CommandCenterDialog>
   );
 }
 
@@ -207,7 +204,9 @@ function CommandItem(props: CommandItemProps) {
       {...rest}
     >
       {own.children}
-      {own.shortcut && <Shortcut class="ml-1" shortcut={own.shortcut} />}
+      <Show when={own.shortcut} keyed>
+        {(shortcut) => <Shortcut class="ml-1" shortcut={shortcut} />}
+      </Show>
     </CommandCenterItem>
   );
 }

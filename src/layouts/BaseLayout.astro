@@ -34,7 +34,7 @@ const { title } = Astro.props;
       <slot name="header-content">
         <Link href="/">← back</Link>
       </slot>
-      <Commands client:load />
+      <Commands client:load/>
     </header>
     <slot />
     <GrainOverlay opacity={0.25} />

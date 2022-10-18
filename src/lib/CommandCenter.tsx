@@ -19,9 +19,15 @@ type CommandCenterCtx = {
   open: () => void;
   isSelected: (command: string) => boolean;
 };
-const CommandCenterCtx = createContext<CommandCenterCtx>();
+const CommandCenterCtx = createContext<CommandCenterCtx>({
+  listId: "",
+  inputId: "",
+  setDialogRef: () => {},
+  open: () => {},
+  isSelected: () => false,
+});
 
-const useCtx = () => useContext(CommandCenterCtx)!;
+const useCtx = () => useContext(CommandCenterCtx);
 
 export interface CommandCenterTriggerProps
   extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -56,10 +62,6 @@ export function CommandCenter(props: CommandCenterProps) {
 
   const [selectedCommand, selectCommand] = createSignal<string>("");
   const isSelected = createSelector(selectedCommand);
-
-  createEffect(() => {
-    console.log({ selectedCommand: selectedCommand() });
-  });
 
   createEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -120,7 +122,9 @@ export function CommandCenter(props: CommandCenterProps) {
         setDialogRef: (ref) => {
           dialogRef.current = ref;
         },
-        open: () => dialogRef.current?.showModal(),
+        open: () => {
+          dialogRef.current?.showModal();
+        },
         isSelected,
       }}
     >
@@ -209,13 +213,13 @@ export interface CommandCenterDialogProps extends DialogProps {
 }
 
 export function CommandCenterDialog(props: CommandCenterDialogProps) {
-  const { setDialogRef } = useContext(CommandCenterCtx)!;
+  const ctx = useCtx();
 
   return (
     <Dialog
       {...props}
       ref={(dialog) => {
-        setDialogRef(dialog);
+        ctx.setDialogRef(dialog);
         props.ref?.(dialog);
       }}
     />
