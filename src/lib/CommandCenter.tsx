@@ -9,7 +9,6 @@ import {
 } from "solid-js";
 
 import { Dialog, DialogProps } from "./Dialog";
-import { useFocusTrap } from "./useFocusTrap";
 
 type CommandCenterCtx = {
   listId: string;
@@ -54,8 +53,6 @@ export function CommandCenter(props: CommandCenterProps) {
 
   const [selectedId, selectId] = createSignal<string>("");
   const isSelected = createSelector(selectedId);
-
-  useFocusTrap(dialogRef);
 
   return (
     <CommandCenterCtx.Provider

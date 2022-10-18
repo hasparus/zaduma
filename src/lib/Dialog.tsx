@@ -1,15 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { JSX, splitProps } from "solid-js";
 
+import { useFocusTrap } from "./useFocusTrap";
+
 export interface DialogProps
   extends JSX.DialogHtmlAttributes<HTMLDialogElement> {
   open?: boolean;
   onClose?: () => void;
   children: JSX.Element;
+  ref?: (dialog: HTMLDialogElement) => void;
 }
 
 export function Dialog(props: DialogProps) {
-  const [own, rest] = splitProps(props, ["open", "onClose", "children"]);
+  const [own, rest] = splitProps(props, ["open", "onClose", "children", "ref"]);
+  const dialogRef: { current: HTMLDialogElement | undefined } = {
+    current: undefined,
+  };
+
+  useFocusTrap(dialogRef);
 
   const dismissOnBackdropClick: JSX.EventHandler<
     HTMLDialogElement,
@@ -22,7 +30,14 @@ export function Dialog(props: DialogProps) {
   };
 
   return (
-    <dialog onClick={dismissOnBackdropClick} {...rest}>
+    <dialog
+      onClick={dismissOnBackdropClick}
+      ref={(dialog) => {
+        dialogRef.current = dialog;
+        own.ref?.(dialog);
+      }}
+      {...rest}
+    >
       <form
         method="dialog"
         onSubmit={() => {
