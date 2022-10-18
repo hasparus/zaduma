@@ -16,7 +16,9 @@ html {
 }
 
 * {
-  @apply outline-black dark:outline-white;
+  @apply outline-black dark:outline-white
+  selection:bg-gray-200 selection:text-black
+  dark:selection:bg-gray-700 dark:selection:text-white;
 }
 
 body {
