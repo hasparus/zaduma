@@ -1,9 +1,11 @@
 import {
   createContext,
+  createEffect,
   createSelector,
   createSignal,
   createUniqueId,
   JSX,
+  onCleanup,
   Show,
   useContext,
 } from "solid-js";
@@ -15,6 +17,7 @@ type CommandCenterCtx = {
   inputId: string;
   setDialogRef: (ref: HTMLDialogElement | undefined) => void;
   open: () => void;
+  isSelected: (command: string) => boolean;
 };
 const CommandCenterCtx = createContext<CommandCenterCtx>();
 
@@ -51,8 +54,63 @@ export function CommandCenter(props: CommandCenterProps) {
   const inputId = createUniqueId();
   const listId = createUniqueId();
 
-  const [selectedId, selectId] = createSignal<string>("");
-  const isSelected = createSelector(selectedId);
+  const [selectedCommand, selectCommand] = createSignal<string>("");
+  const isSelected = createSelector(selectedCommand);
+
+  createEffect(() => {
+    console.log({ selectedCommand: selectedCommand() });
+  });
+
+  createEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const dialog = dialogRef.current;
+      if (!dialog) return;
+
+      console.log("event.key", event.key);
+      let move: -1 | 1;
+
+      switch (event.key) {
+        // case 'ArrowDown'
+        case "ArrowUp":
+        case "k":
+          move = -1;
+          break;
+
+        case "ArrowDown":
+        case "j":
+          move = 1;
+          break;
+
+        default:
+          return;
+      }
+
+      selectCommand((prev) => {
+        const commands: HTMLElement[] = Array.from(
+          dialog.querySelectorAll('[role="option"]')
+        );
+        const current = dialog.querySelector(
+          '[aria-selected="true"]'
+        ) as HTMLElement;
+
+        if (!current) {
+          const next = move === 1 ? commands[0] : commands.at(-1);
+          if (!next) return prev;
+          return getCommandText(next);
+        }
+
+        const index = commands.indexOf(current);
+        const nextIndex = (index + move + commands.length) % commands.length;
+
+        return getCommandText(commands[nextIndex]!);
+      });
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    onCleanup(() => {
+      window.removeEventListener("keydown", onKeyDown);
+    });
+  });
 
   return (
     <CommandCenterCtx.Provider
@@ -63,6 +121,7 @@ export function CommandCenter(props: CommandCenterProps) {
           dialogRef.current = ref;
         },
         open: () => dialogRef.current?.showModal(),
+        isSelected,
       }}
     >
       {props.children}
@@ -100,14 +159,19 @@ export interface CommandItemProps extends JSX.HTMLAttributes<HTMLDivElement> {
 }
 
 export function CommandItem(props: CommandItemProps) {
-  // TODO:
-  const selected = false;
+  const { isSelected } = useCtx();
 
-  return (
-    <div role="option" aria-selected {...props}>
+  const res = (
+    <div role="option" aria-selected="false" {...props}>
       {props.children}
     </div>
-  );
+  ) as HTMLElement;
+
+  createEffect(() => {
+    res.ariaSelected = String(isSelected(getCommandText(res)));
+  });
+
+  return res;
 }
 
 export interface CommandInputProps
@@ -156,4 +220,8 @@ export function CommandCenterDialog(props: CommandCenterDialogProps) {
       }}
     />
   );
+}
+
+function getCommandText(element: HTMLElement) {
+  return element.textContent || element.innerText;
 }

@@ -62,15 +62,22 @@ export function Commands() {
     const onKeydown = (event: KeyboardEvent) => {
       const cmdKey = isMac() ? event.metaKey : event.ctrlKey;
       const { shiftKey, altKey } = event;
-      const key = event.code.replace(/^Key|^Digit/, "").toLowerCase();
 
-      console.log("key: ", key);
+      const modifiers = [cmdKey && "cmd", shiftKey && "shift", altKey && "alt"]
+        .filter(Boolean)
+        .join("+");
 
-      const found = keybindings.get(
-        [cmdKey && "cmd", shiftKey && "shift", altKey && "alt", key]
-          .filter(Boolean)
-          .join("+")
-      );
+      const code = event.code.replace(/^Key|^Digit/, "").toLowerCase();
+      const key = event.key.toLowerCase();
+
+      console.log({
+        code,
+        key,
+      });
+
+      const found =
+        keybindings.get(`${modifiers}+${code}`) ||
+        keybindings.get(`${modifiers}+${key}`);
 
       if (found) {
         if (cmdKey || altKey) event.preventDefault();
@@ -97,8 +104,8 @@ export function Commands() {
         onClose={() => setPage(undefined)}
         ref={(ref) => (dialog = ref)}
         class={
-          "backdrop:bg-white backdrop:bg-opacity-25" +
-          " dark:backdrop:bg-black dark:backdrop:bg-opacity-25" +
+          "backdrop:bg-white backdrop:bg-opacity-30" +
+          " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
           " mx-auto transform rounded-xl bg-white" +
           " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
           " backdrop-blur backdrop-filter transition-all" +
@@ -189,8 +196,8 @@ function CommandItem(props: CommandItemProps) {
   return (
     <CommandCenterItem
       class={
-        "p-2 cursor-pointer zaduma-hover-before focus-visible:outline-black flex justify-between" +
-        " text-gray-700 dark:text-gray-300"
+        "p-2 cursor-pointer zaduma-hover-before focus-visible:outline-black" +
+        " flex justify-between text-gray-700 dark:text-gray-300"
       }
       tabIndex={-1}
       onClick={(event) => {

@@ -9,7 +9,7 @@ module.exports = {
   experimental: {
     optimizeUniversalDefaults: true,
   },
-  content: ["./src/**/*.{astro,ts,tsx}"],
+  content: ["./src/**/*.{astro,ts,tsx,css}"],
   theme: {
     fontFamily: {
       sans: [
@@ -71,5 +71,9 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant("selected", '&[aria-selected="true"]');
+    }),
+  ],
 };
