@@ -68,7 +68,6 @@ export function CommandCenter(props: CommandCenterProps) {
       const dialog = dialogRef.current;
       if (!dialog) return;
 
-      console.log("event.key", event.key);
       let move: -1 | 1;
 
       switch (event.key) {
