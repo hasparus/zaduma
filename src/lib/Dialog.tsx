@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-import { JSX, splitProps } from "solid-js";
+import { createEffect, JSX, splitProps } from "solid-js";
 
 import { useFocusTrap } from "./useFocusTrap";
 
@@ -18,6 +18,17 @@ export function Dialog(props: DialogProps) {
   };
 
   useFocusTrap(dialogRef);
+
+  createEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog) {
+      const observer = new MutationObserver(() => {
+        document.body.style.overflow = dialog.open ? "hidden" : "";
+      });
+
+      observer.observe(dialog, { attributes: true, attributeFilter: ["open"] });
+    }
+  });
 
   const dismissOnBackdropClick: JSX.EventHandler<
     HTMLDialogElement,
