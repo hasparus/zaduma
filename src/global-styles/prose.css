@@ -124,10 +124,6 @@
     @apply text-gray-600 dark:text-gray-400;
   }
 
-  & aside {
-    @apply text-sm;
-  }
-
   /* #endregion */
 
   /* #region headings — h1, h2, h3... */
@@ -205,7 +201,7 @@
   /* #region images */
 
   img {
-    @apply max-w-container;
+    @apply max-w-container w-full;
   }
 
   /* #endregion images */
@@ -227,13 +223,13 @@
   }
 
   & > aside {
-    @apply flex-shrink-0 flex-grow relative h-min;
+    @apply flex-shrink-0 flex-grow relative h-min text-sm;
     width: var(--aside-width);
     padding-left: var(--gap);
 
     &::before {
       content: "";
-      @apply border-l absolute h-full -left-px;
+      @apply border-l absolute h-full -left-px dark:border-gray-700;
     }
   }
 
