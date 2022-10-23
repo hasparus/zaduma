@@ -3,10 +3,10 @@ paragraph before them on wide screens.
 
 [aside]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
 
-<aside>Pretty cool, innit?</aside>
+I've stolen the idea, obviously. The main inspiration was the side note rendered
+in a second column on [Paco Coursey's website][paco].
 
-I've stolen the idea for side note rendered in a second column from [Paco
-Coursey's website][paco].
+<aside>The [MDN example][aside] of `aside` presents a similar idea.</aside>
 
 [paco]: https://paco.me/writing/redesign-2021
 
@@ -33,3 +33,8 @@ implemented with a rehype plugin. We grab the nearest previous sibling of an
     opacity: 0.9;
   }
 `}</style>
+
+To be clear, Paco's website is beautiful, and the [post][paco] I screenshotted
+states an intentional goal of **simplicity** in its design. It would be a bit
+disingenuous if he traversed the AST just to position the sidenote. This
+project, for better or worse, is&nbsp;free of such constraints.
