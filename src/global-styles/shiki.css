@@ -73,11 +73,10 @@ pre.twoslash data-lsp:hover::before {
   position: absolute;
   transform: translate(0, 1rem);
 
-  background-color: #3f3f3f;
-  color: #fff;
+  @apply bg-white text-gray-900 border border-gray-200 shadow-sm px-3 p-2 rounded-sm
+           dark:bg-black dark:text-gray-50 dark:border-gray-700 dark:shadow-md;
+
   text-align: left;
-  padding: 5px 8px;
-  border-radius: 2px;
   white-space: pre-wrap;
   z-index: 100;
 }
@@ -150,13 +149,13 @@ pre .error-behind {
   display: block;
 }
 pre .error {
+  @apply bg-gray-100 dark:bg-gray-800 dark:text-white;
+
   position: absolute;
-  background-color: #fee;
   border-left: 2px solid #bf1818;
   /* Give the space to the error code */
   display: flex;
   align-items: center;
-  color: black;
 }
 pre .error .code {
   display: none;
