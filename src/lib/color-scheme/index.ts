@@ -6,7 +6,6 @@ const setClass = (isDark: boolean) =>
   document.documentElement.classList.toggle("dark", isDark);
 
 export const setScheme = (scheme: ColorScheme): void => {
-  console.log("setScheme", { scheme });
   {
     let isDark: boolean;
     if (scheme) {

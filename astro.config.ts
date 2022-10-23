@@ -5,7 +5,7 @@ import { defineConfig } from "astro/config";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { remarkPlugins } from "./src/build-time/remarkPlugins";
+import { rehypePlugins, remarkPlugins } from "./src/build-time";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,6 +27,7 @@ export default defineConfig({
       // MDX integration inherits all remark plugins from markdown.remarkPlugins
       extendPlugins: "markdown",
       remarkPlugins: remarkPlugins(__dirname),
+      rehypePlugins: rehypePlugins,
     }),
     solidJs(),
   ],

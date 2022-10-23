@@ -5,6 +5,7 @@ import type { Pluggable, PluggableList } from "unified";
 
 import { titleCase } from "../lib/titleCase";
 
+import { asidesPlugin } from "./asidesPlugin";
 import { defaultLayoutPlugin } from "./defaultLayoutPlugin";
 import { derivedTitleAndDatePlugin } from "./derivedTitleAndDatePlugin";
 import {
@@ -32,6 +33,8 @@ export const remarkPlugins = (projectDir: string): PluggableList => {
     remarkMdxReadingTimePlugin
   );
 };
+
+export const rehypePlugins: PluggableList = checkOptions([asidesPlugin, {}]);
 
 /**
  * Adds autocomplete and typechecking to plugin tuples.

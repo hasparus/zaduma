@@ -4,10 +4,12 @@
   --serif: "Brygada 1918";
   --italic-serif: italic 444 1.15em var(--serif);
 
+  --block-mb: 1.5rem; /* same as Tailwind's mb-6 */
+
   @apply max-w-container;
 
   & > :not(:last-child) {
-    @apply mb-6;
+    margin-bottom: var(--block-mb);
   }
 
   /* #region text — p, em, and strong */
@@ -159,7 +161,7 @@
     @apply font-mono;
     /* We decrease letter spacing to make inline code stand out less from the
        surrounding text. */
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
 
   & pre {
@@ -199,4 +201,51 @@
   }
 
   /* #endregion table */
+
+  /* #region images */
+
+  img {
+    @apply max-w-container;
+  }
+
+  /* #endregion images */
+}
+
+/* Introduced in src/build-time/asidesPlugin.ts */
+.zaduma-aside {
+  --aside-width: 20rem;
+  --gap: 1rem;
+  --divider-width: 1px;
+
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% + var(--aside-width) + var(--gap) + var(--divider-width));
+  max-width: 100vw;
+
+  & > :first-child {
+    @apply flex-shrink-0 flex-grow max-w-container w-full;
+  }
+
+  & > aside {
+    @apply flex-shrink-0 flex-grow relative h-min;
+    width: var(--aside-width);
+    padding-left: var(--gap);
+
+    &::before {
+      content: "";
+      @apply border-l absolute h-full -left-px;
+    }
+  }
+
+  @media (max-width: 944px) {
+    & > aside {
+      margin-top: var(--block-mb);
+
+      &::before {
+        /* The left border of `aside` will always be positioned inside of the
+           prose container. */
+        @apply left-0;
+      }
+    }
+  }
 }

@@ -1,21 +1,35 @@
-Salamanders are a group of amphibians with a lizard-like appearance, including
-short legs and a tail in both larval and adult forms.
+All [`<aside>`][aside] elements in MDX are rendered on the right side of the
+paragraph before them on wide screens.
 
-Several species of salamander inhabit the temperate rainforest of the Pacific
-Northwest, including the Ensatina, the Northwestern Salamander and the
-Rough-skinned Newt. Most salamanders are nocturnal, and hunt for insects, worms
-and other small creatures.
+[aside]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
 
-**This needs a rehype plugin. Aside will grab its previous sibling, and together
-with it will wrap themselves in a flexbox container that has a max-width: 100%,
-width: 2xl on the first sibling, and min-width: 200px on the aside. It will
-overflow from the prose container.**
+<aside>Pretty cool, innit?</aside>
 
-<aside>The Rough-skinned Newt defends itself with a deadly neurotoxin.</aside>
+I've stolen the idea for side note rendered in a second column from [Paco
+Coursey's website][paco].
 
----
+[paco]: https://paco.me/writing/redesign-2021
 
-I've stolen the idea for side note comment rendered in a second column from
-[Paco Coursey's website](https://paco.me/writing/redesign-2021).
+![](/content/asides/sidenote-1.png)
 
-![](/content/aside-on-pacos-site.png)
+Paco has used `position: absolute` in his implementation, and that's very
+elegant and simple, but it has one tiny problem. On narrow screens, you end up
+with the sidenote _above_ the content, and in a left-to-right language, we'd
+expect what's on _right_ to go _below_ when it's no room for it on the side.
+
+![](/content/asides/sidenote-2.png)
+
+I couldn't think of a pure-CSS solution, so this is ~~overengineered~~
+implemented with a rehype plugin. We grab the nearest previous sibling of an
+`aside`, and wrap them both in a flexbox container.
+
+<style>{`
+  /* tiny tweak to ensure screenshotted text is not mistaken with written text */
+  img {
+    padding-left: 1rem;
+  }
+  html.dark img {
+    padding-left: unset;
+    opacity: 0.9;
+  }
+`}</style>
