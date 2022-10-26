@@ -16,7 +16,7 @@ posts.sort((a, b) => {
 <BaseLayout title="zaduma">
   <h1 slot="header-content" class="text-gray-600 dark:text-gray-500">zaduma</h1>
   <main class="py-10 zaduma-prose">
-    <p class="max-w-container">
+    <p>
       <small class="text-gray-600 dark:text-gray-500"
         >IPA /zaˈdu.ma/ — reverie, musing</small
       >
@@ -31,7 +31,7 @@ posts.sort((a, b) => {
       >. I wish you a pleasant journey.
     </p>
   </main>
-  <ul class="max-w-container">
+  <ul>
     {
       posts.map(({ frontmatter }) => {
         const date = new Date(frontmatter.date);

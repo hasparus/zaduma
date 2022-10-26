@@ -233,7 +233,7 @@
     }
   }
 
-  @media (max-width: 944px) {
+  @media (max-width: 1280px) {
     & > aside {
       margin-top: var(--block-mb);
 
