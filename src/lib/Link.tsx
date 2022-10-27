@@ -21,7 +21,7 @@ export function Link(props: LinkProps) {
         "p-2 -mx-2 whitespace-nowrap rounded-sm before:rounded-sm transition-colors relative":
           true,
         "zaduma-hover-before": true,
-        block: childIsImg,
+        "inline-block": childIsImg,
       }}
       {...rest}
     />
