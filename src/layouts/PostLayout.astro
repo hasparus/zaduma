@@ -34,8 +34,14 @@ const date = new Date(frontmatter.date);
     <header class="flex justify-between items-center">
       <h1 class="!my-0">{frontmatter.title}</h1>
       <div class="text-gray-600 dark:text-gray-400 text-right">
-        <span>{readingTime.text}</span>
-        {" · "}
+        {
+          readingTime.minutes > 1 && (
+            <>
+              <span>{readingTime.text}</span>
+              {" · "}
+            </>
+          )
+        }
         <time datetime={date.toISOString()}>
           {formatDate(date)}
         </time>
