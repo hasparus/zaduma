@@ -12,8 +12,19 @@ type Props = MarkdownLayoutProps<PostFrontmatter>;
 
 const { frontmatter } = Astro.props;
 
-// const readingTime = frontmatter.readingTime;
-// ↳ { text: '2 min read', minutes: 1.07, time: 64200, words: 214 }
+/**
+ * Thanks to remark reading time plugin, we can display how much time it takes
+ * to read the post. `frontmatter.readingTime` is an object like this:
+ * ```
+ * {
+ *   text: '2 min read',
+ *   minutes: 1.07,
+ *   time: 64200,
+ *   words: 214
+ * }
+ * ```
+ */
+const readingTime = frontmatter.readingTime;
 
 const date = new Date(frontmatter.date);
 ---
@@ -22,12 +33,13 @@ const date = new Date(frontmatter.date);
   <main class="zaduma-prose py-4">
     <header class="flex justify-between items-center">
       <h1 class="!my-0">{frontmatter.title}</h1>
-      <time
-        datetime={date.toISOString()}
-        class="text-gray-600 dark:text-gray-400"
-      >
-        {formatDate(date)}
-      </time>
+      <div class="text-gray-600 dark:text-gray-400 text-right">
+        <span>{readingTime.text}</span>
+        {" · "}
+        <time datetime={date.toISOString()}>
+          {formatDate(date)}
+        </time>
+      </div>
     </header>
     <slot />
   </main>
