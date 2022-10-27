@@ -12,6 +12,10 @@
     margin-bottom: var(--block-mb);
   }
 
+  & hr {
+    @apply border-gray-100 dark:border-gray-800 border-b-2;
+  }
+
   /* #region text — p, em, and strong */
 
   & p {
@@ -184,7 +188,7 @@
   }
 
   & thead {
-    @apply border-b;
+    @apply border-b dark:border-gray-700;
   }
 
   & th {
@@ -201,7 +205,7 @@
   /* #region images */
 
   img {
-    @apply max-w-container w-full;
+    @apply max-w-container w-full dark:opacity-80;
   }
 
   /* #endregion images */

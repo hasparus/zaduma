@@ -7,6 +7,8 @@ export interface LinkProps extends JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
 export function Link(props: LinkProps) {
   const [own, rest] = splitProps(props, ["classList", "noUnderline"]);
 
+  const childIsImg = isChildType(rest.children, "img");
+
   return (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
@@ -19,8 +21,21 @@ export function Link(props: LinkProps) {
         "p-2 -mx-2 whitespace-nowrap rounded-sm before:rounded-sm transition-colors relative":
           true,
         "zaduma-hover-before": true,
+        block: childIsImg,
       }}
       {...rest}
     />
   );
+}
+
+function isChildType(children: JSX.Element, type: string) {
+  if (!children || typeof children !== "object") return false;
+
+  // A child can be a JSX element or an stringified Astro slot.
+  if ("type" in children) return children.type === type;
+  if ("t" in children) {
+    return (children.t as string).startsWith(`<astro-slot><${type} `);
+  }
+
+  return false;
 }
