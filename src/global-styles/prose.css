@@ -19,7 +19,7 @@
   /* #region text — p, em, and strong */
 
   & p {
-    line-height: 1.7;
+    line-height: 1.75;
     @apply max-w-prose;
   }
 
@@ -162,6 +162,13 @@
     /* We decrease letter spacing to make inline code stand out less from the
        surrounding text. */
     letter-spacing: -0.02em;
+    font-size: 0.97em;
+
+    &::before,
+    &::after {
+      @apply dark:text-gray-600 font-black;
+      content: "`";
+    }
   }
 
   & pre {
@@ -175,6 +182,12 @@
     & code {
       /* Reset letter-spacing that was increased above in `.zaduma-prose code`. */
       letter-spacing: unset;
+      font-size: 1em;
+
+      &::before,
+      &::after {
+        content: "";
+      }
     }
   }
 
@@ -205,7 +218,7 @@
   /* #region images */
 
   img {
-    @apply max-w-container w-full dark:opacity-80;
+    @apply max-w-full dark:opacity-80;
   }
 
   /* #endregion images */
