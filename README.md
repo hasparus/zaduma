@@ -66,7 +66,7 @@ All commands are run from the root of the project, from a terminal:
 ## Trade-offs & Limitations
 
 Performance has its costs, and building MPAs with [Astro] might be surprisingly
-tricky for developers used to work on SPAs an Next.js apps. I've written down
+tricky for developers used to work on SPAs and Next.js apps. I've written down
 some of the interesting problems I've encountered while building this starter.
 
 [astro]: https://astro.build/
