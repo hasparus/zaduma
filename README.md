@@ -1,8 +1,25 @@
-# zaduma, a minimal Astro template
+# zaduma
+
+_an [Astro] starter template for understated personal websites_
+
+**Built with:**
+
+- [SolidJS]
+- [MDX], [Remark] and [Unified]
+- [Shiki Twoslash][shiki-twoslash]
+- [Tailwind CSS][tailwind-css]
+
+[astro]: https://astro.build/
+[solidjs]: https://www.solidjs.com/
+[mdx]: https://mdxjs.com/
+[remark]: https://github.com/remarkjs/remark
+[unified]: https://unifiedjs.com/
+[shiki-twoslash]: https://github.com/shikijs/twoslash
+[tailwind-css]: https://tailwindcss.com/
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/hasparus/zaduma/tree/main)
 
-## 🚀 Project Structure
+## 🏛 Project Structure
 
 Inside of your Astro project, you'll see the following folders and files:
 
