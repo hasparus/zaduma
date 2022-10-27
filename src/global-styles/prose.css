@@ -234,6 +234,10 @@
   }
 
   @media (max-width: 1280px) {
+    & {
+      width: 100%;
+    }
+
     & > aside {
       margin-top: var(--block-mb);
 
