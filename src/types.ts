@@ -12,7 +12,7 @@ export interface PostFrontmatter {
    *           if not given
    */
   date: string;
-  tags: string[];
+  tags: string;
 
   /**
    * @computed by defaultLayoutPlugin
