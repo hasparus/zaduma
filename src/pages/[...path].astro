@@ -1,4 +1,5 @@
 ---
+import { createHeading } from "../lib/Heading";
 import { Link } from "../lib/Link";
 import { OrderedList } from "../lib/OrderedList";
 import type { PostFrontmatter } from "../types";
@@ -21,6 +22,12 @@ const { Content } = Astro.props;
 const mdxComponents = {
   a: Link,
   ol: OrderedList,
+  h1: createHeading("h1"),
+  h2: createHeading("h2"),
+  h3: createHeading("h3"),
+  h4: createHeading("h4"),
+  h5: createHeading("h5"),
+  h6: createHeading("h6"),
 };
 
 // You can find the UI layout for the post in src/layouts/PostLayout.astro
