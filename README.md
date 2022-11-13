@@ -17,8 +17,6 @@ _an [Astro] starter template for understated personal websites_
 [shiki-twoslash]: https://github.com/shikijs/twoslash
 [tailwind-css]: https://tailwindcss.com/
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/hasparus/zaduma/tree/main)
-
 ## 🏛 Project Structure
 
 Inside of your Astro project, you'll see the following folders and files:
