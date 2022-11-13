@@ -28,7 +28,7 @@
 @font-face {
   font-family: "Inter";
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   font-weight: 100 900;
   src: url("@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2")
     format("woff2");
