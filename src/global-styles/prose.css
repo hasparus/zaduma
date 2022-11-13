@@ -40,14 +40,17 @@
     list-style-type: disc;
     list-style-position: outside;
     padding-left: 1em;
+
+    /* nested lists are the worse */
+    text-indent: 0;
   }
 
   & ol {
-    counter-reset: ol;
+    counter-reset: ol var(--start, 0);
     list-style-type: none;
     padding: 0;
 
-    & li {
+    & > li {
       text-indent: -1.5em;
       padding-left: 1.5em;
 
@@ -69,6 +72,10 @@
         margin-right: 0.5em;
         user-select: none;
       }
+    }
+
+    & li > p {
+      display: contents;
     }
   }
 
