@@ -16,7 +16,9 @@ const { headings } = Astro.props;
   class="fixed left-[max(0px,calc(50%-43rem/2-20rem-1rem))] top-1/2 -translate-y-1/2 w-[20rem] max-h-full overflow-y-auto p-4 pt-8 hidden xl:block"
 >
   <PostProgressBar client:media="(min-width: 1280px)">
-    <ul class="text-gray-700 text-sm leading-6">
+    <ul
+      class="table-of-contents text-gray-700 dark:text-gray-400 text-sm leading-6"
+    >
       {
         headings.map(({ text, depth, slug }) => {
           if (depth < 2 || depth > 3) return null;
@@ -32,4 +34,19 @@ const { headings } = Astro.props;
       }
     </ul>
   </PostProgressBar>
+  <style>
+    .table-of-contents:hover li:not(:hover) > a {
+      @apply text-gray-600 transition-colors;
+      :global(.dark) & {
+        @apply text-gray-500;
+      }
+    }
+    .table-of-contents:hover {
+      & li:hover {
+        :global(.dark) & {
+          @apply text-gray-300;
+        }
+      }
+    }
+  </style>
 </section>

@@ -11,11 +11,10 @@ export function PostProgressBar(props: { children: JSX.Element }) {
 
   createEffect(() => {
     // We assume the eyes look at the middle of the screen.
-    const halfHeight = window.innerHeight / 2;
-
     const onScroll = () => {
-      const trackHeight = document.documentElement.scrollHeight - halfHeight;
-      const pos = window.scrollY + halfHeight;
+      const trackHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const pos = window.scrollY;
 
       const progress = Math.min(1, Math.max(0, pos / trackHeight));
 
@@ -33,10 +32,10 @@ export function PostProgressBar(props: { children: JSX.Element }) {
 
   return (
     <div class="relative">
-      <div class="absolute h-full w-[2px] -left-4 rounded-sm bg-gray-100 overflow-hidden">
+      <div class="absolute h-full w-[2px] -left-4 rounded-sm bg-gray-100 dark:bg-gray-800 overflow-hidden">
         <div
           class={
-            "bg-gray-300 absolute h-full w-full rounded-sm -translate-y-[var(--y,100%)] " +
+            "bg-gray-300 dark:bg-gray-700 absolute h-full w-full rounded-sm -translate-y-[var(--y,100%)] " +
             "transition-transform duration-300 ease-linear"
           }
           ref={progressThumb}
