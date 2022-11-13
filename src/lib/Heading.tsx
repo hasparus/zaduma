@@ -3,6 +3,9 @@
 
 import { Show, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
+import { Dynamic } from "solid-js/web";
+
+import styles from "./Heading.module.css";
 
 export type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -11,17 +14,21 @@ export interface HeadingProps extends JSX.HTMLAttributes<HTMLHeadingElement> {
 }
 
 export function Heading(props: HeadingProps) {
-  const [own, rest] = splitProps(props, ["level", "children"]);
-  const Level = own.level;
+  const [own, rest] = splitProps(props, ["level", "children", "classList"]);
 
   return (
-    <Level {...rest}>
+    <Dynamic<HeadingLevel>
+      component={own.level}
+      classList={{
+        ...own.classList,
+        [styles.Heading!]: true,
+      }}
+      {...rest}
+    >
       <Show when={rest.id} fallback={own.children}>
-        <a class="bg-gray-200" href={rest.id!}>
-          {own.children}
-        </a>  
+        <a href={"#" + rest.id!}>{own.children}</a>
       </Show>
-    </Level>
+    </Dynamic>
   );
 }
 
