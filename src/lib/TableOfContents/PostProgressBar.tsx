@@ -13,20 +13,20 @@ export function PostProgressBar(props: { children: JSX.Element }) {
     // We assume the eyes look at the middle of the screen.
     const halfHeight = window.innerHeight / 2;
 
-    const onScroll = throttle(() => {
+    const onScroll = () => {
       const trackHeight = document.documentElement.scrollHeight - halfHeight;
       const pos = window.scrollY + halfHeight;
 
       const progress = Math.min(1, Math.max(0, pos / trackHeight));
 
       progressThumb.style.setProperty("--y", `${100 - progress * 100}%`);
-    }, 200);
+    };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const disposeScrollListener = createScrollListener(onScroll);
     window.addEventListener("resize", onScroll, { passive: true });
 
     onCleanup(() => {
-      window.removeEventListener("scroll", onScroll);
+      disposeScrollListener();
       window.removeEventListener("resize", onScroll);
     });
   }, []);
@@ -47,54 +47,29 @@ export function PostProgressBar(props: { children: JSX.Element }) {
   );
 }
 
-function throttle(fn: () => void, wait: number) {
-  let timeout: ReturnType<typeof setTimeout> | undefined;
+function createScrollListener(callback: (scrollY: number) => void) {
+  let scrollY = -1;
+  const animatedKilled = false;
 
-  return () => {
-    if (!timeout) {
-      fn();
-      timeout = setTimeout(() => {
-        timeout = undefined;
-        fn();
-      }, wait);
-    }
-  };
-}
-
-function createScrollManager() {
-  let callbacks: (() => void)[] = [];
-  let scrollPosition = -1;
-  let animatedKilled = false;
-  
   const animate = () => {
     requestAnimationFrame(onScroll);
-  }
+  };
 
-  function onScroll(){
-    if(animatedKilled) return;
- 
-    if (scrollPosition !== window.scrollY) {
-      window.removeEventListener('scroll', animate);
-      scrollPosition = window.scrollY;
-      callbacks.forEach(cb => cb(scrollPosition));
+  function onScroll() {
+    if (animatedKilled) return;
+
+    const newPos = window.scrollY;
+    if (scrollY !== newPos) {
+      window.removeEventListener("scroll", animate);
+      scrollY = window.scrollY;
+      callback(scrollY);
       animate();
     } else {
-      window.addEventListener('scroll', animate);
+      window.addEventListener("scroll", animate);
     }
   }
-  
+
   animate();
-  
-  return {
-    add: function(cb) {
-      callbacks = [...callbacks, cb];
-    },
-    remove: function(cb) {
-      callbacks = callbacks.filter(value => value != cb);
-    },
-    destroy: function() {
-      animatedKilled = true;
-      window.removeEventListener('scroll', animate);
-    }
-  }
+
+  return () => window.removeEventListener("scroll", animate);
 }
