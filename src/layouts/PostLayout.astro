@@ -2,6 +2,7 @@
 import type { MarkdownLayoutProps } from "astro";
 
 import { formatDate } from "../lib/formatDate";
+import TableOfContents from "../lib/TableOfContents/TableOfContents.astro";
 import type { PostFrontmatter } from "../types";
 
 import BaseLayout from "./BaseLayout.astro";
@@ -10,20 +11,8 @@ import "../global-styles/shiki.css";
 
 type Props = MarkdownLayoutProps<PostFrontmatter>;
 
-const { frontmatter } = Astro.props;
+const { frontmatter, headings } = Astro.props;
 
-/**
- * Thanks to remark reading time plugin, we can display how much time it takes
- * to read the post. `frontmatter.readingTime` is an object like this:
- * ```
- * {
- *   text: '2 min read',
- *   minutes: 1.07,
- *   time: 64200,
- *   words: 214
- * }
- * ```
- */
 const readingTime = frontmatter.readingTime;
 
 const date = new Date(frontmatter.date);
@@ -49,4 +38,5 @@ const date = new Date(frontmatter.date);
     </header>
     <slot />
   </main>
+  <TableOfContents headings={headings} />
 </BaseLayout>

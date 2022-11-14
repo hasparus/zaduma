@@ -173,7 +173,7 @@
 
     &::before,
     &::after {
-      @apply dark:text-gray-600 font-black;
+      @apply text-gray-400 dark:text-gray-600 font-black;
       content: "`";
     }
   }

@@ -59,7 +59,10 @@ posts.sort((a, b) => {
   </ul>
   <style>
     ul:hover li:not(:hover) :where(h2, time) {
-      @apply text-gray-600 dark:text-gray-500 transition-colors;
+      @apply text-gray-600 transition-colors;
+      :global(.dark) & {
+        @apply text-gray-500;
+      }
     }
   </style>
 </BaseLayout>
