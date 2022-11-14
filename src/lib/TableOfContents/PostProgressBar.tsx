@@ -1,8 +1,6 @@
 import { createEffect, onCleanup } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 
-const OFFSET = 50;
-
 /**
  * Renders vertical progress bar and highlights currently visible heading.
  */
@@ -35,8 +33,8 @@ export function PostProgressBar(props: { children: JSX.Element }) {
       <div class="absolute h-full w-[2px] -left-4 rounded-sm bg-gray-100 dark:bg-gray-800 overflow-hidden">
         <div
           class={
-            "bg-gray-300 dark:bg-gray-700 absolute h-full w-full rounded-sm -translate-y-[var(--y,100%)] " +
-            "transition-transform duration-300 ease-linear"
+            "bg-gray-300 dark:bg-gray-700 absolute h-full w-full rounded-sm " +
+            "-translate-y-[var(--y,100%)] transition-transform duration-300 ease-linear"
           }
           ref={progressThumb}
         />
