@@ -74,6 +74,7 @@ module.exports = {
   plugins: [
     plugin(({ addVariant }) => {
       addVariant("selected", '&[aria-selected="true"]');
+      addVariant("current", '&[aria-current="true"]');
     }),
   ],
 };
