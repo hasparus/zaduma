@@ -34,7 +34,7 @@ export function HeadingsIntersectionHighlight(
         );
       }
     },
-    { threshold: 1, rootMargin: "-25% 0% -25% 0%" }
+    { threshold: 1, rootMargin: "-15% 0% -55% 0%" }
   );
 
   createEffect(() => {
