@@ -20,8 +20,7 @@ export const derivedTitleAndDatePlugin: RemarkPlugin<
         { encoding: "utf-8" }
       )
         .trim()
-        .split("\n")
-        .at(-1);
+        .split("\n")[0];
 
       if (!createdAt) {
         // if the file wasn't committed yet, we use the current date
