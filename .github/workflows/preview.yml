@@ -31,6 +31,4 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           DEPLOYMENT_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
-          echo $DEPLOYMENT_URL
-        env:
-          ALIAS: ${{ github.ref_name }}
+          vercel alias $DEPLOYMENT_URL ${{ github.ref_name }}--zaduma.vercel.app --token=${{ secrets.VERCEL_TOKEN }}
