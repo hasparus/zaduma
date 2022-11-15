@@ -27,6 +27,15 @@ jobs:
           node-version: "18"
           cache: "pnpm"
 
+      - name: Create GitHub deployment
+        uses: chrnorm/deployment-action@v2
+        id: deployment
+        with:
+          token: "${{ github.token }}"
+          environment-url: https://${{ env.DEPLOYMENT_ALIAS }}
+          environment: Preview
+          production-environment: false
+
       - name: Pull Vercel Environment Information
         run:
           vercel pull --yes --environment=preview --token=${{
@@ -43,11 +52,20 @@ jobs:
           vercel alias $DEPLOYMENT_URL $DEPLOYMENT_ALIAS --token=${{ secrets.VERCEL_TOKEN }}
           echo "DEPLOYMENT_ALIAS=${DEPLOYMENT_ALIAS}" >> $GITHUB_ENV
 
-      - name: Create GitHub deployment
-        uses: chrnorm/deployment-action@v2
-        id: deployment
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@v2
         with:
           token: "${{ github.token }}"
-          environment-url: https://${{ env.DEPLOYMENT_ALIAS }}
-          environment: Preview
-          production-environment: false
+          environment-url: ${{ steps.deployment.outputs.environment_url }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: "success"
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: "${{ github.token }}"
+          environment-url: ${{ steps.deployment.outputs.environment_url }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: "failure"
