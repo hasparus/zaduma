@@ -35,6 +35,7 @@ posts.sort((a, b) => {
     {
       posts.map(({ frontmatter }) => {
         const date = new Date(frontmatter.date);
+
         return (
           <li>
             <Link

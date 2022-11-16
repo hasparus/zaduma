@@ -18,7 +18,9 @@ export const derivedTitleAndDatePlugin: RemarkPlugin<
       let createdAt = execSync(
         `git log --follow --diff-filter=A --find-renames=40% --format="%ai" "${file.path}"`,
         { encoding: "utf-8" }
-      ).trim();
+      )
+        .trim()
+        .split("\n")[0];
 
       if (!createdAt) {
         // if the file wasn't committed yet, we use the current date
