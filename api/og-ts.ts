@@ -37,9 +37,9 @@ export default function og() {
           textAlign: "center",
           alignItems: "center",
           justifyContent: "center",
+          children: "Hello world!",
         },
       },
-      children: "Hello world!",
     } as any,
     {
       width: 1200,
