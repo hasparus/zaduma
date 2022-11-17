@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "vercel:dev": "vercel dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -26,6 +27,7 @@
     "eslint-plugin-markdown": "^3.0.0",
     "estree-util-value-to-estree": "^2.0.0",
     "postcss": "8.4.17",
+    "react": "^18.2.0",
     "reading-time": "^1.5.0",
     "remark-shiki-twoslash": "^3.1.0",
     "remark-supersub": "^1.0.0",

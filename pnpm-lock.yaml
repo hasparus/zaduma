@@ -32,6 +32,7 @@ specifiers:
   prettier: ^2.7.1
   prettier-plugin-astro: ^0.5.5
   prettier-plugin-tailwindcss: ^0.1.13
+  react: ^18.2.0
   reading-time: ^1.5.0
   remark-shiki-twoslash: ^3.1.0
   remark-supersub: ^1.0.0
@@ -57,6 +58,7 @@ dependencies:
   eslint-plugin-markdown: 3.0.0_eslint@8.27.0
   estree-util-value-to-estree: 2.0.0
   postcss: 8.4.17
+  react: 18.2.0
   reading-time: 1.5.0
   remark-shiki-twoslash: 3.1.0
   remark-supersub: 1.0.0
@@ -4471,7 +4473,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: true
 
   /lowercase-keys/1.0.1:
     resolution: {integrity: sha512-G2Lj61tXDnVFFOi8VZds+SoQjtQC3dgokKdDG2mTm1tx4m50NUHBOZSBwQQHyy0V12A0JTG4icfZQH+xPyh8VA==}
@@ -6010,6 +6011,13 @@ packages:
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
+
+  /react/18.2.0:
+    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
