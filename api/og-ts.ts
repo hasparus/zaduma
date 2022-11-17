@@ -25,6 +25,7 @@ export default function og() {
     //   Hello world!
     // </div>
     {
+      key: "1",
       type: "div",
       props: {
         style: {
@@ -37,10 +38,10 @@ export default function og() {
           textAlign: "center",
           alignItems: "center",
           justifyContent: "center",
-          children: "Hello world!",
         },
+        children: "Hello world!",
       },
-    } as any,
+    },
     {
       width: 1200,
       height: 600,
