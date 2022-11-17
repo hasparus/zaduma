@@ -20,7 +20,6 @@ specifiers:
   '@types/hast': 2.3.4
   '@types/node': ^18.8.0
   '@types/react': ^18.0.25
-  '@vercel/edge': ^0.1.2
   '@vercel/og': ^0.0.20
   astro: ^1.4.2
   astro-eslint-parser: ^0.6.2
@@ -53,7 +52,6 @@ dependencies:
   '@fontsource/inter': 4.5.14
   '@mdx-js/mdx': 2.1.3_d2geklodsof7l3xhad73dhchoa
   '@types/react': 18.0.25
-  '@vercel/edge': 0.1.2
   '@vercel/og': 0.0.20
   astro: 1.4.2
   astro-eslint-parser: 0.6.2
@@ -1150,10 +1148,6 @@ packages:
 
   /@vercel/build-utils/5.5.8:
     resolution: {integrity: sha512-DDgud8URl951OKbH9pwGs1MgR47UXSvNW1s+ftOjMKlw/qwDdCbIUclVKMcJc3MhLdnvRoo/a12f01b7dpwZDw==}
-    dev: false
-
-  /@vercel/edge/0.1.2:
-    resolution: {integrity: sha512-NmoJ4JvF2/LxU8e8fRJcxaMrO9A8a2WmW6CO9GEomlDltlREyQTUWMk13BuCDDpXUPcSBDrZ2TJIoWiFQEI4sg==}
     dev: false
 
   /@vercel/go/2.2.16:
