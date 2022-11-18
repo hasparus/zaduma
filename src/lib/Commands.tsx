@@ -51,11 +51,11 @@ export function CommandsPalette() {
   const setColorScheme = (scheme: ColorScheme) => {
     if (page() !== "theme") return;
     setScheme(scheme);
-    setPage(undefined);
     dialog?.close();
   };
 
-  const getSelected = () => dialog?.querySelector('[aria-selected="true"]');
+  const getSelected = () =>
+    dialog?.querySelector('[aria-selected="true"]') as HTMLElement | null;
 
   const keybindings = new Map<string, () => void>([
     [

@@ -12,7 +12,7 @@ export interface DialogProps
 }
 
 export function Dialog(props: DialogProps) {
-  const [own, rest] = splitProps(props, ["open", "onClose", "children", "ref"]);
+  const [own, rest] = splitProps(props, ["children", "ref"]);
   const dialogRef: { current: HTMLDialogElement | undefined } = {
     current: undefined,
   };
