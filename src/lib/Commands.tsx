@@ -174,7 +174,9 @@ export function CommandsPalette() {
                 </CommandItem>
               </CommandGroup>
               <CommandGroup heading={<GroupHeading>Links</GroupHeading>}>
-                <CommandItem href="">Twitter</CommandItem>
+                <CommandItem href="https://twitter.com/hasparus">
+                  Twitter
+                </CommandItem>
                 <CommandItem href="">GitHub</CommandItem>
                 <CommandItem href="">Contact</CommandItem>
                 <CommandItem href="">RSS</CommandItem>
@@ -232,24 +234,37 @@ function CommandItem(props: CommandItemProps) {
     "href",
   ]);
 
+  const content = (
+    <>
+      {own.children}
+      <Show when={own.shortcut} keyed>
+        {(shortcut) => <Shortcut class="ml-1" shortcut={shortcut} />}
+      </Show>
+    </>
+  );
+
+  const className =
+    "p-2 cursor-pointer zaduma-hover-before focus-visible:outline-black" +
+    " flex justify-between text-gray-700 dark:text-gray-300 " +
+    "relative";
+
   return (
     <CommandCenterItem
-      class={
-        "p-2 cursor-pointer zaduma-hover-before focus-visible:outline-black" +
-        " flex justify-between text-gray-700 dark:text-gray-300"
-      }
       tabIndex={-1}
       onClick={(event) => {
-        event.preventDefault();
+        if (!own.href) event.preventDefault();
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         if (own.shortcut) own.onClick!(own.shortcut);
       }}
       {...rest}
     >
-      {own.children}
-      <Show when={own.shortcut} keyed>
-        {(shortcut) => <Shortcut class="ml-1" shortcut={shortcut} />}
-      </Show>
+      {own.href ? (
+        <a class={className} href={own.href}>
+          {content}
+        </a>
+      ) : (
+        <div class={className}>{content}</div>
+      )}
     </CommandCenterItem>
   );
 }
