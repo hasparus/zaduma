@@ -18,7 +18,7 @@ export function Link(props: LinkProps) {
         " hover:decoration-transparent dark:hover:decoration-transparent" +
         " focus:decoration-transparent dark:focus:decoration-transparent"]:
           !own.noUnderline,
-        "p-2 -mx-2 whitespace-nowrap rounded-sm before:rounded-sm transition-colors relative":
+        "p-2 -mx-2 rounded-sm before:rounded-sm transition-colors relative":
           true,
         "zaduma-hover-before": true,
         "inline-block": childIsImg,

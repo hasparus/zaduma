@@ -21,6 +21,10 @@
   & p {
     line-height: 1.75;
     @apply max-w-prose;
+
+    & a {
+      white-space: nowrap;
+    }
   }
 
   & em {
