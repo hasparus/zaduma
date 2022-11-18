@@ -19,11 +19,15 @@
   /* #region text — p, em, and strong */
 
   & p {
-    line-height: 1.75;
     @apply max-w-prose;
+
+    line-height: 1.75;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     & a {
       white-space: nowrap;
+      max-width: 100%;
     }
   }
 
