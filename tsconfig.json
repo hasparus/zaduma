@@ -1,8 +1,7 @@
 {
-  // "extends": "astro/tsconfigs/strictest",
+  "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
-    // "jsx": "preserve"
-    "jsx": "react-jsx"
-    // "jsxImportSource": "solid-js"
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   }
 }
