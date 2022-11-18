@@ -26,11 +26,11 @@ export function Shortcut(props: ShortcutProps) {
 
           if (!IS_MAC && key === "cmd") {
             key = "ctrl";
-          }
-
-          if (key === "shift") {
+          } else if (key === "shift") {
             style = "font-family: Inter";
             key = "⇧";
+          } else if (key === "slash") {
+            key = "/";
           }
 
           return <Kbd style={style}>{key}</Kbd>;

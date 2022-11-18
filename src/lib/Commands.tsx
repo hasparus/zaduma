@@ -44,7 +44,8 @@ export function Commands() {
 }
 
 export function CommandsPalette() {
-  const [page, setPage] = createSignal<undefined | "theme">();
+  type CommandsPage = "posts" | "theme" | undefined;
+  const [page, setPage] = createSignal<CommandsPage>();
   let dialog: HTMLDialogElement | undefined;
 
   const setColorScheme = (scheme: ColorScheme) => {
@@ -54,8 +55,7 @@ export function CommandsPalette() {
     dialog?.close();
   };
 
-  const getSelected = () =>
-    dialog?.querySelector('[aria-selected="true"]') as HTMLElement;
+  const getSelected = () => dialog?.querySelector('[aria-selected="true"]');
 
   const keybindings = new Map<string, () => void>([
     [
@@ -97,6 +97,13 @@ export function CommandsPalette() {
     ["1", () => setColorScheme("light")],
     ["2", () => setColorScheme("dark")],
     ["3", () => setColorScheme(null)],
+    [
+      "alt+slash",
+      () => {
+        if (dialog && !dialog.open) dialog.showModal();
+        setPage("posts");
+      },
+    ],
   ]);
 
   createEffect(() => {
@@ -162,7 +169,7 @@ export function CommandsPalette() {
                 Set Theme
               </CommandItem>
               <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
-                <CommandItem shortcut="/" onClick={handleShortcut}>
+                <CommandItem shortcut="alt+slash" onClick={handleShortcut}>
                   Search Posts
                 </CommandItem>
               </CommandGroup>
@@ -185,6 +192,18 @@ export function CommandsPalette() {
             <CommandItem shortcut="3" onClick={handleShortcut}>
               Set Theme to System
             </CommandItem>
+          </Match>
+          <Match when={page() === "posts"}>
+            <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
+              <CommandItem href="">One</CommandItem>
+              <CommandItem href="">Two</CommandItem>
+              <CommandItem href="">Three</CommandItem>
+            </CommandGroup>
+            <CommandGroup heading={<GroupHeading>Talks</GroupHeading>}>
+              <CommandItem href="">One</CommandItem>
+              <CommandItem href="">Two</CommandItem>
+              <CommandItem href="">Three</CommandItem>
+            </CommandGroup>
           </Match>
         </Switch>
       </CommandList>
@@ -222,6 +241,7 @@ function CommandItem(props: CommandItemProps) {
       tabIndex={-1}
       onClick={(event) => {
         event.preventDefault();
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         if (own.shortcut) own.onClick!(own.shortcut);
       }}
       {...rest}
