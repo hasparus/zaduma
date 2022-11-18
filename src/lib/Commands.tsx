@@ -244,12 +244,13 @@ function CommandItem(props: CommandItemProps) {
   );
 
   const className =
-    "p-2 cursor-pointer zaduma-hover-before focus-visible:outline-black" +
+    "p-2 cursor-pointer focus-visible:outline-black" +
     " flex justify-between text-gray-700 dark:text-gray-300 " +
     "relative";
 
   return (
     <CommandCenterItem
+      class="zaduma-hover-before"
       tabIndex={-1}
       onClick={(event) => {
         if (!own.href) event.preventDefault();
