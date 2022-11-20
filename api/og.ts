@@ -9,6 +9,16 @@ export const config = {
 //        and it can't run @vercel/og because of
 //        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
 
+/**
+ * TODO:
+ * - [ ] Use Inter font
+ * - [ ] Grain Overlay
+ * - [ ] Random Gradient or an illustration in the background
+ * - [ ] Text with the color contrasting with gradient
+ * - [ ] Very bold (weight 900) white title on top of the gradient
+ * - [ ] White footer avatar of the author, their handle, date and reading time of the post
+ */
+
 export default function og(req: Request) {
   const url = new URL(req.url);
 
