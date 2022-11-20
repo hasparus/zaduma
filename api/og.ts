@@ -15,8 +15,9 @@ export default function og() {
       "div",
       {
         className: `
-          bg-gray-200 text-xxl flex items-center content-center
+          bg-gray-500 text-xxl flex items-center content-center
         `,
+        children: "WTF",
       },
       "Hello World"
     ),
@@ -35,6 +36,9 @@ function h<T extends React.ElementType<any>>(
   return {
     type,
     key: "key" in props ? props.key : null,
-    props: { ...props, children: children.length ? children : props.children },
+    props: {
+      ...props,
+      children: children && children.length ? children : props.children,
+    },
   };
 }
