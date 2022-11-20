@@ -19,8 +19,14 @@ export const config = {
  * - [ ] White footer avatar of the author, their handle, date and reading time of the post
  */
 
+const font = fetch(new URL("../assets/TYPEWR__.TTF", import.meta.url)).then(
+  (res) => res.arrayBuffer()
+);
+
 export default async function og(req: Request) {
   const url = new URL(req.url);
+
+  const fontData = await font;
 
   return new ImageResponse(
     h(
@@ -28,7 +34,7 @@ export default async function og(req: Request) {
       {
         tw: `
           w-full h-full
-          font-[Inter] text-center
+          font-[Typewriter] text-center
           bg-neutral-100 flex items-center content-center
         `,
       },
@@ -38,6 +44,13 @@ export default async function og(req: Request) {
       width: 1200,
       height: 600,
       // fonts: await fonts(),
+      fonts: [
+        {
+          name: "Typewriter",
+          data: fontData,
+          style: "normal",
+        },
+      ],
     }
   );
 }
