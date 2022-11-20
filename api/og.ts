@@ -14,7 +14,7 @@ export default function og() {
     h(
       "div",
       {
-        className: `
+        tw: `
           bg-gray-500 text-xxl flex items-center content-center
         `,
         children: "WTF",

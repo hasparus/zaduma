@@ -30,8 +30,8 @@
     ["classList={{([^)]*)}}", "`([^`]*)`"],
     ["classList={{([^)]*)}}", "'([^']*)'"],
     // For api/og.ts
-    ["className: \"([^\"]*)\""],
-    ["className: `([^`]*)`"]
+    ["tw: \"([^\"]*)\""],
+    ["tw: `([^`]*)`"]
   ],
 
   "typescript.tsdk": "node_modules/typescript/lib"
