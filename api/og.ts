@@ -9,17 +9,18 @@ export const config = {
 //        and it can't run @vercel/og because of
 //        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
 
-export default function og() {
+export default function og(req: Request) {
+  const url = new URL(req.url);
+
   return new ImageResponse(
     h(
       "div",
       {
         tw: `
-          bg-gray-500 text-xxl flex items-center content-center
+          bg-neutral-100 flex items-center content-center
         `,
-        children: "WTF",
       },
-      "Hello World"
+      req.url
     ),
     {
       width: 1200,
