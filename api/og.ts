@@ -59,9 +59,11 @@ function h<T extends React.ElementType<any>>(
 
 async function fonts(): Promise<ImageResponseOptions["fonts"]> {
   const [regular, black] = await Promise.all(
-    ["../../assets/Inter-Regular.ttf", "../../assets/Inter-Black.ttf"].map(
-      (url) =>
-        fetch(new URL(url, import.meta.url)).then((res) => res.arrayBuffer())
+    [
+      "../assets/og-image/Inter-Regular.ttf",
+      "../assets/og-image/Inter-Black.ttf",
+    ].map((url) =>
+      fetch(new URL(url, import.meta.url)).then((res) => res.arrayBuffer())
     )
   );
 
