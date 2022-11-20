@@ -1,4 +1,4 @@
-import { ImageResponse } from "@vercel/og";
+import { ImageResponse, ImageResponseOptions } from "@vercel/og";
 import type * as React from "react";
 
 export const config = {
@@ -11,7 +11,7 @@ export const config = {
 
 /**
  * TODO:
- * - [ ] Use Inter font
+ * - [x] Use Inter font
  * - [ ] Grain Overlay
  * - [ ] Random Gradient or an illustration in the background
  * - [ ] Text with the color contrasting with gradient
@@ -19,7 +19,7 @@ export const config = {
  * - [ ] White footer avatar of the author, their handle, date and reading time of the post
  */
 
-export default function og(req: Request) {
+export default async function og(req: Request) {
   const url = new URL(req.url);
 
   return new ImageResponse(
@@ -27,6 +27,8 @@ export default function og(req: Request) {
       "div",
       {
         tw: `
+          w-full h-full
+          font-[Inter] text-center
           bg-neutral-100 flex items-center content-center
         `,
       },
@@ -35,6 +37,7 @@ export default function og(req: Request) {
     {
       width: 1200,
       height: 600,
+      fonts: await fonts(),
     }
   );
 }
@@ -52,4 +55,28 @@ function h<T extends React.ElementType<any>>(
       children: children && children.length ? children : props.children,
     },
   };
+}
+
+async function fonts(): Promise<ImageResponseOptions["fonts"]> {
+  const [regular, black] = await Promise.all(
+    ["../../assets/Inter-Regular.ttf", "../../assets/Inter-Black.ttf"].map(
+      (url) =>
+        fetch(new URL(url, import.meta.url)).then((res) => res.arrayBuffer())
+    )
+  );
+
+  return [
+    {
+      name: "Inter",
+      data: regular,
+      weight: 400,
+      style: "normal",
+    },
+    {
+      name: "Inter",
+      data: black,
+      weight: 900,
+      style: "normal",
+    },
+  ];
 }
