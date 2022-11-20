@@ -1,4 +1,4 @@
-import { ImageResponse, ImageResponseOptions } from "@vercel/og";
+import { type ImageResponseOptions, ImageResponse } from "@vercel/og";
 import type * as React from "react";
 
 export const config = {
@@ -37,7 +37,7 @@ export default async function og(req: Request) {
     {
       width: 1200,
       height: 600,
-      fonts: await fonts(),
+      // fonts: await fonts(),
     }
   );
 }
@@ -57,28 +57,28 @@ function h<T extends React.ElementType<any>>(
   };
 }
 
-async function fonts(): Promise<ImageResponseOptions["fonts"]> {
-  const [regular, black] = await Promise.all(
-    [
-      "../assets/og-image/Inter-Regular.ttf",
-      "../assets/og-image/Inter-Black.ttf",
-    ].map((url) =>
-      fetch(new URL(url, import.meta.url)).then((res) => res.arrayBuffer())
-    )
-  );
+// async function fonts(): Promise<ImageResponseOptions["fonts"]> {
+//   const [regular, black] = await Promise.all(
+//     [
+//       "../assets/og-image/Inter-Regular.ttf",
+//       "../assets/og-image/Inter-Black.ttf",
+//     ].map((url) =>
+//       fetch(new URL(url, import.meta.url)).then((res) => res.arrayBuffer())
+//     )
+//   );
 
-  return [
-    {
-      name: "Inter",
-      data: regular,
-      weight: 400,
-      style: "normal",
-    },
-    {
-      name: "Inter",
-      data: black,
-      weight: 900,
-      style: "normal",
-    },
-  ];
-}
+//   return [
+//     {
+//       name: "Inter",
+//       data: regular,
+//       weight: 400,
+//       style: "normal",
+//     },
+//     {
+//       name: "Inter",
+//       data: black,
+//       weight: 900,
+//       style: "normal",
+//     },
+//   ];
+// }
