@@ -27,7 +27,6 @@
     & a {
       white-space: nowrap;
       max-width: 100%;
-      overflow: hidden;
     }
   }
 
