@@ -54,7 +54,7 @@ export default async function og(req: Request) {
           font-[Typewriter]
         `,
       },
-      h(Illustration, {}, h(Title, { title: post.title })),
+      // h(Illustration, {}, h(Title, { title: post.title })),
       h(Footer, { author, post })
     ),
     {
