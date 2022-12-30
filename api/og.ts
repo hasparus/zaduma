@@ -59,8 +59,8 @@ export default async function og(req: Request) {
           `,
         },
         h(Illustration, {}, h(Title, { title: post.title })),
-        h(Footer, { author, post }),
-        h(GrainOverlay, {})
+        h(Footer, { author, post })
+        // h(GrainOverlay, {})
       ),
       {
         width: 1200,
