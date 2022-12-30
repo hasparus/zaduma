@@ -23,8 +23,9 @@ export const config = { runtime: "edge" };
  * - [x] White footer avatar of the author, their handle, date and reading time of the post
  * - [x] Very bold (weight 900) white title on top of the gradient
  * - [x] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
- * - [ ] Grain Overlay
- * - [ ] Random Gradient or an illustration in the background
+ * - [ ] Grain Overlay — mix-blend-mode is not supported, so I'll need to combine grain.svg with the image / generated gradient
+ *  - [ ] Random Gradient or an illustration in the background
+ *  - use Vercel OG playground to build it and manually rewrite JSX
  * - [ ] Text with the color contrasting with gradient
  */
 
@@ -60,7 +61,6 @@ export default async function og(req: Request) {
         },
         h(Illustration, {}, h(Title, { title: post.title })),
         h(Footer, { author, post })
-        // h(GrainOverlay, {})
       ),
       {
         width: 1200,
@@ -238,11 +238,4 @@ async function assertTokenIsValid({
   if (receivedToken !== token) {
     throw new HttpError("Invalid token.", 401);
   }
-}
-
-function GrainOverlay() {
-  return h("div", {
-    style: { opacity: 0.5, background: `url("/grain.svg")` },
-    tw: `absolute inset-0 mix-blend-difference pointer-events-none select-none`,
-  });
 }
