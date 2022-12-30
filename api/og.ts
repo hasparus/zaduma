@@ -1,4 +1,4 @@
-import { type ImageResponseOptions, ImageResponse } from "@vercel/og";
+import { ImageResponse } from "@vercel/og";
 import type * as React from "react";
 
 const author = {
@@ -32,7 +32,9 @@ export const config = {
  * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
-const font = fetchFont("../assets/og/Inter-Black.ttf");
+const font = fetchFont(
+  new URL("../assets/og/Inter-Black.ttf", import.meta.url)
+);
 
 export default async function og(req: Request) {
   const url = new URL(req.url);
@@ -149,8 +151,8 @@ function h<T extends React.ElementType<any>>(
   };
 }
 
-function fetchFont(path: string) {
-  return fetch(new URL(path, import.meta.url)).then((res) => res.arrayBuffer());
+function fetchFont(url: URL) {
+  return fetch(url).then((res) => res.arrayBuffer());
 }
 
 // async function fonts(): Promise<ImageResponseOptions["fonts"]> {
