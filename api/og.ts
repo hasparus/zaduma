@@ -242,7 +242,7 @@ async function assertTokenIsValid({
 
 function GrainOverlay() {
   return h("div", {
-    style: { opacity: 0.5, background: `url(/grain.svg)` },
+    style: { opacity: 0.5, background: `url("/grain.svg")` },
     tw: `absolute inset-0 mix-blend-difference pointer-events-none select-none`,
   });
 }
