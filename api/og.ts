@@ -175,14 +175,16 @@ type Post = {
   readingTimeMinutes: number;
 };
 
-type SearchParams = {
+export type OgFunctionSearchParams = {
   title: string;
   date: number; // timestamp
   readingTime: number; // minutes
   token?: string;
 };
 
-function parseSearchParams(searchParams: URLSearchParams): SearchParams {
+function parseSearchParams(
+  searchParams: URLSearchParams
+): OgFunctionSearchParams {
   const date = Number(searchParams.get("date"));
   const readingTime = Number(searchParams.get("readingTime"));
   const title = searchParams.get("title");
@@ -205,10 +207,13 @@ class HttpError extends Error {
   }
 }
 
+/**
+ * @see https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
+ */
 async function assertTokenIsValid({
   token: receivedToken,
   ...data
-}: SearchParams): Promise<void> {
+}: OgFunctionSearchParams): Promise<void> {
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(process.env.OG_IMAGE_SECRET),
@@ -228,6 +233,11 @@ async function assertTokenIsValid({
       n.toString(16).padStart(2, "0")
     )
     .join("");
+
+  console.log({
+    receivedToken,
+    token,
+  });
 
   if (receivedToken !== token) {
     throw new HttpError("Invalid token.", 401);

@@ -1,0 +1,44 @@
+---
+import { createHmac } from "node:crypto";
+
+import type { OgFunctionSearchParams } from "../../api/og";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import type { PostFrontmatter } from "../types";
+
+const OG_IMAGE_SECRET = import.meta.env.OG_IMAGE_SECRET;
+
+const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+
+const linksToOGImages = posts.map((post) => {
+  const frontmatter = post.frontmatter;
+
+  const searchParams: OgFunctionSearchParams = {
+    title: frontmatter.title,
+    readingTime: frontmatter.readingTime.minutes,
+    date: new Date(frontmatter.date).getTime(),
+  };
+
+  const hmac = createHmac("sha256", OG_IMAGE_SECRET);
+  hmac.update(JSON.stringify(searchParams));
+  searchParams.token = hmac.digest("hex");
+
+  return `/api/og?${new URLSearchParams(
+    searchParams as unknown as Record<string, string>
+  ).toString()}`;
+});
+---
+
+<BaseLayout title="admin">
+  <div>
+    <ul>
+      {
+        linksToOGImages.map((link) => (
+          <li class="flex flex-col gap-1">
+            <a href={link}>{link}</a>
+            <img width="200px" src={link} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>
