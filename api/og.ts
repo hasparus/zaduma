@@ -8,8 +8,6 @@ const author = {
 
 type Author = typeof author;
 
-// possible problems: multiple fonts, nesting in `fonts` function, weight
-
 export const config = {
   runtime: "experimental-edge",
 };
@@ -23,12 +21,12 @@ export const config = {
 /**
  * TODO:
  * - [x] Use Inter font
- * - [ ] Update all libraries related to Vercel OG
+ * - [x] Update all libraries related to Vercel OG
+ * - [x] White footer avatar of the author, their handle, date and reading time of the post
+ * - [x] Very bold (weight 900) white title on top of the gradient
  * - [ ] Grain Overlay
  * - [ ] Random Gradient or an illustration in the background
  * - [ ] Text with the color contrasting with gradient
- * - [ ] Very bold (weight 900) white title on top of the gradient
- * - [ ] White footer avatar of the author, their handle, date and reading time of the post
  * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
@@ -170,32 +168,6 @@ function h<T extends React.ElementType<any>>(
 function fetchFont(url: URL) {
   return fetch(url).then((res) => res.arrayBuffer());
 }
-
-// async function fonts(): Promise<ImageResponseOptions["fonts"]> {
-//   const [regular, black] = await Promise.all(
-//     [
-//       "../assets/og-image/Inter-Regular.ttf",
-//       "../assets/og-image/Inter-Black.ttf",
-//     ].map((url) =>
-//       fetch(new URL(url, import.meta.url)).then((res) => res.arrayBuffer())
-//     )
-//   );
-
-//   return [
-//     {
-//       name: "Inter",
-//       data: regular,
-//       weight: 400,
-//       style: "normal",
-//     },
-//     {
-//       name: "Inter",
-//       data: black,
-//       weight: 900,
-//       style: "normal",
-//     },
-//   ];
-// }
 
 type Post = {
   date: Date;
