@@ -40,46 +40,58 @@ const interBlack = fetchFont(
 );
 
 export default async function og(req: Request) {
-  const url = new URL(req.url);
+  try {
+    const url = new URL(req.url);
 
-  const post = {
-    date: new Date(url.searchParams.get("date") || 0),
-    title: url.searchParams.get("title") || "Untitled",
-    readingTimeMinutes: Number(url.searchParams.get("readingTime") || 0),
-  };
+    const post = {
+      date: new Date(url.searchParams.get("date") || 0),
+      title: url.searchParams.get("title") || "Untitled",
+      readingTimeMinutes: Number(url.searchParams.get("readingTime") || 0),
+    };
 
-  return new ImageResponse(
-    h(
-      "div",
+    return new ImageResponse(
+      h(
+        "div",
+        {
+          tw: `
+            w-full h-full
+            font-Inter
+            flex flex-col
+          `,
+        },
+        h(Illustration, {}, h(Title, { title: post.title })),
+        h(Footer, { author, post })
+      ),
       {
-        tw: `
-          w-full h-full
-          font-Inter
-          flex flex-col
-        `,
-      },
-      h(Illustration, {}, h(Title, { title: post.title })),
-      h(Footer, { author, post })
-    ),
-    {
-      width: 1200,
-      height: 600,
-      fonts: [
-        {
-          name: "Inter",
-          data: await interRegular,
-          weight: 400,
-          style: "normal",
-        },
-        {
-          name: "Inter",
-          data: await interBlack,
-          weight: 900,
-          style: "normal",
-        },
-      ],
-    }
-  );
+        width: 1200,
+        height: 600,
+        fonts: [
+          {
+            name: "Inter",
+            data: await interRegular,
+            weight: 400,
+            style: "normal",
+          },
+          {
+            name: "Inter",
+            data: await interBlack,
+            weight: 900,
+            style: "normal",
+          },
+        ],
+      }
+    );
+  } catch (err: unknown) {
+    console.error(err);
+
+    const error = err instanceof Error ? err : new Error(String(err));
+
+    return new Response(
+      JSON.stringify({
+        message: error.message,
+      })
+    );
+  }
 }
 
 function Illustration({ children }: { children?: React.ReactNode[] }) {
