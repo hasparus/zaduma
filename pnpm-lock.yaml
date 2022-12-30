@@ -2,6 +2,8 @@ lockfileVersion: 5.4
 
 overrides:
   '@mdx-js/mdx': 2.1.3
+  typescript: ^4.9.4
+  '@types/node': 18.11.18
 
 patchedDependencies:
   '@mdx-js/mdx@2.1.3':
@@ -18,7 +20,7 @@ specifiers:
   '@fontsource/inter': ^4.5.14
   '@mdx-js/mdx': 2.1.3
   '@types/hast': 2.3.4
-  '@types/node': ^18.8.0
+  '@types/node': 18.11.18
   '@types/react': ^18.0.26
   '@vercel/og': ^0.0.21
   astro: ^1.4.2
@@ -71,7 +73,7 @@ dependencies:
 devDependencies:
   '@edgeandnode/eslint-config': 1.0.3_lzzuuodtsqwxnvqeq4g4likcqa
   '@types/hast': 2.3.4
-  '@types/node': 18.8.0
+  '@types/node': 18.11.18
   autoprefixer: 10.4.13_postcss@8.4.20
   cssnano: 5.1.14_postcss@8.4.20
   eslint: 8.30.0
@@ -952,17 +954,8 @@ packages:
       '@types/unist': 2.0.6
     dev: false
 
-  /@types/node/14.18.33:
-    resolution: {integrity: sha512-qelS/Ra6sacc4loe/3MSjXNL1dNQ/GjxNHVzuChwMfmk7HuycRLVQN2qNY3XahK+fZc5E2szqQSKUyAF0E+2bg==}
-    dev: false
-
   /@types/node/18.11.18:
     resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
-    dev: false
-
-  /@types/node/18.8.0:
-    resolution: {integrity: sha512-u+h43R6U8xXDt2vzUaVP3VwjjLyOJk6uEciZS8OSyziUQGOwmk+l+4drxcsDboHXwyTaqS1INebghmWMRxq3LA==}
-    dev: true
 
   /@types/parse5/6.0.3:
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
@@ -1200,7 +1193,7 @@ packages:
     resolution: {integrity: sha512-quZzNkn3MhOJ/Z5ugOgmLUXXWq/AMqXsByJPHte/TgnLM+skSpLaOYsB3rT2VUYbx9u3+T6bXQWv8YqJsgjZIQ==}
     dependencies:
       '@edge-runtime/vm': 2.0.0
-      '@types/node': 14.18.33
+      '@types/node': 18.11.18
       '@vercel/build-utils': 5.7.2
       '@vercel/node-bridge': 3.1.2
       '@vercel/static-config': 2.0.6
@@ -1208,8 +1201,8 @@ packages:
       esbuild: 0.14.47
       exit-hook: 2.2.1
       node-fetch: 2.6.7
-      ts-node: 8.9.1_typescript@4.3.4
-      typescript: 4.3.4
+      ts-node: 8.9.1_typescript@4.9.4
+      typescript: 4.9.4
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -6880,7 +6873,7 @@ packages:
       code-block-writer: 10.1.1
     dev: false
 
-  /ts-node/8.9.1_typescript@4.3.4:
+  /ts-node/8.9.1_typescript@4.9.4:
     resolution: {integrity: sha512-yrq6ODsxEFTLz0R3BX2myf0WBCSQh9A+py8PBo1dCzWIOcvisbyH6akNKqDHMgXePF2kir5mm5JXJTH3OUJYOQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
@@ -6891,7 +6884,7 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       source-map-support: 0.5.21
-      typescript: 4.3.4
+      typescript: 4.9.4
       yn: 3.1.1
     dev: false
 
@@ -6972,12 +6965,6 @@ packages:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
     dependencies:
       is-typedarray: 1.0.0
-    dev: false
-
-  /typescript/4.3.4:
-    resolution: {integrity: sha512-uauPG7XZn9F/mo+7MrsRjyvbxFpzemRjKEZXS4AK83oP2KKOJPvb+9cO/gmnv8arWZvhnjVOXz7B49m1l0e9Ew==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
     dev: false
 
   /typescript/4.9.4:

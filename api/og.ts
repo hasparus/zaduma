@@ -15,6 +15,8 @@ export const config = {
 // Note: `vercel dev` doesn't run `.tsx` endpoints
 //        and it can't run @vercel/og because of
 //        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
+//        The only way to work with this file is repeatedly pushing and checking
+//        the result on Vercel Preview Deployments.
 
 /**
  * TODO:
