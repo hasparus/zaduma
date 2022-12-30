@@ -1,6 +1,13 @@
 import { type ImageResponseOptions, ImageResponse } from "@vercel/og";
 import type * as React from "react";
 
+const author = {
+  name: "Yours Truly",
+  avatarSrc: "https://i.pravatar.cc/256?u=30",
+};
+
+type Author = typeof author;
+
 export const config = {
   runtime: "experimental-edge",
 };
@@ -12,11 +19,13 @@ export const config = {
 /**
  * TODO:
  * - [x] Use Inter font
+ * - [ ] Update all libraries related to Vercel OG
  * - [ ] Grain Overlay
  * - [ ] Random Gradient or an illustration in the background
  * - [ ] Text with the color contrasting with gradient
  * - [ ] Very bold (weight 900) white title on top of the gradient
  * - [ ] White footer avatar of the author, their handle, date and reading time of the post
+ * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
 const font = fetch(new URL("../assets/TYPEWR__.TTF", import.meta.url)).then(
@@ -25,6 +34,12 @@ const font = fetch(new URL("../assets/TYPEWR__.TTF", import.meta.url)).then(
 
 export default async function og(req: Request) {
   const url = new URL(req.url);
+
+  const post = {
+    date: new Date(url.searchParams.get("date") || 0),
+    title: url.searchParams.get("title") || "Untitled",
+    readingTimeMinutes: Number(url.searchParams.get("readingTime") || 0),
+  };
 
   const fontData = await font;
 
@@ -38,7 +53,7 @@ export default async function og(req: Request) {
           bg-neutral-100 flex items-center content-center
         `,
       },
-      req.url
+      h(Footer, { author, post })
     ),
     {
       width: 1200,
@@ -52,6 +67,34 @@ export default async function og(req: Request) {
         },
       ],
     }
+  );
+}
+
+function Footer({ author, post }: { author: Author; post: Post }) {
+  return h(
+    "footer",
+    {
+      tw: `
+      bg-white
+      flex flex-row gap-1
+    `,
+    },
+    h("img", {
+      width: 256,
+      height: 256,
+      src: author.avatarSrc,
+      tw: `rounded-full`,
+    }),
+    h("span", {}, author.name),
+    h("div", { tw: `flex-1` }),
+    h(
+      "span",
+      {},
+      [
+        post.date.toLocaleDateString("sv-SE"),
+        `${post.readingTimeMinutes} min read}`,
+      ].join(" · ")
+    )
   );
 }
 
@@ -95,3 +138,9 @@ function h<T extends React.ElementType<any>>(
 //     },
 //   ];
 // }
+
+type Post = {
+  date: Date;
+  title: string;
+  readingTimeMinutes: number;
+};

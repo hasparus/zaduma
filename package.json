@@ -16,17 +16,17 @@
     "@astrojs/markdown-remark": "^1.1.3",
     "@astrojs/mdx": "^0.11.3",
     "@astrojs/solid-js": "^1.1.0",
-    "@astrojs/tailwind": "^2.1.2",
+    "@astrojs/tailwind": "^2.1.3",
     "@fontsource/brygada-1918": "^4.5.11",
     "@fontsource/inter": "^4.5.14",
     "@mdx-js/mdx": "^2.1.3",
-    "@types/react": "^18.0.25",
-    "@vercel/og": "^0.0.20",
+    "@types/react": "^18.0.26",
+    "@vercel/og": "^0.0.21",
     "astro": "^1.4.2",
     "astro-eslint-parser": "^0.6.2",
     "eslint-plugin-markdown": "^3.0.0",
     "estree-util-value-to-estree": "^2.0.0",
-    "postcss": "8.4.17",
+    "postcss": "8.4.20",
     "react": "^18.2.0",
     "reading-time": "^1.5.0",
     "remark-shiki-twoslash": "^3.1.0",
@@ -35,7 +35,7 @@
     "tailwindcss": "^3.2.4",
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.1",
-    "vercel": "^28.5.3"
+    "vercel": "^28.10.1"
   },
   "devDependencies": {
     "@edgeandnode/eslint-config": "^1.0.3",
@@ -43,11 +43,11 @@
     "@types/node": "^18.8.0",
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
-    "eslint": "^8.27.0",
-    "prettier": "^2.7.1",
-    "prettier-plugin-astro": "^0.5.5",
-    "prettier-plugin-tailwindcss": "^0.1.13",
-    "typescript": "^4.9.1-beta"
+    "eslint": "^8.30.0",
+    "prettier": "^2.8.1",
+    "prettier-plugin-astro": "^0.7.0",
+    "prettier-plugin-tailwindcss": "^0.2.1",
+    "typescript": "^4.9.4"
   },
   "pnpm": {
     "peerDependencyRules": {
