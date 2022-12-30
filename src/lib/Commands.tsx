@@ -29,7 +29,7 @@ import { Shortcut } from "./Shortcut";
 
 const INPUT_ID = "command-input";
 
-export function Commands() {
+export function Commands({ posts }: {posts: { title: string, href: string }[]}) {
   const [clientside, setClientside] = createSignal(false);
   onMount(() => setClientside(true)); // workaround for Astro + Solid Hydration issue
 
@@ -37,13 +37,13 @@ export function Commands() {
     <CommandCenter inputId={INPUT_ID}>
       <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-4 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
       <Show when={clientside()} keyed>
-        {() => <CommandsPalette />}
+        {() => <CommandsPalette posts={posts} />}
       </Show>
     </CommandCenter>
   );
 }
 
-export function CommandsPalette() {
+export function CommandsPalette({ posts }: {posts: { title: string, href: string }[]}) {
   type CommandsPage = "posts" | "theme" | undefined;
   const [page, setPage] = createSignal<CommandsPage>();
   let dialog: HTMLDialogElement | undefined;
@@ -101,6 +101,7 @@ export function CommandsPalette() {
       "alt+slash",
       () => {
         if (dialog && !dialog.open) dialog.showModal();
+        document.getElementById(INPUT_ID)?.focus();
         setPage("posts");
       },
     ],
@@ -197,14 +198,9 @@ export function CommandsPalette() {
           </Match>
           <Match when={page() === "posts"}>
             <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
-              <CommandItem href="">One</CommandItem>
-              <CommandItem href="">Two</CommandItem>
-              <CommandItem href="">Three</CommandItem>
-            </CommandGroup>
-            <CommandGroup heading={<GroupHeading>Talks</GroupHeading>}>
-              <CommandItem href="">One</CommandItem>
-              <CommandItem href="">Two</CommandItem>
-              <CommandItem href="">Three</CommandItem>
+              {posts.map(p => (
+                <CommandItem href={p.href}>{p.title}</CommandItem>
+              ))}
             </CommandGroup>
           </Match>
         </Switch>
