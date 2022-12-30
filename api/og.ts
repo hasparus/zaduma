@@ -109,7 +109,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       h-28 w-full p-2.5
       bg-white
       text-4xl
-      flex flex-row justify-center gap-1
+      flex flex-row justify-center items-center gap-1
     `,
     },
     h("img", {
