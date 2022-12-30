@@ -45,7 +45,7 @@ export default async function og(req: Request) {
     const post: Post = {
       date: new Date(searchParams.date),
       title: searchParams.title,
-      readingTimeMinutes: searchParams.readingTime,
+      readingTimeMinutes: Math.round(searchParams.readingTime),
     };
 
     return new ImageResponse(
@@ -142,7 +142,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       {},
       [
         post.date.toLocaleDateString("sv-SE"),
-        post.readingTimeMinutes >= 1 && `${post.readingTimeMinutes} min`,
+        post.readingTimeMinutes > 1 && `${post.readingTimeMinutes} min`,
       ]
         .filter(Boolean)
         .join(" · ")

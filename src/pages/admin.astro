@@ -19,8 +19,6 @@ const linksToOGImages = posts.map((post) => {
     readingTime: frontmatter.readingTime.minutes,
   };
 
-  console.log("searchParams", JSON.stringify(searchParams));
-
   const hmac = createHmac("sha256", OG_IMAGE_SECRET);
   hmac.update(JSON.stringify(searchParams));
   searchParams.token = hmac.digest("hex");
