@@ -9,7 +9,7 @@ const author = {
 type Author = typeof author;
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "edge",
 };
 
 // Note: `vercel dev` doesn't run `.tsx` endpoints
@@ -24,10 +24,10 @@ export const config = {
  * - [x] Update all libraries related to Vercel OG
  * - [x] White footer avatar of the author, their handle, date and reading time of the post
  * - [x] Very bold (weight 900) white title on top of the gradient
+ * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  * - [ ] Grain Overlay
  * - [ ] Random Gradient or an illustration in the background
  * - [ ] Text with the color contrasting with gradient
- * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
 const interRegular = fetchFont(
