@@ -32,9 +32,7 @@ export const config = {
  * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
-const font = fetch(
-  new URL("../assets/og/Inter-Black.ttf", import.meta.url)
-).then((res) => res.arrayBuffer());
+const font = fetchFont("../assets/og/Inter-Black.ttf");
 
 export default async function og(req: Request) {
   const url = new URL(req.url);
@@ -149,6 +147,10 @@ function h<T extends React.ElementType<any>>(
       children: children && children.length ? children : props.children,
     },
   };
+}
+
+function fetchFont(path: string) {
+  return fetch(new URL(path, import.meta.url)).then((res) => res.arrayBuffer());
 }
 
 // async function fonts(): Promise<ImageResponseOptions["fonts"]> {
