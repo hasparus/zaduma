@@ -86,11 +86,9 @@ export default async function og(req: Request) {
 
     const error = err instanceof Error ? err : new Error(String(err));
 
-    return new Response(
-      JSON.stringify({
-        message: error.message,
-      })
-    );
+    return new Response(JSON.stringify({ message: error.message }), {
+      status: 500,
+    });
   }
 }
 
