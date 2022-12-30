@@ -109,7 +109,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       h-28 w-full px-4 py-2.5
       bg-white
       text-4xl
-      flex flex-row justify-center items-center gap-1
+      flex flex-row justify-center items-center
     `,
     },
     h("img", {
@@ -118,7 +118,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       src: author.avatarSrc,
       tw: `rounded-full`,
     }),
-    h("span", {}, author.name),
+    h("span", { tw: `ml-1` }, author.name),
     h("div", { tw: `flex-1` }),
     h(
       "span",
