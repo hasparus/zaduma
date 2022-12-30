@@ -32,9 +32,9 @@ export const config = {
  * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
-const font = fetch(new URL("../assets/Inter-Black.ttf", import.meta.url)).then(
-  (res) => res.arrayBuffer()
-);
+const font = fetch(
+  new URL("../assets/og/Inter-Black.ttf", import.meta.url)
+).then((res) => res.arrayBuffer());
 
 export default async function og(req: Request) {
   const url = new URL(req.url);
