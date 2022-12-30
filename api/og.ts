@@ -55,8 +55,9 @@ export default async function og(req: Request) {
           flex flex-col
         `,
       },
-      h(Illustration, {}, h(Title, { title: post.title })),
-      h(Footer, { author, post })
+      "oops"
+      // h(Illustration, {}, h(Title, { title: post.title })),
+      // h(Footer, { author, post })
     ),
     {
       width: 1200,
