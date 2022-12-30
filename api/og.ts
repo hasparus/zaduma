@@ -42,11 +42,12 @@ const interBlack = fetchFont(
 export default async function og(req: Request) {
   try {
     const url = new URL(req.url);
+    const searchParams = parseSearchParams(url.searchParams);
 
-    const post = {
-      date: new Date(url.searchParams.get("date") || 0),
-      title: url.searchParams.get("title") || "Untitled",
-      readingTimeMinutes: Number(url.searchParams.get("readingTime") || 0),
+    const post: Post = {
+      date: new Date(searchParams.date),
+      title: searchParams.title,
+      readingTimeMinutes: searchParams.readingTime,
     };
 
     return new ImageResponse(
@@ -201,3 +202,31 @@ type Post = {
   title: string;
   readingTimeMinutes: number;
 };
+
+type SearchParams = {
+  title: string;
+  date: number; // timestamp
+  readingTime: number; // minutes
+};
+
+function parseSearchParams(searchParams: URLSearchParams): SearchParams {
+  const date = Number(searchParams.get("date"));
+  const readingTime = Number(searchParams.get("readingTime"));
+  const title = searchParams.get("title");
+
+  if (!date || !readingTime || !title) {
+    throw new HttpError("Missing required search params", 400);
+  }
+
+  return {
+    title,
+    date,
+    readingTime,
+  };
+}
+
+class HttpError extends Error {
+  constructor(message: string, public readonly status: number) {
+    super(message);
+  }
+}
