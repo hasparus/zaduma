@@ -51,10 +51,10 @@ export default async function og(req: Request) {
       {
         tw: `
           w-full h-full
-          font-[Typewriter] text-center
-          bg-neutral-100 flex items-center content-center
+          font-[Typewriter]
         `,
       },
+      h(Illustration, {}, h(Title, { title: post.title })),
       h(Footer, { author, post })
     ),
     {
@@ -72,18 +72,48 @@ export default async function og(req: Request) {
   );
 }
 
+function Illustration({ children }: { children?: React.ReactNode[] }) {
+  return h(
+    "div",
+    {
+      tw: `
+        flex-1
+        bg-black
+      `,
+    },
+    ...children
+  );
+}
+
+function Title({ title }: { title: string }) {
+  return h(
+    "h1",
+    {
+      tw: `
+        text-9xl font-black
+        text-white
+        leading-none
+        tracking-tighter
+      `,
+    },
+    title
+  );
+}
+
 function Footer({ author, post }: { author: Author; post: Post }) {
   return h(
     "footer",
     {
       tw: `
+      h-28 w-full p-2
       bg-white
+      text-6xl
       flex flex-row gap-1
     `,
     },
     h("img", {
-      width: 256,
-      height: 256,
+      width: 96,
+      height: 96,
       src: author.avatarSrc,
       tw: `rounded-full`,
     }),
@@ -94,8 +124,10 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       {},
       [
         post.date.toLocaleDateString("sv-SE"),
-        `${post.readingTimeMinutes} min read}`,
-      ].join(" · ")
+        post.readingTimeMinutes >= 1 && `${post.readingTimeMinutes} min read`,
+      ]
+        .filter(Boolean)
+        .join(" · ")
     )
   );
 }
