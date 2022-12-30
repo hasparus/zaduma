@@ -52,9 +52,10 @@ export default async function og(req: Request) {
         tw: `
           w-full h-full
           font-[Typewriter]
+          flex flex-col
         `,
       },
-      // h(Illustration, {}, h(Title, { title: post.title })),
+      h(Illustration, {}, h(Title, { title: post.title })),
       h(Footer, { author, post })
     ),
     {
@@ -77,7 +78,7 @@ function Illustration({ children }: { children?: React.ReactNode[] }) {
     "div",
     {
       tw: `
-        flex-1
+        flex flex-1
         bg-black
       `,
     },
