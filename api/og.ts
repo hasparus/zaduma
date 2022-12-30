@@ -40,6 +40,12 @@ export default async function og(req: Request) {
     const url = new URL(req.url);
     const searchParams = parseSearchParams(url.searchParams);
 
+    if (2 > 1) {
+      return new Response(
+        `process.env.OG_IMAGE_SECRET = ${process.env.OG_IMAGE_SECRET};`
+      );
+    }
+
     await assertTokenIsValid(searchParams);
 
     const post: Post = {
