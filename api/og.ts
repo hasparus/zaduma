@@ -137,7 +137,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       src: author.avatarSrc,
       tw: `rounded-full`,
     }),
-    h("span", { tw: `ml-8` }, author.name),
+    h("span", { tw: `ml-4` }, author.name),
     h("div", { tw: `flex-1` }),
     h(
       "span",
