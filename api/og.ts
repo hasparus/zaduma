@@ -55,9 +55,8 @@ export default async function og(req: Request) {
           flex flex-col
         `,
       },
-      "oops"
-      // h(Illustration, {}, h(Title, { title: post.title })),
-      // h(Footer, { author, post })
+      h(Illustration, {}, h(Title, { title: post.title })),
+      h(Footer, { author, post })
     ),
     {
       width: 1200,
@@ -79,7 +78,7 @@ function Illustration({ children }: { children?: React.ReactNode[] }) {
     "div",
     {
       tw: `
-        flex flex-1
+        flex flex-1 w-full p-2
         bg-black
       `,
     },
@@ -107,15 +106,15 @@ function Footer({ author, post }: { author: Author; post: Post }) {
     "footer",
     {
       tw: `
-      h-28 w-full p-2
+      h-28 w-full p-2.5
       bg-white
-      text-6xl
-      flex flex-row gap-1
+      text-4xl
+      flex flex-row justify-center gap-1
     `,
     },
     h("img", {
-      width: 96,
-      height: 96,
+      width: 92,
+      height: 92,
       src: author.avatarSrc,
       tw: `rounded-full`,
     }),
@@ -126,7 +125,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       {},
       [
         post.date.toLocaleDateString("sv-SE"),
-        post.readingTimeMinutes >= 1 && `${post.readingTimeMinutes} min read`,
+        post.readingTimeMinutes >= 1 && `${post.readingTimeMinutes} min`,
       ]
         .filter(Boolean)
         .join(" · ")
