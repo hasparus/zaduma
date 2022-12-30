@@ -8,6 +8,8 @@ const author = {
 
 type Author = typeof author;
 
+// directory, TTF lowercased, multiple fonts, dashes in names
+
 export const config = {
   runtime: "experimental-edge",
 };
@@ -30,7 +32,7 @@ export const config = {
  * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
-const font = fetch(new URL("../assets/TYPEWR__.TTF", import.meta.url)).then(
+const font = fetch(new URL("../assets/Inter-Black.ttf", import.meta.url)).then(
   (res) => res.arrayBuffer()
 );
 
