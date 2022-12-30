@@ -23,6 +23,7 @@ specifiers:
   astro-eslint-parser: ^0.6.2
   autoprefixer: ^10.4.13
   cssnano: ^5.1.14
+  dialog-polyfill: ^0.5.6
   eslint: ^8.27.0
   eslint-plugin-markdown: ^3.0.0
   estree-util-value-to-estree: ^2.0.0
@@ -50,6 +51,7 @@ dependencies:
   '@mdx-js/mdx': 2.1.3_d2geklodsof7l3xhad73dhchoa
   astro: 1.4.2
   astro-eslint-parser: 0.6.2
+  dialog-polyfill: 0.5.6
   eslint-plugin-markdown: 3.0.0_eslint@8.27.0
   estree-util-value-to-estree: 2.0.0
   postcss: 8.4.17
@@ -2151,6 +2153,10 @@ packages:
       acorn-node: 1.8.2
       defined: 1.0.0
       minimist: 1.2.6
+    dev: false
+
+  /dialog-polyfill/0.5.6:
+    resolution: {integrity: sha512-ZbVDJI9uvxPAKze6z146rmfUZjBqNEwcnFTVamQzXH+svluiV7swmVIGr7miwADgfgt1G2JQIytypM9fbyhX4w==}
     dev: false
 
   /didyoumean/1.2.2:

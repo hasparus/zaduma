@@ -12,6 +12,8 @@ import {
   useContext,
 } from "solid-js";
 
+import dialogPolyfill from "../../node_modules/dialog-polyfill/dist/dialog-polyfill.esm.js"
+
 import { Dialog, DialogProps } from "./Dialog";
 
 type CommandCenterCtx = {
@@ -147,7 +149,12 @@ export function CommandCenter(props: CommandCenterProps) {
           });
         },
         open: () => {
-          dialogRef.current?.showModal();
+          if (window) {
+            const dialog = document.querySelector('dialog');
+            dialogPolyfill.registerDialog(dialog!);
+            dialog!.show();
+          }
+          // dialogRef.current?.showModal();
         },
         isSelected,
         matchesFilter,

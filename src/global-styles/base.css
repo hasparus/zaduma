@@ -17,6 +17,11 @@ html {
   }
 }
 
+dialog + .backdrop {
+  /* polyfill */
+  @apply bg-white bg-opacity-30 dark:bg-black;
+}
+
 * {
   @apply outline-black dark:outline-white
   selection:bg-gray-200 selection:text-black
