@@ -30,9 +30,9 @@ export const config = {
  * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
-const font = fetch(new URL("../assets/TYPEWR__.TTF", import.meta.url)).then(
-  (res) => res.arrayBuffer()
-);
+// const font = fetch(new URL("../assets/TYPEWR__.TTF", import.meta.url)).then(
+//   (res) => res.arrayBuffer()
+// );
 
 export default async function og(req: Request) {
   const url = new URL(req.url);
@@ -43,7 +43,7 @@ export default async function og(req: Request) {
     readingTimeMinutes: Number(url.searchParams.get("readingTime") || 0),
   };
 
-  const fontData = await font;
+  // const fontData = await font;
 
   return new ImageResponse(
     h(
@@ -51,7 +51,7 @@ export default async function og(req: Request) {
       {
         tw: `
           w-full h-full
-          font-[Typewriter]
+          font-Inter
           flex flex-col
         `,
       },
@@ -61,14 +61,14 @@ export default async function og(req: Request) {
     {
       width: 1200,
       height: 600,
-      // fonts: await fonts(),
-      fonts: [
-        {
-          name: "Typewriter",
-          data: fontData,
-          style: "normal",
-        },
-      ],
+      fonts: await fonts(),
+      // fonts: [
+      //   {
+      //     name: "Typewriter",
+      //     data: fontData,
+      //     style: "normal",
+      //   },
+      // ],
     }
   );
 }
@@ -148,31 +148,31 @@ function h<T extends React.ElementType<any>>(
   };
 }
 
-// async function fonts(): Promise<ImageResponseOptions["fonts"]> {
-//   const [regular, black] = await Promise.all(
-//     [
-//       "../assets/og-image/Inter-Regular.ttf",
-//       "../assets/og-image/Inter-Black.ttf",
-//     ].map((url) =>
-//       fetch(new URL(url, import.meta.url)).then((res) => res.arrayBuffer())
-//     )
-//   );
+async function fonts(): Promise<ImageResponseOptions["fonts"]> {
+  const [regular, black] = await Promise.all(
+    [
+      "../assets/og-image/Inter-Regular.ttf",
+      "../assets/og-image/Inter-Black.ttf",
+    ].map((url) =>
+      fetch(new URL(url, import.meta.url)).then((res) => res.arrayBuffer())
+    )
+  );
 
-//   return [
-//     {
-//       name: "Inter",
-//       data: regular,
-//       weight: 400,
-//       style: "normal",
-//     },
-//     {
-//       name: "Inter",
-//       data: black,
-//       weight: 900,
-//       style: "normal",
-//     },
-//   ];
-// }
+  return [
+    {
+      name: "Inter",
+      data: regular,
+      weight: 400,
+      style: "normal",
+    },
+    {
+      name: "Inter",
+      data: black,
+      weight: 900,
+      style: "normal",
+    },
+  ];
+}
 
 type Post = {
   date: Date;
