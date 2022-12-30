@@ -19,8 +19,10 @@ const linksToOGImages = posts.map((post) => {
     date: new Date(frontmatter.date).getTime(),
   };
 
+  console.log("searchParams", searchParams);
+
   const hmac = createHmac("sha256", OG_IMAGE_SECRET);
-  hmac.update(JSON.stringify({ title: searchParams.title }));
+  hmac.update(JSON.stringify(searchParams));
   searchParams.token = hmac.digest("hex");
 
   return `/api/og?${new URLSearchParams(
