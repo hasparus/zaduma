@@ -78,7 +78,7 @@ function Illustration({ children }: { children?: React.ReactNode[] }) {
     "div",
     {
       tw: `
-        flex flex-1 w-full p-2
+        flex flex-1 justify-center items-center w-full p-2
         bg-black
       `,
     },
