@@ -3,6 +3,7 @@ import { createHmac } from "node:crypto";
 
 import type { OgFunctionSearchParams } from "../../api/og";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { Link } from "../lib/Link";
 import type { PostFrontmatter } from "../types";
 
 const OG_IMAGE_SECRET = import.meta.env.OG_IMAGE_SECRET;
@@ -30,12 +31,18 @@ const linksToOGImages = posts.map((post) => {
 
 <BaseLayout title="admin">
   <div>
-    <ul>
+    <ul class="flex flex-col">
       {
         linksToOGImages.map((link) => (
-          <li class="flex flex-col gap-1">
-            <a href={link}>{link}</a>
-            <img width="200px" src={link} />
+          <li class="p-2 w-full overflow-hidden">
+            <Link
+              href={link}
+              noUnderline
+              class="flex flex-row gap-2 w-full text-sm break-all"
+            >
+              <span>{link}</span>
+              <img width="320px" src={link} />
+            </Link>
           </li>
         ))
       }
