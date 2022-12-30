@@ -106,7 +106,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
     "footer",
     {
       tw: `
-      h-28 w-full p-2.5
+      h-28 w-full px-4 py-2.5
       bg-white
       text-4xl
       flex flex-row justify-center items-center gap-1
