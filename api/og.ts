@@ -59,7 +59,8 @@ export default async function og(req: Request) {
           `,
         },
         h(Illustration, {}, h(Title, { title: post.title })),
-        h(Footer, { author, post })
+        h(Footer, { author, post }),
+        h(GrainOverlay, {})
       ),
       {
         width: 1200,
@@ -222,8 +223,6 @@ async function assertTokenIsValid({
     ["sign"]
   );
 
-  console.log("data", JSON.stringify(data));
-
   const arrayBuffer = await crypto.subtle.sign(
     "HMAC",
     key,
@@ -236,12 +235,14 @@ async function assertTokenIsValid({
     )
     .join("");
 
-  console.log({
-    receivedToken,
-    token,
-  });
-
   if (receivedToken !== token) {
     throw new HttpError("Invalid token.", 401);
   }
+}
+
+function GrainOverlay() {
+  return h("div", {
+    style: { opacity: 0.5, background: `url(/grain.svg)` },
+    tw: `absolute inset-0 mix-blend-difference pointer-events-none select-none`,
+  });
 }
