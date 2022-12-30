@@ -102,7 +102,7 @@ function Illustration({ children }: { children?: React.ReactNode[] }) {
     "div",
     {
       tw: `
-        flex flex-1 justify-start items-center w-full p-4
+        flex flex-1 justify-start items-end w-full p-4
         bg-black
       `,
     },
