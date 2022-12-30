@@ -15,8 +15,8 @@ const linksToOGImages = posts.map((post) => {
 
   const searchParams: OgFunctionSearchParams = {
     title: frontmatter.title,
-    readingTime: frontmatter.readingTime.minutes,
     date: new Date(frontmatter.date).getTime(),
+    readingTime: frontmatter.readingTime.minutes,
   };
 
   console.log("searchParams", JSON.stringify(searchParams));
