@@ -32,7 +32,10 @@ export const config = {
  * - [ ] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
 
-const font = fetchFont(
+const interRegular = fetchFont(
+  new URL("../assets/og/Inter-Regular.ttf", import.meta.url)
+);
+const interBlack = fetchFont(
   new URL("../assets/og/Inter-Black.ttf", import.meta.url)
 );
 
@@ -44,8 +47,6 @@ export default async function og(req: Request) {
     title: url.searchParams.get("title") || "Untitled",
     readingTimeMinutes: Number(url.searchParams.get("readingTime") || 0),
   };
-
-  const fontData = await font;
 
   return new ImageResponse(
     h(
@@ -63,11 +64,16 @@ export default async function og(req: Request) {
     {
       width: 1200,
       height: 600,
-      // fonts: await fonts(),
       fonts: [
         {
           name: "Inter",
-          data: fontData,
+          data: await interRegular,
+          weight: 400,
+          style: "normal",
+        },
+        {
+          name: "Inter",
+          data: await interBlack,
           weight: 900,
           style: "normal",
         },
@@ -121,7 +127,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       src: author.avatarSrc,
       tw: `rounded-full`,
     }),
-    h("span", { tw: `ml-1` }, author.name),
+    h("span", { tw: `ml-2` }, author.name),
     h("div", { tw: `flex-1` }),
     h(
       "span",
