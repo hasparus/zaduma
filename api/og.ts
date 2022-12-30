@@ -8,7 +8,7 @@ const author = {
 
 type Author = typeof author;
 
-// directory, TTF lowercased, multiple fonts, dashes in names
+// possible problems: multiple fonts, nesting in `fonts` function, weight
 
 export const config = {
   runtime: "experimental-edge",
@@ -66,8 +66,9 @@ export default async function og(req: Request) {
       // fonts: await fonts(),
       fonts: [
         {
-          name: "Typewriter",
+          name: "Inter",
           data: fontData,
+          weight: 900,
           style: "normal",
         },
       ],
