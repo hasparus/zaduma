@@ -113,7 +113,6 @@ function Title({ title }: { title: string }) {
         text-9xl font-black
         text-white
         leading-none
-        tracking-tighter
       `,
     },
     title
