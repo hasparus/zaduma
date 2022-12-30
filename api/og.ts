@@ -222,10 +222,12 @@ async function assertTokenIsValid({
     ["sign"]
   );
 
+  console.log("data.title", data.title);
+
   const arrayBuffer = await crypto.subtle.sign(
     "HMAC",
     key,
-    new TextEncoder().encode(JSON.stringify({ a: 10 }))
+    new TextEncoder().encode(JSON.stringify({ title: data.title }))
   );
 
   const token = Array.prototype.map

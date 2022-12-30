@@ -20,7 +20,7 @@ const linksToOGImages = posts.map((post) => {
   };
 
   const hmac = createHmac("sha256", OG_IMAGE_SECRET);
-  hmac.update(JSON.stringify({ a: 10 }));
+  hmac.update(JSON.stringify({ title: searchParams.title }));
   searchParams.token = hmac.digest("hex");
 
   return `/api/og?${new URLSearchParams(
@@ -30,7 +30,8 @@ const linksToOGImages = posts.map((post) => {
 ---
 
 <BaseLayout title="admin">
-  <div>
+  <section>
+    <h1>OG Images</h1>
     <ul class="flex flex-col">
       {
         linksToOGImages.map((link) => (
@@ -47,5 +48,5 @@ const linksToOGImages = posts.map((post) => {
         ))
       }
     </ul>
-  </div>
+  </section>
 </BaseLayout>
