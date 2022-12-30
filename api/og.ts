@@ -8,9 +8,7 @@ const author = {
 
 type Author = typeof author;
 
-export const config = {
-  runtime: "edge",
-};
+export const config = { runtime: "edge" };
 
 // Note: `vercel dev` doesn't run `.tsx` endpoints
 //        and it can't run @vercel/og because of
@@ -41,6 +39,8 @@ export default async function og(req: Request) {
   try {
     const url = new URL(req.url);
     const searchParams = parseSearchParams(url.searchParams);
+
+    await assertTokenIsValid(searchParams);
 
     const post: Post = {
       date: new Date(searchParams.date),
@@ -179,6 +179,7 @@ type SearchParams = {
   title: string;
   date: number; // timestamp
   readingTime: number; // minutes
+  token?: string;
 };
 
 function parseSearchParams(searchParams: URLSearchParams): SearchParams {
@@ -187,18 +188,48 @@ function parseSearchParams(searchParams: URLSearchParams): SearchParams {
   const title = searchParams.get("title");
 
   if (!date || !readingTime || !title) {
-    throw new HttpError("Missing required search params", 400);
+    throw new HttpError("Missing required search params.", 400);
   }
 
   return {
     title,
     date,
     readingTime,
+    token: searchParams.get("token"),
   };
 }
 
 class HttpError extends Error {
   constructor(message: string, public readonly status: number) {
     super(message);
+  }
+}
+
+async function assertTokenIsValid({
+  token: receivedToken,
+  ...data
+}: SearchParams): Promise<void> {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(process.env.OG_IMAGE_SECRET),
+    { name: "HMAC", hash: { name: "SHA-256" } },
+    false,
+    ["sign"]
+  );
+
+  const arrayBuffer = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(JSON.stringify(data))
+  );
+
+  const token = Array.prototype.map
+    .call(new Uint8Array(arrayBuffer), (n: number) =>
+      n.toString(16).padStart(2, "0")
+    )
+    .join("");
+
+  if (receivedToken !== token) {
+    throw new HttpError("Invalid token.", 401);
   }
 }
