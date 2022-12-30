@@ -3,14 +3,10 @@ lockfileVersion: 5.4
 overrides:
   '@mdx-js/mdx': 2.1.3
 
-patchedDependencies:
-  '@mdx-js/mdx@2.1.3':
-    hash: d2geklodsof7l3xhad73dhchoa
-    path: patches/@mdx-js__mdx@2.1.3.patch
-
 specifiers:
   '@astrojs/markdown-remark': ^1.1.3
   '@astrojs/mdx': ^0.11.3
+  '@astrojs/rss': ^2.0.0
   '@astrojs/solid-js': ^1.1.0
   '@astrojs/tailwind': ^2.1.2
   '@edgeandnode/eslint-config': ^1.0.3
@@ -47,7 +43,7 @@ dependencies:
   '@astrojs/tailwind': 2.1.2_tailwindcss@3.2.4
   '@fontsource/brygada-1918': 4.5.11
   '@fontsource/inter': 4.5.14
-  '@mdx-js/mdx': 2.1.3_d2geklodsof7l3xhad73dhchoa
+  '@mdx-js/mdx': 2.1.3
   astro: 1.4.2
   astro-eslint-parser: 0.6.2
   eslint-plugin-markdown: 3.0.0_eslint@8.27.0
@@ -57,11 +53,12 @@ dependencies:
   remark-shiki-twoslash: 3.1.0
   remark-supersub: 1.0.0
   solid-js: 1.5.7
-  tailwindcss: 3.2.4_postcss@8.4.17
+  tailwindcss: 3.2.4
   unified: 10.1.2
   unist-util-visit: 4.1.1
 
 devDependencies:
+  '@astrojs/rss': 2.0.0
   '@edgeandnode/eslint-config': 1.0.3_jgkc4rhsvk7wxhou66wsrnuo2i
   '@types/hast': 2.3.4
   '@types/node': 18.8.0
@@ -145,7 +142,7 @@ packages:
     engines: {node: ^14.18.0 || >=16.12.0}
     dependencies:
       '@astrojs/prism': 1.0.1
-      '@mdx-js/mdx': 2.1.3_d2geklodsof7l3xhad73dhchoa
+      '@mdx-js/mdx': 2.1.3
       '@mdx-js/rollup': 2.1.3
       acorn: 8.8.0
       es-module-lexer: 0.10.5
@@ -186,6 +183,12 @@ packages:
       prismjs: 1.29.0
     dev: false
 
+  /@astrojs/rss/2.0.0:
+    resolution: {integrity: sha512-qXsmyq2HhnKRA85US6GLelT47VLhdtS0bNq88umqfB2uneB9vWHSLnOJjhN9rv0mUSQjsFYytF4IEznfmNnpkQ==}
+    dependencies:
+      fast-xml-parser: 4.0.12
+    dev: true
+
   /@astrojs/solid-js/1.1.0_solid-js@1.5.7:
     resolution: {integrity: sha512-Vys8y2eIBWqjjUmOMQyZuD3VVYacr/EZAu3iOnKx9RWJmo9Ox0JZTQXVNb5W6yseKN0ODIDdTGaP8/ZzdrhxUw==}
     engines: {node: ^14.18.0 || >=16.12.0}
@@ -206,7 +209,7 @@ packages:
       '@proload/core': 0.3.3
       autoprefixer: 10.4.13_postcss@8.4.17
       postcss: 8.4.17
-      tailwindcss: 3.2.4_postcss@8.4.17
+      tailwindcss: 3.2.4
     dev: false
 
   /@astrojs/telemetry/1.0.1:
@@ -690,7 +693,7 @@ packages:
       - supports-color
     dev: true
 
-  /@mdx-js/mdx/2.1.3_d2geklodsof7l3xhad73dhchoa:
+  /@mdx-js/mdx/2.1.3:
     resolution: {integrity: sha512-ahbb47HJIJ4xnifaL06tDJiSyLEy1EhFAStO7RZIm3GTa7yGW3NGhZaj+GUCveFgl5oI54pY4BgiLmYm97y+zg==}
     dependencies:
       '@types/estree-jsx': 1.0.0
@@ -713,7 +716,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
-    patched: true
 
   /@mdx-js/rollup/2.1.3:
     resolution: {integrity: sha512-KaX9GcZ63TDaLNH9UYYE94+naZQldV2IUzmMkDVOlPxDtTh8kcEn8l6/4W1P79wxZZbakSOFejTuaYmcstl5sA==}
@@ -723,7 +725,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@mdx-js/mdx': 2.1.3_d2geklodsof7l3xhad73dhchoa
+      '@mdx-js/mdx': 2.1.3
       '@rollup/pluginutils': 4.2.1
       source-map: 0.7.4
       vfile: 5.3.5
@@ -3392,6 +3394,13 @@ packages:
   /fast-levenshtein/2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
+  /fast-xml-parser/4.0.12:
+    resolution: {integrity: sha512-/Nmo3823Rfx7UTJosQNz6hBVbszfv1Unb7A4iNJZhvCGCgtIHv/uODmrYIH8vc05+XKZ4hNIOv6SlBejvJgATw==}
+    hasBin: true
+    dependencies:
+      strnum: 1.0.5
+    dev: true
+
   /fastq/1.13.0:
     resolution: {integrity: sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==}
     dependencies:
@@ -5529,26 +5538,26 @@ packages:
       postcss: 8.4.17
     dev: true
 
-  /postcss-import/14.1.0_postcss@8.4.17:
+  /postcss-import/14.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       postcss: ^8.0.0
     dependencies:
-      postcss: 8.4.17
+      postcss: 8.4.20
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
     dev: false
 
-  /postcss-js/4.0.0_postcss@8.4.17:
+  /postcss-js/4.0.0_postcss@8.4.20:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
     engines: {node: ^12 || ^14 || >= 16}
     peerDependencies:
       postcss: ^8.3.3
     dependencies:
       camelcase-css: 2.0.1
-      postcss: 8.4.17
+      postcss: 8.4.20
     dev: false
 
   /postcss-load-config/3.1.4_postcss@8.4.17:
@@ -5565,6 +5574,23 @@ packages:
     dependencies:
       lilconfig: 2.0.6
       postcss: 8.4.17
+      yaml: 1.10.2
+    dev: false
+
+  /postcss-load-config/3.1.4_postcss@8.4.20:
+    resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
+    engines: {node: '>= 10'}
+    peerDependencies:
+      postcss: '>=8.0.9'
+      ts-node: '>=9.0.0'
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+      ts-node:
+        optional: true
+    dependencies:
+      lilconfig: 2.0.6
+      postcss: 8.4.20
       yaml: 1.10.2
     dev: false
 
@@ -5636,13 +5662,13 @@ packages:
       postcss-selector-parser: 6.0.10
     dev: true
 
-  /postcss-nested/6.0.0_postcss@8.4.17:
+  /postcss-nested/6.0.0_postcss@8.4.20:
     resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
     engines: {node: '>=12.0'}
     peerDependencies:
       postcss: ^8.2.14
     dependencies:
-      postcss: 8.4.17
+      postcss: 8.4.20
       postcss-selector-parser: 6.0.10
     dev: false
 
@@ -5807,6 +5833,15 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+
+  /postcss/8.4.20:
+    resolution: {integrity: sha512-6Q04AXR1212bXr5fh03u8aAwbLxAQNGQ/Q1LNa0VfOI06ZAlhPHtQvE4OIdpj4kLThXilalPnmDSOD65DcHt+g==}
+    engines: {node: ^10 || ^12 || >=14}
+    dependencies:
+      nanoid: 3.3.4
+      picocolors: 1.0.0
+      source-map-js: 1.0.2
+    dev: false
 
   /preferred-pm/3.0.3:
     resolution: {integrity: sha512-+wZgbxNES/KlJs9q40F/1sfOd/j7f1O9JaHcW5Dsn3aUUOZg3L2bjpVUcKV2jvtElYfoTuQiNeMfQJ4kwUAhCQ==}
@@ -6518,6 +6553,10 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
+  /strnum/1.0.5:
+    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
+    dev: true
+
   /style-to-object/0.3.0:
     resolution: {integrity: sha512-CzFnRRXhzWIdItT3OmF8SQfWyahHhjq3HwcMNCNLn+N7klOOqPjMeG/4JSu77D7ypZdGvSzvkrbyeTMizz2VrA==}
     dependencies:
@@ -6591,12 +6630,10 @@ packages:
       '@pkgr/utils': 2.3.1
       tslib: 2.4.0
 
-  /tailwindcss/3.2.4_postcss@8.4.17:
+  /tailwindcss/3.2.4:
     resolution: {integrity: sha512-AhwtHCKMtR71JgeYDaswmZXhPcW9iuI9Sp2LvZPo9upDZ7231ZJ7eA9RaURbhpXGVlrjX4cFNlB4ieTetEb7hQ==}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -6612,11 +6649,11 @@ packages:
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.0.0
-      postcss: 8.4.17
-      postcss-import: 14.1.0_postcss@8.4.17
-      postcss-js: 4.0.0_postcss@8.4.17
-      postcss-load-config: 3.1.4_postcss@8.4.17
-      postcss-nested: 6.0.0_postcss@8.4.17
+      postcss: 8.4.20
+      postcss-import: 14.1.0_postcss@8.4.20
+      postcss-js: 4.0.0_postcss@8.4.20
+      postcss-load-config: 3.1.4_postcss@8.4.20
+      postcss-nested: 6.0.0_postcss@8.4.20
       postcss-selector-parser: 6.0.10
       postcss-value-parser: 4.2.0
       quick-lru: 5.1.1
@@ -7282,3 +7319,8 @@ packages:
   /zwitch/2.0.2:
     resolution: {integrity: sha512-JZxotl7SxAJH0j7dN4pxsTV6ZLXoLdGME+PsjkL/DaBrVryK9kTGq06GfKrwcSOqypP+fdXGoCHE36b99fWVoA==}
     dev: false
+
+patchedDependencies:
+  '@mdx-js/mdx@2.1.3':
+    hash: d2geklodsof7l3xhad73dhchoa
+    path: patches/@mdx-js__mdx@2.1.3.patch
