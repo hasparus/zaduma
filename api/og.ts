@@ -10,6 +10,11 @@ type Author = typeof author;
 
 export const config = { runtime: "edge" };
 
+const width = 1200;
+const height = 600;
+const footerHeight = 112;
+const illustrationHeight = height - footerHeight;
+
 // Note: `vercel dev` doesn't run `.tsx` endpoints
 //        and it can't run @vercel/og because of
 //        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
@@ -59,12 +64,16 @@ export default async function og(req: Request) {
             flex flex-col
           `,
         },
-        h(Illustration, {}, h(Title, { title: post.title })),
+        h(
+          Illustration,
+          { seed: post.title.length },
+          h(Title, { title: post.title })
+        ),
         h(Footer, { author, post })
       ),
       {
-        width: 1200,
-        height: 600,
+        width,
+        height,
         fonts: [
           {
             name: "Inter",
@@ -92,15 +101,44 @@ export default async function og(req: Request) {
   }
 }
 
-function Illustration({ children }: { children?: React.ReactNode[] }) {
+function Illustration({
+  children,
+  seed,
+  imageHref,
+}: {
+  children?: React.ReactNode[];
+  seed: number;
+  imageHref: string | undefined;
+}) {
   return h(
     "div",
     {
       tw: `
-        flex flex-1 justify-start items-end w-full p-4
-        bg-black
-      `,
+          flex flex-1 justify-start items-end w-full p-4
+          bg-[rgb(23,23,23)]
+          relative
+        `,
     },
+    h(
+      "svg",
+      {
+        width: width,
+        height: illustrationHeight,
+        // @ts-expect-error @vercel/og types declare `tw` for HTML elements only,
+        // but it works for SVG elements as well
+        tw: `absolute inset-0`,
+        viewBox: `0 0 ${width} ${illustrationHeight}`,
+      },
+      // TODO: Satori doesn't support SVG filters, so I'll build an web based image editor to create and upload consistent pictures.
+      imageHref
+        ? h("image", {
+            width,
+            height: illustrationHeight,
+            preserveAspectRatio: "xMidYMid slice",
+            href: imageHref,
+          })
+        : null
+    ),
     ...children
   );
 }
@@ -110,9 +148,7 @@ function Title({ title }: { title: string }) {
     "h1",
     {
       tw: `
-        text-9xl font-black
-        text-white
-        leading-none
+        text-white text-9xl font-black z-10
       `,
     },
     title
