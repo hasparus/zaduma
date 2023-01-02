@@ -52,6 +52,7 @@ export default async function og(req: Request) {
       date: new Date(searchParams.date),
       title: searchParams.title,
       readingTimeMinutes: Math.round(searchParams.readingTime),
+      img: searchParams.img,
     };
 
     return new ImageResponse(
@@ -66,7 +67,7 @@ export default async function og(req: Request) {
         },
         h(
           Illustration,
-          { seed: post.title.length },
+          { imageHref: post.img },
           h(Title, { title: post.title })
         ),
         h(Footer, { author, post })
@@ -103,11 +104,9 @@ export default async function og(req: Request) {
 
 function Illustration({
   children,
-  seed,
   imageHref,
 }: {
   children?: React.ReactNode[];
-  seed: number;
   imageHref: string | undefined;
 }) {
   return h(
@@ -210,12 +209,14 @@ type Post = {
   date: Date;
   title: string;
   readingTimeMinutes: number;
+  img: string;
 };
 
 export type OgFunctionSearchParams = {
   title: string;
   date: number; // timestamp
   readingTime: number; // minutes
+  img?: string | undefined;
   token?: string;
 };
 
@@ -234,6 +235,7 @@ function parseSearchParams(
     title,
     date,
     readingTime,
+    img: searchParams.get("img"),
     token: searchParams.get("token"),
   };
 }

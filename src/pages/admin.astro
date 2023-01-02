@@ -17,6 +17,7 @@ const linksToOGImages = posts.map((post) => {
     title: frontmatter.title,
     date: new Date(frontmatter.date).getTime(),
     readingTime: frontmatter.readingTime.minutes,
+    img: frontmatter.img,
   };
 
   const hmac = createHmac("sha256", OG_IMAGE_SECRET);

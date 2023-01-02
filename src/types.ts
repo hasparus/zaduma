@@ -2,6 +2,10 @@ import type { MarkdownHeading, MarkdownLayoutProps } from "astro";
 import type { ReadTimeResults } from "reading-time";
 
 export interface PostFrontmatter {
+  tags: string[];
+  /**
+   * Optional URL to a picture. */
+  img?: string;
   /**
    * @computed by derivedTitleAndDatePlugin from file name
    *           if not given
@@ -12,8 +16,6 @@ export interface PostFrontmatter {
    *           if not given
    */
   date: string;
-  tags: string[];
-
   /**
    * @computed by defaultLayoutPlugin
    */
