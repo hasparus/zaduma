@@ -33,6 +33,7 @@
     "unist-util-visit": "^4.1.1"
   },
   "devDependencies": {
+    "@astrojs/rss": "^2.0.0",
     "@edgeandnode/eslint-config": "^1.0.3",
     "@types/hast": "2.3.4",
     "@types/node": "^18.8.0",

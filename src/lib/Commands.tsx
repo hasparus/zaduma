@@ -180,7 +180,7 @@ export function CommandsPalette({ posts }: {posts: { title: string, href: string
                 </CommandItem>
                 <CommandItem href="">GitHub</CommandItem>
                 <CommandItem href="">Contact</CommandItem>
-                <CommandItem href="">RSS</CommandItem>
+                <CommandItem href="/rss.xml">RSS</CommandItem>
               </CommandGroup>
             </>
           }
