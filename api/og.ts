@@ -36,6 +36,9 @@ const interBlack = fetchFont(
   new URL("../assets/og/Inter-Black.ttf", import.meta.url)
 );
 
+const width = 1200;
+const height = 600;
+
 export default async function og(req: Request) {
   try {
     const url = new URL(req.url);
