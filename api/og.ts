@@ -102,12 +102,9 @@ function Illustration({
   children?: React.ReactNode[];
   imageHref: string | undefined;
 }) {
-  // imageHref = imageHref
-  //   ? "https://og-images--zaduma.vercel.app" + imageHref
-  //   : "";
-
-  imageHref =
-    "https://og-images--zaduma.vercel.app/content/frontmatter/pic.jpg";
+  imageHref = imageHref
+    ? "https://og-images--zaduma.vercel.app" + imageHref
+    : "";
 
   return h(
     "div",
