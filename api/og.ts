@@ -10,11 +10,6 @@ type Author = typeof author;
 
 export const config = { runtime: "edge" };
 
-const width = 1200;
-const height = 600;
-const footerHeight = 112;
-const illustrationHeight = height - footerHeight;
-
 // Note: `vercel dev` doesn't run `.tsx` endpoints
 //        and it can't run @vercel/og because of
 //        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
@@ -104,9 +99,12 @@ function Illustration({
   children?: React.ReactNode[];
   imageHref: string | undefined;
 }) {
-  imageHref = imageHref
-    ? "https://og-images--zaduma.vercel.app" + imageHref
-    : "";
+  // imageHref = imageHref
+  //   ? "https://og-images--zaduma.vercel.app" + imageHref
+  //   : "";
+
+  imageHref =
+    "https://og-images--zaduma.vercel.app/content/frontmatter/pic.jpg";
 
   return h(
     "div",
@@ -114,7 +112,7 @@ function Illustration({
       tw: `
           flex flex-1 justify-start items-end w-full p-4 relative
           ${imageHref ? `bg-[url("${imageHref}")]` : "bg-[rgb(23,23,23)]"}
-          bg-contain
+          bg-cover
         `,
     },
     ...(children || [])
