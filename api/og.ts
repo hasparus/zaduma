@@ -115,7 +115,7 @@ function Illustration({
     {
       tw: `
           flex flex-1 justify-start items-end w-full p-4
-          bg-[rgb(23,23,23)]
+          ${imageHref ? "bg-[rgb(23,232,232)]" : "bg-[rgb(23,23,23)]"}
           relative
         `,
     },
