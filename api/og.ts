@@ -104,7 +104,9 @@ function Illustration({
   children?: React.ReactNode[];
   imageHref: string | undefined;
 }) {
-  console.log({ imageHref });
+  imageHref = imageHref
+    ? "https://og-images--zaduma.vercel.app" + imageHref
+    : "";
 
   return h(
     "div",
