@@ -44,16 +44,11 @@ const interBlack = fetchFont(
 export default async function og(req: Request) {
   try {
     const url = new URL(req.url);
-    const searchParams = parseSearchParams(url.searchParams);
+    const { post, stringifiedPost, token } = parseSearchParams(
+      url.searchParams
+    );
 
-    await assertTokenIsValid(searchParams);
-
-    const post: Post = {
-      date: new Date(searchParams.date),
-      title: searchParams.title,
-      readingTimeMinutes: Math.round(searchParams.readingTime),
-      img: searchParams.img,
-    };
+    await assertTokenIsValid(stringifiedPost, token);
 
     return new ImageResponse(
       h(
@@ -138,7 +133,7 @@ function Illustration({
           })
         : null
     ),
-    ...children
+    ...(children || [])
   );
 }
 
@@ -212,31 +207,45 @@ type Post = {
   img: string;
 };
 
+const SEPARATOR = "\t";
+type SEPARATOR = typeof SEPARATOR;
+
+// prettier-ignore
+export type StringifiedPost = `${
+  number /* timestamp */
+}${SEPARATOR}${
+  number /* reading time */
+}${SEPARATOR}${
+  string /* title */
+}${SEPARATOR}${
+  string /* picture */
+}`;
+
 export type OgFunctionSearchParams = {
-  title: string;
-  date: number; // timestamp
-  readingTime: number; // minutes
-  img?: string | undefined;
+  post: StringifiedPost;
   token?: string;
 };
 
-function parseSearchParams(
-  searchParams: URLSearchParams
-): OgFunctionSearchParams {
-  const date = Number(searchParams.get("date"));
-  const readingTime = Number(searchParams.get("readingTime"));
-  const title = searchParams.get("title");
+function parseSearchParams(searchParams: URLSearchParams) {
+  const stringifiedPost = searchParams.get("post") || "";
 
-  if (!date || !readingTime || !title) {
+  const postArray = decodeURIComponent(stringifiedPost || "").split(SEPARATOR);
+
+  if (postArray.length !== 4) {
     throw new HttpError("Missing required search params.", 400);
   }
 
+  const post: Post = {
+    date: new Date(Number(postArray[0])),
+    readingTimeMinutes: Math.round(Number(postArray[1])),
+    title: postArray[2]!,
+    img: postArray[3]!,
+  };
+
   return {
-    title,
-    date,
-    readingTime,
-    img: searchParams.get("img"),
-    token: searchParams.get("token"),
+    post,
+    stringifiedPost: stringifiedPost as StringifiedPost,
+    token: searchParams.get("token") || "",
   };
 }
 
@@ -249,10 +258,10 @@ class HttpError extends Error {
 /**
  * @see https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
  */
-async function assertTokenIsValid({
-  token: receivedToken,
-  ...data
-}: OgFunctionSearchParams): Promise<void> {
+async function assertTokenIsValid(
+  post: StringifiedPost,
+  receivedToken: string
+): Promise<void> {
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(process.env.OG_IMAGE_SECRET),
@@ -261,12 +270,10 @@ async function assertTokenIsValid({
     ["sign"]
   );
 
-  console.log(">> JSON.stringify(data)", JSON.stringify(data));
-
   const arrayBuffer = await crypto.subtle.sign(
     "HMAC",
     key,
-    new TextEncoder().encode(JSON.stringify(data))
+    new TextEncoder().encode(post)
   );
 
   const token = Array.prototype.map

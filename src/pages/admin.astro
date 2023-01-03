@@ -1,7 +1,7 @@
 ---
 import { createHmac } from "node:crypto";
 
-import type { OgFunctionSearchParams } from "../../api/og";
+import type { OgFunctionSearchParams, StringifiedPost } from "../../api/og";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Link } from "../lib/Link";
 import type { PostFrontmatter } from "../types";
@@ -13,12 +13,18 @@ const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 const linksToOGImages = posts.map((post) => {
   const frontmatter = post.frontmatter;
 
-  const searchParams: OgFunctionSearchParams = {
-    title: frontmatter.title,
-    date: new Date(frontmatter.date).getTime(),
-    readingTime: frontmatter.readingTime.minutes,
-    img: frontmatter.img,
-  };
+  // prettier-ignore
+  const stringifiedPost: StringifiedPost = `${
+    new Date(frontmatter.date).getTime()
+  }\t${
+    frontmatter.readingTime.minutes
+  }\t${
+    frontmatter.title
+  }\t${
+    frontmatter.img || ""
+  }`;
+
+  const searchParams: OgFunctionSearchParams = { post: stringifiedPost };
 
   const hmac = createHmac("sha256", OG_IMAGE_SECRET);
   hmac.update(JSON.stringify(searchParams));
