@@ -104,6 +104,8 @@ function Illustration({
   children?: React.ReactNode[];
   imageHref: string | undefined;
 }) {
+  console.log({ imageHref });
+
   return h(
     "div",
     {
