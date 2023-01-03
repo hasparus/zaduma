@@ -24,15 +24,11 @@ const linksToOGImages = posts.map((post) => {
     frontmatter.img || ""
   }`;
 
-  const searchParams: OgFunctionSearchParams = { post: stringifiedPost };
-
   const hmac = createHmac("sha256", OG_IMAGE_SECRET);
-  hmac.update(JSON.stringify(searchParams));
-  searchParams.token = hmac.digest("hex");
+  hmac.update(stringifiedPost);
+  const token = hmac.digest("hex");
 
-  return `/api/og?${new URLSearchParams(
-    searchParams as unknown as Record<string, string>
-  ).toString()}`;
+  return `/api/og?post=${encodeURIComponent(stringifiedPost)}&token=${token}`;
 });
 ---
 

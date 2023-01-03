@@ -227,9 +227,11 @@ export type OgFunctionSearchParams = {
 };
 
 function parseSearchParams(searchParams: URLSearchParams) {
-  const stringifiedPost = searchParams.get("post") || "";
+  const stringifiedPost = decodeURIComponent(
+    searchParams.get("post") || ""
+  ) as StringifiedPost;
 
-  const postArray = decodeURIComponent(stringifiedPost || "").split(SEPARATOR);
+  const postArray = stringifiedPost.split(SEPARATOR);
 
   if (postArray.length !== 4) {
     throw new HttpError("Missing required search params.", 400);
@@ -244,7 +246,7 @@ function parseSearchParams(searchParams: URLSearchParams) {
 
   return {
     post,
-    stringifiedPost: stringifiedPost as StringifiedPost,
+    stringifiedPost,
     token: searchParams.get("token") || "",
   };
 }
