@@ -108,37 +108,15 @@ function Illustration({
     ? "https://og-images--zaduma.vercel.app" + imageHref
     : "";
 
-  console.log({ imageHref });
-
   return h(
     "div",
     {
       tw: `
-          flex flex-1 justify-start items-end w-full p-4
-          ${imageHref ? "bg-[rgb(23,232,232)]" : "bg-[rgb(23,23,23)]"}
-          relative
+          flex flex-1 justify-start items-end w-full p-4 relative
+          ${imageHref ? `bg-[url("${imageHref}")]` : "bg-[rgb(23,23,23)]"}
+          bg-contain
         `,
     },
-    h(
-      "svg",
-      {
-        width: width,
-        height: illustrationHeight,
-        // @ts-expect-error @vercel/og types declare `tw` for HTML elements only,
-        // but it works for SVG elements as well
-        tw: `absolute inset-0`,
-        viewBox: `0 0 ${width} ${illustrationHeight}`,
-      },
-      // TODO: Satori doesn't support SVG filters, so I'll build an web based image editor to create and upload consistent pictures.
-      imageHref
-        ? h("image", {
-            width,
-            height: illustrationHeight,
-            preserveAspectRatio: "xMidYMid slice",
-            href: imageHref,
-          })
-        : null
-    ),
     ...(children || [])
   );
 }
