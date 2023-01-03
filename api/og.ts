@@ -114,11 +114,15 @@ function Illustration({
     {
       tw: `
           flex flex-1 justify-start items-end w-full p-4 relative
-          ${imageHref ? `bg-[url("${imageHref}")]` : "bg-[rgb(23,23,23)]"}
-          bg-cover
+          bg-[rgb(23,23,23)]
         `,
     },
-    h("img", { src: imageHref, width: 100, height: 100 }),
+    h("img", {
+      tw: `absolute inset-0 object-cover`,
+      src: imageHref,
+      width,
+      height: height - 112,
+    }),
     ...(children || [])
   );
 }
