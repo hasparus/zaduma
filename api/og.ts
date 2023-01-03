@@ -108,6 +108,8 @@ function Illustration({
     ? "https://og-images--zaduma.vercel.app" + imageHref
     : "";
 
+  console.log({ imageHref });
+
   return h(
     "div",
     {
