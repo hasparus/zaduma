@@ -1,3 +1,9 @@
+// Note: `vercel dev` doesn't run `.tsx` endpoints
+//        and it can't run @vercel/og because of
+//        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
+//        The only way to work with this file is repeatedly pushing and checking
+//        the result on Vercel Preview Deployments.
+
 import { ImageResponse } from "@vercel/og";
 import type * as React from "react";
 
@@ -9,25 +15,6 @@ const author = {
 type Author = typeof author;
 
 export const config = { runtime: "edge" };
-
-// Note: `vercel dev` doesn't run `.tsx` endpoints
-//        and it can't run @vercel/og because of
-//        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
-//        The only way to work with this file is repeatedly pushing and checking
-//        the result on Vercel Preview Deployments.
-
-/**
- * TODO:
- * - [x] Use Inter font
- * - [x] Update all libraries related to Vercel OG
- * - [x] White footer avatar of the author, their handle, date and reading time of the post
- * - [x] Very bold (weight 900) white title on top of the gradient
- * - [x] Secure the endpoint https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
- * - [ ] Grain Overlay — mix-blend-mode is not supported, so I'll need to combine grain.svg with the image / generated gradient
- *  - [ ] Random Gradient or an illustration in the background
- *  - use Vercel OG playground to build it and manually rewrite JSX
- * - [ ] Text with the color contrasting with gradient
- */
 
 const interRegular = fetchFont(
   new URL("../assets/og/Inter-Regular.ttf", import.meta.url)
@@ -103,8 +90,6 @@ function Illustration({
   imageHref: string | undefined;
 }) {
   imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
-
-  console.log({ imageHref });
 
   return h(
     "div",
