@@ -22,7 +22,6 @@
     @apply max-w-prose;
 
     line-height: 1.75;
-    overflow: hidden;
     text-overflow: ellipsis;
 
     & a {

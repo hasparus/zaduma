@@ -28,7 +28,10 @@
   "tailwindCSS.experimental.classRegex": [
     ["classList={{([^)]*)}}", "\"([^\"]*)\""],
     ["classList={{([^)]*)}}", "`([^`]*)`"],
-    ["classList={{([^)]*)}}", "'([^']*)'"]
+    ["classList={{([^)]*)}}", "'([^']*)'"],
+    // For api/og.ts
+    ["tw: \"([^\"]*)\""],
+    ["tw: `([^`]*)`"]
   ],
 
   "typescript.tsdk": "node_modules/typescript/lib"
