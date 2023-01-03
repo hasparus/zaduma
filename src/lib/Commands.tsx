@@ -179,7 +179,7 @@ export function CommandsPalette() {
                 </CommandItem>
                 <CommandItem href="">GitHub</CommandItem>
                 <CommandItem href="">Contact</CommandItem>
-                <CommandItem href="rss.xml">RSS</CommandItem>
+                <CommandItem href="/rss.xml">RSS</CommandItem>
               </CommandGroup>
             </>
           }
