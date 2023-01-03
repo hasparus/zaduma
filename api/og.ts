@@ -102,7 +102,7 @@ function Illustration({
   children?: React.ReactNode[];
   imageHref: string | undefined;
 }) {
-  imageHref = imageHref ? process.env.VERCEL_URL + imageHref : "";
+  imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
 
   console.log({ imageHref });
 
