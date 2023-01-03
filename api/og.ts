@@ -118,6 +118,7 @@ function Illustration({
           bg-cover
         `,
     },
+    h("img", { src: imageHref, width: 100, height: 100 }),
     ...(children || [])
   );
 }
