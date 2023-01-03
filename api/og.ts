@@ -102,9 +102,7 @@ function Illustration({
   children?: React.ReactNode[];
   imageHref: string | undefined;
 }) {
-  imageHref = imageHref
-    ? "https://og-images--zaduma.vercel.app" + imageHref
-    : "";
+  imageHref = imageHref ? process.env.VERCEL_URL + imageHref : "";
 
   return h(
     "div",
