@@ -1,3 +1,4 @@
+import image from "@astrojs/image";
 import mdx from "@astrojs/mdx";
 import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
@@ -8,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
 
 const __filename = fileURLToPath(import.meta.url);
+
 const __dirname = dirname(__filename);
 
 // https://astro.build/config
@@ -30,6 +32,9 @@ export default defineConfig({
       rehypePlugins: rehypePlugins,
     }),
     solidJs(),
+    image({
+      serviceEntryPoint: "@astrojs/image/sharp",
+    }),
   ],
   vite: {
     ssr: {

@@ -14,7 +14,7 @@ const { headings } = Astro.props;
 ---
 
 <section
-  class="fixed left-[max(0px,calc(50%-43rem/2-20rem-1rem))] top-16 w-[20rem] max-h-full overflow-y-auto p-4 hidden xl:block"
+  class="fixed left-[max(0px,calc(50%-43rem/2-20rem-1rem))] top-16 w-[calc(20rem-(var(--wide-content-width)-var(--container-width))/2)] max-h-full overflow-y-auto p-4 pr-0 hidden xl:block"
 >
   <PostProgressBar client:media="(min-width: 1280px)">
     <ul

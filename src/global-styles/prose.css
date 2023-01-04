@@ -1,3 +1,8 @@
+:root {
+  --container-width: 43rem;
+  --wide-content-width: min(100vw, calc(var(--container-width) * 1.2));
+}
+
 .zaduma-prose {
   /* TODO: Get rid of thesse two and apply Tailwind styles */
   --sans: "Inter";
@@ -26,7 +31,7 @@
 
     & a {
       white-space: nowrap;
-      max-width: 100%;
+      max-width: var(--container-width);
     }
   }
 
@@ -231,8 +236,17 @@
 
   /* #region images */
 
-  img {
-    @apply max-w-full dark:opacity-80;
+  & img {
+    @apply dark:opacity-80;
+    transform: translateX(-50%);
+    margin-left: 50%;
+    max-width: var(--wide-content-width);
+  }
+
+  & .zaduma-image-link {
+    @apply inline-block;
+    max-width: unset;
+    transform: translateX(calc((100% - var(--container-width)) / -2));
   }
 
   /* #endregion images */
