@@ -7,6 +7,7 @@
   --block-mb: 1.5rem; /* same as Tailwind's mb-6 */
 
   @apply max-w-container;
+  --container-width: 43rem;
 
   & > :not(:last-child) {
     margin-bottom: var(--block-mb);
@@ -232,7 +233,8 @@
   /* #region images */
 
   img {
-    @apply max-w-[min(120%,100vw)] ml-[50%] dark:opacity-80;
+    @apply max-w-[min(calc(1.2*var(--container-width)),100vw)]
+           ml-[50%] dark:opacity-80;
     transform: translateX(-50%);
   }
 
