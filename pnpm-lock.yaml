@@ -47,6 +47,7 @@ specifiers:
   unified: ^10.1.2
   unist-util-visit: ^4.1.1
   vercel: ^28.10.1
+  yargs-parser: ^21.1.1
 
 dependencies:
   '@astrojs/image': 0.12.1_sharp@0.31.3
@@ -74,6 +75,7 @@ dependencies:
   unified: 10.1.2
   unist-util-visit: 4.1.1
   vercel: 28.10.1
+  yargs-parser: 21.1.1
 
 devDependencies:
   '@astrojs/rss': 2.0.0

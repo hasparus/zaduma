@@ -1,0 +1,58 @@
+# We're building on GitHub Actions instead of Vercel to keep access to Git history.
+name: Vercel Deployment
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  push:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "pnpm"
+
+      - name: Deploy Production to Vercel
+        if: github.ref_name == 'main'
+        run:
+          node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
+          --ref=${{ github.ref_name }} --prod
+
+      - name: Deploy Preview to Vercel
+        if: github.ref_name != 'main'
+        run:
+          node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
+          --ref=${{ github.ref_name }}
+
+      - name: Create GitHub Preview Deployment
+        if: github.ref_name == 'main'
+        uses: chrnorm/deployment-action@v2
+        with:
+          token: "${{ github.token }}"
+          environment-url: https://${{ env.DEPLOYMENT_ALIAS }}
+          environment: Preview
+          production-environment: false
+          initial-status: success
+
+      - name: Create GitHub Production Deployment
+        if: github.ref_name != 'main'
+        uses: chrnorm/deployment-action@v2
+        with:
+          token: "${{ github.token }}"
+          environment-url: https://zaduma.vercel.app
+          environment: Production
+          production-environment: true
+          initial-status: success
