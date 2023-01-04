@@ -232,7 +232,8 @@
   /* #region images */
 
   img {
-    @apply max-w-full dark:opacity-80;
+    @apply max-w-[min(120%,100vw)] ml-[50%] dark:opacity-80;
+    transform: translateX(-50%);
   }
 
   /* #endregion images */

@@ -1,4 +1,5 @@
 ---
+import { Image } from "@astrojs/image/components";
 import type { MarkdownLayoutProps } from "astro";
 
 import { formatDate } from "../lib/formatDate";
@@ -36,6 +37,17 @@ const date = new Date(frontmatter.date);
         </time>
       </div>
     </header>
+    {
+      frontmatter.img && (
+        <Image
+          alt=""
+          src={frontmatter.img}
+          format="webp"
+          width="774px"
+          aspectRatio={2}
+        />
+      )
+    }
     <slot />
   </main>
   <TableOfContents headings={headings} />
