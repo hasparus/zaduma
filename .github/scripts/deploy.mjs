@@ -1,5 +1,7 @@
 // @ts-check
 
+// We're building on GitHub Actions instead of Vercel to keep access to Git history.
+
 import { execSync } from "child_process";
 import parseArgs from "yargs-parser";
 
@@ -35,4 +37,3 @@ execSync(
     .filter((s) => s.trim())
     .join("\n")
 );
-

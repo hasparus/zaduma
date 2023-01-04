@@ -1,5 +1,4 @@
-# We're building on GitHub Actions instead of Vercel to keep access to Git history.
-name: Vercel Deployment
+name: CI
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -24,6 +23,18 @@ jobs:
         with:
           node-version: "18"
           cache: "pnpm"
+
+      - name: Install
+        run: pnpm install --no-optional
+
+      - name: Run linter
+        run: pnpm lint --quiet
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
 
       - name: Deploy Production to Vercel
         if: github.ref_name == 'main'
