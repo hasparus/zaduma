@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@7.12.2",
   "scripts": {
     "dev": "astro dev",
     "vercel:dev": "vercel dev",
@@ -10,7 +11,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "format": "prettier --write src",
+    "ci": "pnpm lint && prettier --check src"
   },
   "dependencies": {
     "@astrojs/image": "^0.12.1",
