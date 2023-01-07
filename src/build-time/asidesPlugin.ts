@@ -13,8 +13,7 @@ export type AsidesPluginOptions = {};
 export const asidesPlugin: Plugin<[AsidesPluginOptions], Root, Root> = (
   _options
 ) => {
-  return (root, file) => {
-    if (file.basename !== "asides.mdx") return;
+  return (root) => {
     let children = [...root.children];
 
     const childrenToRemove: Set<RootContent> = new Set();
