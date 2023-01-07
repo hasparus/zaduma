@@ -91,6 +91,8 @@ function Illustration({
 }) {
   imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
 
+  console.log({ imageHref });
+
   return h(
     "div",
     {
@@ -99,7 +101,7 @@ function Illustration({
           bg-[rgb(23,23,23)]
         `,
     },
-    h("img", {
+    !!imageHref && h("img", {
       tw: `absolute inset-0 object-cover`,
       src: imageHref,
       width,
