@@ -29,7 +29,11 @@ import { Shortcut } from "./Shortcut";
 
 const INPUT_ID = "command-input";
 
-export function Commands({ posts }: {posts: { title: string, href: string }[]}) {
+export function Commands({
+  posts,
+}: {
+  posts: { title: string; href: string }[];
+}) {
   const [clientside, setClientside] = createSignal(false);
   onMount(() => setClientside(true)); // workaround for Astro + Solid Hydration issue
 
@@ -43,7 +47,11 @@ export function Commands({ posts }: {posts: { title: string, href: string }[]}) 
   );
 }
 
-export function CommandsPalette({ posts }: {posts: { title: string, href: string }[]}) {
+export function CommandsPalette({
+  posts,
+}: {
+  posts: { title: string; href: string }[];
+}) {
   type CommandsPage = "posts" | "theme" | undefined;
   const [page, setPage] = createSignal<CommandsPage>();
   let dialog: HTMLDialogElement | undefined;
@@ -198,7 +206,7 @@ export function CommandsPalette({ posts }: {posts: { title: string, href: string
           </Match>
           <Match when={page() === "posts"}>
             <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
-              {posts.map(p => (
+              {posts.map((p) => (
                 <CommandItem href={p.href}>{p.title}</CommandItem>
               ))}
             </CommandGroup>

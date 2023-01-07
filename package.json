@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@7.12.2",
   "scripts": {
     "dev": "astro dev",
     "vercel:dev": "vercel dev",
@@ -12,6 +13,8 @@
     "astro": "astro",
     "lint": "eslint src",
     "typecheck": "tsc --noEmit"
+    "format": "prettier --write src",
+    "ci": "pnpm lint && prettier --check src"
   },
   "dependencies": {
     "@astrojs/image": "^0.12.1",
@@ -30,7 +33,6 @@
     "eslint-plugin-markdown": "^3.0.0",
     "estree-util-value-to-estree": "^2.0.0",
     "postcss": "8.4.20",
-    "react": "^18.2.0",
     "reading-time": "^1.5.0",
     "remark-shiki-twoslash": "^3.1.0",
     "remark-supersub": "^1.0.0",
