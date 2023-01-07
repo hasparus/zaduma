@@ -10,7 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "format": "prettier --write src",
+    "ci": "pnpm lint && prettier --check src"
   },
   "dependencies": {
     "@astrojs/image": "^0.12.1",

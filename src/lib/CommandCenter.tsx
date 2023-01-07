@@ -279,7 +279,7 @@ export function CommandCenterDialog(props: CommandCenterDialogProps) {
         position: "fixed",
         "max-height": "361px",
         top: "calc(50% - 180px)",
-        overflow: "scroll"
+        overflow: "scroll",
       }}
       ref={(dialog) => {
         ctx.setDialogRef(dialog);
