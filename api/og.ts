@@ -99,7 +99,7 @@ function Illustration({
           bg-[rgb(23,23,23)]
         `,
     },
-    h("img", {
+    !!imageHref && h("img", {
       tw: `absolute inset-0 object-cover`,
       src: imageHref,
       width,
