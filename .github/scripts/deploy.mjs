@@ -16,7 +16,7 @@ execSync(
   vercel pull \
     --yes \
     --token=${token} \
-    --environment=${prod ? "production" : "preview"}} && \
+    --environment=${prod ? "production" : "preview"} && \
   
   vercel build --token=${token} ${prod ? "--prod" : ""} && \
   
