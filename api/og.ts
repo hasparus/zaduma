@@ -91,8 +91,6 @@ function Illustration({
 }) {
   imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
 
-  console.log({ imageHref });
-
   return h(
     "div",
     {
