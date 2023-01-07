@@ -114,7 +114,7 @@
    */
 
   & blockquote {
-    @apply bg-gray-100 dark:bg-gray-800 py-4 px-6;
+    @apply bg-gray-100 dark:bg-gray-800 rounded-sm py-4 px-6;
 
     font: 444 1.15em var(--serif);
 
