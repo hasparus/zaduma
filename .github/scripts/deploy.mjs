@@ -5,7 +5,9 @@
 import { execSync } from "child_process";
 import parseArgs from "yargs-parser";
 
-const { token, prod, ref } = parseArgs(process.argv.slice(2));
+const { token, prod } = parseArgs(process.argv.slice(2));
+
+execSync('echo "DEPLOYMENT_ALIAS=$DEPLOYMENT_ALIAS"');
 
 // 1. Pull vercel environment information
 // 2. Build project artifacts
@@ -26,10 +28,8 @@ execSync(
       --token=${token} \
       ${prod ? "--prod" : ""} \
   ) && \
-  DEPLOYMENT_ALIAS="${ref}--zaduma.vercel.app" && \
   
-  vercel alias $DEPLOYMENT_URL $DEPLOYMENT_ALIAS --token=${token} && \
-  echo "DEPLOYMENT_ALIAS=$\{DEPLOYMENT_ALIAS\}" >> $GITHUB_ENV
+  vercel alias $DEPLOYMENT_URL $DEPLOYMENT_ALIAS --token=${token}
 `
     .split("\n")
     .filter((s) => s.trim())

@@ -33,6 +33,11 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      - name: Set deployment alias in GitHub Env
+        run: |
+          DEPLOYMENT_ALIAS="${ref}--zaduma.vercel.app" && \
+          echo "DEPLOYMENT_ALIAS=$\{DEPLOYMENT_ALIAS\}" >> $GITHUB_ENV
+
       - name: Build
         run: pnpm build
         env:
