@@ -17,9 +17,10 @@ const site = "https://zaduma.vercel.app/";
 console.log(
   "env vars in astro.config.ts",
   `
-    import.meta.env.VERCEL_URL=${import.meta.env.VERCEL_URL},
-    import.meta.env.DEPLOYMENT_ALIAS=${import.meta.env.DEPLOYMENT_ALIAS},
-    import.meta.env.DEV=${import.meta.env.DEV},
+    process.env.env.VERCEL_URL=${process.env.VERCEL_URL},
+    process.env.env.DEPLOYMENT_ALIAS=${process.env.DEPLOYMENT_ALIAS},
+    process.env.env.DEV=${process.env.DEV},
+    process.env.NODE_ENV=${process.env.NODE_ENV},
   `
 );
 
