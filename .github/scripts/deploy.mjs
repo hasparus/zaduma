@@ -19,8 +19,6 @@ execSync(
     --environment=${prod ? "production" : "preview"} && \
   
   vercel build --token=${token} ${prod ? "--prod" : ""} && \
-  
-  vercel deploy --prebuilt --token=${token} && \
 
   DEPLOYMENT_URL=$(\
     vercel deploy \
