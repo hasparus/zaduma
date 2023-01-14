@@ -14,6 +14,15 @@ const __dirname = dirname(__filename);
 
 const site = "https://zaduma.vercel.app/";
 
+console.log(
+  "env vars in astro.config.ts",
+  `
+    import.meta.env.VERCEL_URL=${import.meta.env.VERCEL_URL},
+    import.meta.env.DEPLOYMENT_ALIAS=${import.meta.env.DEPLOYMENT_ALIAS},
+    import.meta.env.DEV=${import.meta.env.DEV},
+  `
+);
+
 // https://astro.build/config
 export default defineConfig({
   site,

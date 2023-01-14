@@ -7,8 +7,6 @@ import parseArgs from "yargs-parser";
 
 const { token, prod } = parseArgs(process.argv.slice(2));
 
-execSync('echo "DEPLOYMENT_ALIAS=$DEPLOYMENT_ALIAS"');
-
 // 1. Pull vercel environment information
 // 2. Build project artifacts
 // 3. Deploy project artifacts to vercel
