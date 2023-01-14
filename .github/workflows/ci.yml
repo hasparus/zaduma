@@ -49,7 +49,7 @@ jobs:
           --ref=${{ github.ref_name }}
 
       - name: Create GitHub Preview Deployment
-        if: github.ref_name == 'main'
+        if: github.ref_name != 'main'
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
@@ -59,7 +59,7 @@ jobs:
           initial-status: success
 
       - name: Create GitHub Production Deployment
-        if: github.ref_name != 'main'
+        if: github.ref_name == 'main'
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
