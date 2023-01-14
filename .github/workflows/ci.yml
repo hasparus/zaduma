@@ -35,7 +35,7 @@ jobs:
 
       - name: Set deployment alias in GitHub Env
         run: |
-          DEPLOYMENT_ALIAS="${ref}--zaduma.vercel.app" && \
+          DEPLOYMENT_ALIAS="${{ github.ref_name }}--zaduma.vercel.app" && \
           echo "DEPLOYMENT_ALIAS=$\{DEPLOYMENT_ALIAS\}" >> $GITHUB_ENV
 
       - name: Build
@@ -47,13 +47,11 @@ jobs:
         if: github.ref_name == 'main'
         run:
           node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
-          --ref=${{ github.ref_name }} --prod
+          --prod
 
       - name: Deploy Preview to Vercel
         if: github.ref_name != 'main'
-        run:
-          node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
-          --ref=${{ github.ref_name }}
+        run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Create GitHub Preview Deployment
         if: github.ref_name != 'main'
