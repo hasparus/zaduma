@@ -1,7 +1,4 @@
 name: CI
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on:
   push:
 jobs:
@@ -35,18 +32,18 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          OG_IMAGE_SECRET: ${{ secrets.OG_IMAGE_SECRET }}
 
       - name: Deploy Production to Vercel
         if: github.ref_name == 'main'
         run:
           node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
-          --ref=${{ github.ref_name }} --prod
+          --prod
 
       - name: Deploy Preview to Vercel
         if: github.ref_name != 'main'
-        run:
-          node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
-          --ref=${{ github.ref_name }}
+        run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Create GitHub Preview Deployment
         if: github.ref_name != 'main'
@@ -67,3 +64,7 @@ jobs:
           environment: Production
           production-environment: true
           initial-status: success
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  DEPLOYMENT_ALIAS: "${{ github.ref_name }}--zaduma.vercel.app"

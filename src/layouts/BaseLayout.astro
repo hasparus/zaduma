@@ -3,6 +3,7 @@ import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
 import { Link } from "../lib/Link";
+import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
 import type { PostFrontmatter } from "../types";
 
 import "../global-styles/base.css";
@@ -14,9 +15,10 @@ import "../global-styles/font.css";
 interface Props {
   title: string;
   children: astroHTML.JSX.Element;
+  ogImage?: string;
 }
 
-const { title } = Astro.props;
+const { title, ogImage } = Astro.props;
 
 const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx")).map(
   (p) => ({
@@ -33,8 +35,12 @@ posts.sort((a, b) => {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
+
+    <SocialCardMetaTags ogImage={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
     <title>{title}</title>
     <InitColorScheme />
   </head>

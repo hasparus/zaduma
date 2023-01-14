@@ -1,0 +1,23 @@
+---
+interface Props {
+  ogImage: string | undefined;
+}
+
+let { ogImage } = Astro.props;
+
+if (ogImage) {
+  ogImage = ogImage.startsWith("/api/og")
+    ? new URL(ogImage, import.meta.env.PUBLIC_URL).href
+    : ogImage;
+}
+---
+
+{
+  ogImage && (
+    <>
+      <meta property="og:image" content={ogImage} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content={ogImage} />
+    </>
+  )
+}

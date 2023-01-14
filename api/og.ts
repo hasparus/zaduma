@@ -24,7 +24,7 @@ const interBlack = fetchFont(
 );
 
 const width = 1200;
-const height = 600;
+const height = 630;
 
 export default async function og(req: Request) {
   try {
@@ -99,12 +99,13 @@ function Illustration({
           bg-[rgb(23,23,23)]
         `,
     },
-    !!imageHref && h("img", {
-      tw: `absolute inset-0 object-cover`,
-      src: imageHref,
-      width,
-      height: height - 112,
-    }),
+    !!imageHref &&
+      h("img", {
+        tw: `absolute inset-0 object-cover`,
+        src: imageHref,
+        width,
+        height: height - 112,
+      }),
     ...(children || [])
   );
 }
