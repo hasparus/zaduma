@@ -21,5 +21,7 @@ export function createOgImageLink(frontmatter: PostFrontmatter) {
   hmac.update(stringifiedPost);
   const token = hmac.digest("hex");
 
+  console.log("createOgImageLink", OG_IMAGE_SECRET, token, stringifiedPost);
+
   return `/api/og?post=${encodeURIComponent(stringifiedPost)}&token=${token}`;
 }
