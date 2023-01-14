@@ -14,6 +14,7 @@ const __dirname = dirname(__filename);
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://zaduma.vercel.app/",
   markdown: {
     extendDefaultPlugins: true,
     // We'll highlight using Shiki Twoslash remark plugin
