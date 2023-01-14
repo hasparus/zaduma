@@ -33,7 +33,10 @@ const date = new Date(frontmatter.date);
             </>
           )
         }
-        <time datetime={date.toISOString()}>
+        <time
+          datetime={date.toISOString()}
+          class="tabular-nums tracking-tighter"
+        >
           {formatDate(date)}
         </time>
       </div>

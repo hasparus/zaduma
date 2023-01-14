@@ -7,8 +7,8 @@ import type { PostFrontmatter } from "../types";
 const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 posts.sort((a, b) => {
   return (
-    new Date(a.frontmatter.date).getTime() -
-    new Date(b.frontmatter.date).getTime()
+    new Date(b.frontmatter.date).getTime() -
+    new Date(a.frontmatter.date).getTime()
   );
 });
 ---
@@ -27,8 +27,8 @@ posts.sort((a, b) => {
       Learn about it by reading the articles below, take a look at the
       <Link href="https://github.com/hasparus/zaduma">readme</Link>, or boldly
       <Link href="https://github.com/hasparus/zaduma/generate">
-        create a new repository</Link
-      >. I wish you a pleasant journey.
+        create a new repository
+      </Link>. I wish you a pleasant journey.
     </p>
   </main>
   <ul>
@@ -48,7 +48,7 @@ posts.sort((a, b) => {
               </h2>
               <time
                 datetime={date.toISOString()}
-                class="text-gray-600 dark:text-gray-400"
+                class="text-gray-600 dark:text-gray-400 tabular-nums tracking-tighter"
               >
                 {formatDate(date)}
               </time>
