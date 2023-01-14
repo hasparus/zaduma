@@ -12,17 +12,9 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = dirname(__filename);
 
-const site = "https://zaduma.vercel.app/";
-
-console.log(
-  "env vars in astro.config.ts",
-  `
-    process.env.env.VERCEL_URL=${process.env.VERCEL_URL},
-    process.env.env.DEPLOYMENT_ALIAS=${process.env.DEPLOYMENT_ALIAS},
-    process.env.env.DEV=${process.env.DEV},
-    process.env.NODE_ENV=${process.env.NODE_ENV},
-  `
-);
+// Production URL
+const hostname = "zaduma.vercel.app";
+const site = `https://${hostname}/`;
 
 // https://astro.build/config
 export default defineConfig({
@@ -54,14 +46,29 @@ export default defineConfig({
       noExternal: ["@fontsource/inter", "@fontsource/brygada-1918"],
     },
     define: {
-      "import.meta.env.PUBLIC_URL": JSON.stringify(
-        import.meta.env.VERCEL_URL ||
-          (import.meta.env.DEV
-            ? "http://localhost:3000/"
-            : import.meta.env.DEPLOYMENT_ALIAS
-            ? `https://${import.meta.env.DEPLOYMENT_ALIAS}/`
-            : site)
-      ),
+      "import.meta.env.PUBLIC_URL": JSON.stringify(makePublicURL()),
     },
   },
 });
+
+function makePublicURL() {
+  const VERCEL_URL = process.env.VERCEL_URL;
+  const DEPLOYMENT_ALIAS = process.env.DEPLOYMENT_ALIAS;
+
+  // If the site is built on vercel, we can just use VERCEL_URL.
+  if (VERCEL_URL) return VERCEL_URL;
+
+  if (!DEPLOYMENT_ALIAS) {
+    // If there's no DEPLOYMENT_ALIAS nor VERCEL_URL, we assume we're building locally.
+    return "http://localhost:3000/";
+  }
+
+  // Otherwise, we build on GitHub Actions (and get access to Git History).
+  // If DEPLOYMENT_ALIAS is set to `main--${hostname}`, we're on the main branch,
+  // and we return the canonical URL.
+  if (DEPLOYMENT_ALIAS === `main--${hostname}`) return site;
+
+  // Otherwise, we're building a preview deployment, and set the deployment alias
+  // in `import.meta.env.PUBLIC_URL`.
+  return `https://${DEPLOYMENT_ALIAS}`;
+}
