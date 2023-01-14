@@ -45,11 +45,12 @@ export default defineConfig({
     },
     define: {
       "import.meta.env.PUBLIC_URL": JSON.stringify(
-        import.meta.env.DEV
-          ? "http://localhost:3000/"
-          : import.meta.env.DEPLOYMENT_ALIAS
-          ? `https://${import.meta.env.DEPLOYMENT_ALIAS}/`
-          : site
+        import.meta.env.VERCEL_URL ||
+          (import.meta.env.DEV
+            ? "http://localhost:3000/"
+            : import.meta.env.DEPLOYMENT_ALIAS
+            ? `https://${import.meta.env.DEPLOYMENT_ALIAS}/`
+            : site)
       ),
     },
   },
