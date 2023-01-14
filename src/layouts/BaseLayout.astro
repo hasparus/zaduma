@@ -3,6 +3,7 @@ import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
 import { Link } from "../lib/Link";
+import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
 import type { PostFrontmatter } from "../types";
 
 import "../global-styles/base.css";
@@ -36,11 +37,7 @@ posts.sort((a, b) => {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
 
-    {
-      ogImage && (
-        <meta property="og:image" content={ogImage} />
-      )
-    }
+    <SocialCardMetaTags ogImage={ogImage} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 

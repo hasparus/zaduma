@@ -1,0 +1,17 @@
+---
+interface Props {
+  ogImage: string | undefined;
+}
+
+const { ogImage } = Astro.props;
+---
+
+{
+  ogImage && (
+    <>
+      <meta property="og:image" content={ogImage} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content={ogImage} />
+    </>
+  )
+}
