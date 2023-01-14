@@ -204,8 +204,6 @@ function parseSearchParams(searchParams: URLSearchParams) {
     searchParams.get("post") || ""
   ) as StringifiedPost;
 
-  console.log("parseSearchParams", stringifiedPost);
-
   const postArray = stringifiedPost.split(SEPARATOR);
 
   if (postArray.length !== 4) {
