@@ -7,6 +7,6 @@
   }
 
   & ol > li > p {
-    @apply inline -mx-1;
+    @apply -mx-1 inline;
   }
 }

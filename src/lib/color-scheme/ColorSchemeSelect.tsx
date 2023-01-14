@@ -16,7 +16,7 @@ export function ColorSchemeSelect() {
     <div class="zaduma-hover-before cursor-pointer rounded-sm">
       <select
         class={
-          "bg-transparent cursor-pointer appearance-none rounded-sm p-2 px-8" +
+          "cursor-pointer appearance-none rounded-sm bg-transparent p-2 px-8" +
           " outline outline-gray-100 dark:outline-gray-700" +
           " focus-visible:outline-2 focus-visible:outline-black focus-visible:dark:outline-white"
         }
@@ -42,7 +42,7 @@ export function ColorSchemeSelect() {
       <svg
         viewBox="0 0 20 20"
         fill="currentColor"
-        class="w-5 h-5 pointer-events-none absolute right-2 top-1/2 transform -translate-y-1/2"
+        class="pointer-events-none absolute right-2 top-1/2 h-5 w-5 -translate-y-1/2 transform"
       >
         <path
           fill-rule="evenodd"
@@ -56,7 +56,7 @@ export function ColorSchemeSelect() {
 
 function SystemIcon() {
   return (
-    <svg viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+    <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
       <path d="M14 6H6v8h8V6z" />
       <path
         fill-rule="evenodd"
@@ -69,7 +69,7 @@ function SystemIcon() {
 
 function MoonIcon() {
   return (
-    <svg viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+    <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
       <path
         fill-rule="evenodd"
         d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 116.647 1.921a.75.75 0 01.808.083z"
@@ -85,7 +85,7 @@ function SunIcon() {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"
-      class="w-5 h-5"
+      class="h-5 w-5"
     >
       <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zM10 15a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zM10 7a3 3 0 100 6 3 3 0 000-6zM15.657 5.404a.75.75 0 10-1.06-1.06l-1.061 1.06a.75.75 0 001.06 1.06l1.06-1.06zM6.464 14.596a.75.75 0 10-1.06-1.06l-1.06 1.06a.75.75 0 001.06 1.06l1.06-1.06zM18 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0118 10zM5 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 015 10zM14.596 15.657a.75.75 0 001.06-1.06l-1.06-1.061a.75.75 0 10-1.06 1.06l1.06 1.06zM5.404 6.464a.75.75 0 001.06-1.06l-1.06-1.06a.75.75 0 10-1.061 1.06l1.06 1.06z" />
     </svg>

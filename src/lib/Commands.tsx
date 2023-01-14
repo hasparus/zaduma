@@ -39,7 +39,7 @@ export function Commands({
 
   return (
     <CommandCenter inputId={INPUT_ID}>
-      <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-4 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
+      <CommandCenterTrigger class="zaduma-hover-before -mx-4 h-12 w-12 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
       <Show when={clientside()} keyed>
         {() => <CommandsPalette posts={posts} />}
       </Show>
@@ -151,11 +151,11 @@ export function CommandsPalette({
         " mx-auto transform rounded-xl bg-white" +
         " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
         " transition-all" +
-        " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
+        " relative w-96 max-w-full bg-white p-0 dark:bg-gray-900"
       }
     >
       <div class="flex justify-end">
-        <DialogCloseButton class="p-2 cursor-pointer group focus:outline-none">
+        <DialogCloseButton class="group cursor-pointer p-2 focus:outline-none">
           <Kbd aria-hidden>esc</Kbd>
           <span class="sr-only">Close</span>
         </DialogCloseButton>
@@ -164,8 +164,8 @@ export function CommandsPalette({
         <CommandInput
           aria-label="Commands"
           class={
-            "py-2 indent-2 w-full focus:outline-none border-b" +
-            " dark:border-gray-700 bg-transparent" +
+            "w-full border-b py-2 indent-2 focus:outline-none" +
+            " bg-transparent dark:border-gray-700" +
             " my-1"
           }
           placeholder="What do you need?"
@@ -276,7 +276,7 @@ function CommandItem(props: CommandItemProps) {
 
 function GroupHeading(props: { children: JSX.Element }) {
   return (
-    <span class="text-xs p-2 font-semibold text-gray-400 dark:text-gray-500 uppercase leading-none tracking-wider">
+    <span class="p-2 text-xs font-semibold uppercase leading-none tracking-wider text-gray-400 dark:text-gray-500">
       {props.children}
     </span>
   );
