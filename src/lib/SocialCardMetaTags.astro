@@ -3,7 +3,13 @@ interface Props {
   ogImage: string | undefined;
 }
 
-const { ogImage } = Astro.props;
+let { ogImage } = Astro.props;
+
+if (ogImage) {
+  ogImage = ogImage.startsWith("/api/og")
+    ? new URL(ogImage, import.meta.env.PUBLIC_URL).href
+    : ogImage;
+}
 ---
 
 {

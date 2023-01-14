@@ -12,9 +12,11 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = dirname(__filename);
 
+const site = "https://zaduma.vercel.app/";
+
 // https://astro.build/config
 export default defineConfig({
-  site: "https://zaduma.vercel.app/",
+  site,
   markdown: {
     extendDefaultPlugins: true,
     // We'll highlight using Shiki Twoslash remark plugin
@@ -40,6 +42,15 @@ export default defineConfig({
   vite: {
     ssr: {
       noExternal: ["@fontsource/inter", "@fontsource/brygada-1918"],
+    },
+    define: {
+      "import.meta.env.PUBLIC_URL": JSON.stringify(
+        import.meta.env.DEV
+          ? "http://localhost:3000/"
+          : import.meta.env.DEPLOYMENT_ALIAS
+          ? `https://${import.meta.env.DEPLOYMENT_ALIAS}/`
+          : site
+      ),
     },
   },
 });
