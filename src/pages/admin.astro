@@ -1,35 +1,14 @@
 ---
-import { createHmac } from "node:crypto";
-
-import type { StringifiedPost } from "../../api/og";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { createOgImageLink } from "../lib/createOgImageLink";
 import { Link } from "../lib/Link";
 import type { PostFrontmatter } from "../types";
 
-const OG_IMAGE_SECRET = import.meta.env.OG_IMAGE_SECRET;
-
 const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 
-const linksToOGImages = posts.map((post) => {
-  const frontmatter = post.frontmatter;
-
-  // prettier-ignore
-  const stringifiedPost: StringifiedPost = `${
-    new Date(frontmatter.date).getTime()
-  }\t${
-    frontmatter.readingTime.minutes
-  }\t${
-    frontmatter.title
-  }\t${
-    frontmatter.img || ""
-  }`;
-
-  const hmac = createHmac("sha256", OG_IMAGE_SECRET);
-  hmac.update(stringifiedPost);
-  const token = hmac.digest("hex");
-
-  return `/api/og?post=${encodeURIComponent(stringifiedPost)}&token=${token}`;
-});
+const linksToOGImages = posts.map((post) =>
+  createOgImageLink(post.frontmatter)
+);
 ---
 
 <BaseLayout title="admin">
@@ -37,19 +16,19 @@ const linksToOGImages = posts.map((post) => {
     <h1>OG Images</h1>
     <ul class="flex flex-col">
       {
-        linksToOGImages.map((link) => (
+        linksToOGImages.map((href) => (
           <li class="w-full">
             <Link
-              href={link}
+              href={href}
               noUnderline
               class="flex flex-row gap-2 w-full text-sm break-all mx-0 my-0"
             >
-              <span>{link}</span>
+              <span>{href}</span>
               <img
                 width="320px"
                 height="160px"
                 class="w-[320px] h-[160px] border border-gray-600"
-                src={link}
+                src={href}
               />
             </Link>
           </li>
