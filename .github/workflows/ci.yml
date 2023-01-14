@@ -35,6 +35,8 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          OG_IMAGE_SECRET: ${{ secrets.OG_IMAGE_SECRET }}
 
       - name: Deploy Production to Vercel
         if: github.ref_name == 'main'
