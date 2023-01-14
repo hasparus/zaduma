@@ -24,7 +24,7 @@ const interBlack = fetchFont(
 );
 
 const width = 1200;
-const height = 600;
+const height = 630;
 
 export default async function og(req: Request) {
   try {
