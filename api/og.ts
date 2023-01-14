@@ -99,12 +99,13 @@ function Illustration({
           bg-[rgb(23,23,23)]
         `,
     },
-    !!imageHref && h("img", {
-      tw: `absolute inset-0 object-cover`,
-      src: imageHref,
-      width,
-      height: height - 112,
-    }),
+    !!imageHref &&
+      h("img", {
+        tw: `absolute inset-0 object-cover`,
+        src: imageHref,
+        width,
+        height: height - 112,
+      }),
     ...(children || [])
   );
 }
@@ -202,6 +203,8 @@ function parseSearchParams(searchParams: URLSearchParams) {
   const stringifiedPost = decodeURIComponent(
     searchParams.get("post") || ""
   ) as StringifiedPost;
+
+  console.log("parseSearchParams", stringifiedPost);
 
   const postArray = stringifiedPost.split(SEPARATOR);
 
