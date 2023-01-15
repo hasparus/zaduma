@@ -28,7 +28,10 @@
 
     line-height: 1.75;
     text-overflow: ellipsis;
-    overflow-x: hidden;
+
+    &:has(a) {
+      overflow-x: hidden;
+    }
 
     & a {
       white-space: nowrap;
