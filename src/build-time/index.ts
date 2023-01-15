@@ -6,7 +6,6 @@ import type { Pluggable, PluggableList } from "unified";
 import { titleCase } from "../lib/titleCase";
 
 import { asidesPlugin } from "./asidesPlugin";
-import { defaultLayoutPlugin } from "./defaultLayoutPlugin";
 import { derivedTitleAndDatePlugin } from "./derivedTitleAndDatePlugin";
 import {
   readingTimePlugin,
@@ -16,12 +15,6 @@ import { urlOutsideOfPagesDirPlugin } from "./urlOutsideOfPagesDirPlugin";
 
 export const remarkPlugins = (projectDir: string): PluggableList => {
   return checkOptions(
-    [
-      defaultLayoutPlugin,
-      {
-        layoutPath: resolve(projectDir, "./src/layouts/PostLayout.astro"),
-      },
-    ],
     [
       urlOutsideOfPagesDirPlugin,
       { absoluteDirPath: resolve(projectDir, "./posts") },
