@@ -56,6 +56,15 @@
 
     /* nested lists are the worse */
     text-indent: 0;
+
+    &.contains-task-list {
+      list-style-type: none;
+      padding-left: 0;
+
+      & > li > input[type="checkbox"] {
+        transform: translateY(1px);
+      }
+    }
   }
 
   & ol {
