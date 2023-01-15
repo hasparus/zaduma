@@ -11,7 +11,9 @@ import BaseLayout from "./BaseLayout.astro";
 
 import "../global-styles/shiki.css";
 
-type Props = MarkdownLayoutProps<PostFrontmatter>;
+interface Props extends Omit<MarkdownLayoutProps<{}>, "frontmatter"> {
+  frontmatter: PostFrontmatter;
+}
 
 const { frontmatter, headings } = Astro.props;
 
