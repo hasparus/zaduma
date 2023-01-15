@@ -247,7 +247,11 @@
   & .zaduma-image-box {
     @apply inline-block rounded-sm;
     max-width: unset;
-    transform: translateX(calc((100% - var(--container-width)) / -2));
+    transform: translateX(min(calc((100% - var(--container-width)) / -2), 0px));
+    & img {
+      margin-left: unset;
+      transform: unset;
+    }
   }
 
   /* #endregion images */
