@@ -23,10 +23,6 @@ const date = new Date(frontmatter.date);
 const imgPlaceholder = frontmatter.img
   ? await getPlaiceholder(frontmatter.img, { size: 10 })
   : null;
-
-if (imgPlaceholder) {
-  console.log("imgPlaceholder.img", imgPlaceholder.img);
-}
 ---
 
 <BaseLayout title={frontmatter.title} ogImage={ogImage}>
