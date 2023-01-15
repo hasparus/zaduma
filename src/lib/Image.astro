@@ -1,10 +1,15 @@
 ---
 /**
- * @file Image component
+ * @file Optimized Image component with placeholder
  *
- * This is a "fork" / "eject" of Image from `@astrojs/image`, because I couldn't
- * get its props to expose from an Image component that would compose it.
- * The `@ts-ignore` at the top of its file didn't add much confidence too.
+ * This file started as a "fork" / "eject" of Image from `@astrojs/image`,
+ * because I couldn't get its props to expose from an Image component that
+ * would compose it.
+ *
+ * The `@ts-ignore` at the top of the original file didn't add much confidence too.
+ *
+ * @changes
+ * - Added placeholder powered by `plaiceholder` CSS strategy.
  */
 
 import { getImage } from "@astrojs/image";
@@ -13,6 +18,7 @@ import { warnForMissingAlt } from "@astrojs/image/components";
 import type { TransformOptions } from "@astrojs/image/dist/loaders";
 import type { OutputFormat } from "@astrojs/image/dist/loaders";
 import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
+import { getPlaiceholder } from "plaiceholder";
 
 interface LocalImageProps
   extends Omit<TransformOptions, "src">,
@@ -29,8 +35,8 @@ interface RemoteImageProps
   /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
   alt: string;
   format?: OutputFormat;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
 
 export type Props = LocalImageProps | RemoteImageProps;
@@ -42,6 +48,23 @@ if (props.alt === undefined || props.alt === null) {
 }
 
 const attrs = await getImage(props);
+
+let src = await props.src;
+if (typeof src === "object") {
+  if ("default" in src) src = src.default;
+  if ("src" in src) {
+    src = src.src;
+  }
+}
+
+const imgPlaceholder = await getPlaiceholder(src, { size: 10 });
 ---
 
-<img {...attrs} loading={loading} decoding={decoding} />
+<div class="zaduma-image-box relative overflow-hidden">
+  <img {...attrs} loading={loading} decoding={decoding} />
+  <div
+    style={imgPlaceholder.css}
+    class="absolute inset-0 w-full h-full transform scale-150 filter blur-2xl -z-10 dark:opacity-80"
+  >
+  </div>
+</div>

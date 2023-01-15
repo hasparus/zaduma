@@ -1,6 +1,5 @@
 ---
 import type { MarkdownLayoutProps } from "astro";
-import { getPlaiceholder } from "plaiceholder";
 
 import { createOgImageLink } from "../lib/createOgImageLink";
 import { formatDate } from "../lib/formatDate";
@@ -19,10 +18,6 @@ const { frontmatter, headings } = Astro.props;
 const ogImage = createOgImageLink(frontmatter);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
-
-const imgPlaceholder = frontmatter.img
-  ? await getPlaiceholder(frontmatter.img, { size: 10 })
-  : null;
 ---
 
 <BaseLayout title={frontmatter.title} ogImage={ogImage}>
@@ -48,19 +43,13 @@ const imgPlaceholder = frontmatter.img
     </header>
     {
       frontmatter.img && (
-        <div class="zaduma-image-box relative overflow-hidden">
-          <Image
-            alt=""
-            src={frontmatter.img}
-            format="webp"
-            width={774}
-            aspectRatio={2}
-          />
-          <div
-            style={imgPlaceholder!.css}
-            class="absolute inset-0 w-full h-full transform scale-150 filter blur-2xl z-[-1] dark:opacity-80"
-          />
-        </div>
+        <Image
+          alt=""
+          src={frontmatter.img}
+          format="webp"
+          width={774}
+          aspectRatio={2}
+        />
       )
     }
     <slot />
