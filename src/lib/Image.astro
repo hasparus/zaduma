@@ -1,0 +1,47 @@
+---
+/**
+ * @file Image component
+ *
+ * This is a "fork" / "eject" of Image from `@astrojs/image`, because I couldn't
+ * get its props to expose from an Image component that would compose it.
+ * The `@ts-ignore` at the top of its file didn't add much confidence too.
+ */
+
+import { getImage } from "@astrojs/image";
+import type { ImgHTMLAttributes } from "@astrojs/image/components";
+import { warnForMissingAlt } from "@astrojs/image/components";
+import type { TransformOptions } from "@astrojs/image/dist/loaders";
+import type { OutputFormat } from "@astrojs/image/dist/loaders";
+import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
+
+interface LocalImageProps
+  extends Omit<TransformOptions, "src">,
+    Omit<ImgHTMLAttributes, "src" | "width" | "height"> {
+  src: ImageMetadata | Promise<{ default: ImageMetadata }>;
+  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
+  alt: string;
+}
+
+interface RemoteImageProps
+  extends TransformOptions,
+    astroHTML.JSX.ImgHTMLAttributes {
+  src: string;
+  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
+  alt: string;
+  format?: OutputFormat;
+  width: number;
+  height: number;
+}
+
+export type Props = LocalImageProps | RemoteImageProps;
+
+const { loading = "lazy", decoding = "async", ...props } = Astro.props as Props;
+
+if (props.alt === undefined || props.alt === null) {
+  warnForMissingAlt();
+}
+
+const attrs = await getImage(props);
+---
+
+<img {...attrs} loading={loading} decoding={decoding} />
