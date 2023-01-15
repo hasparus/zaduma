@@ -25,7 +25,7 @@ _an [Astro] starter template for understated personal websites_
 ## 🏎️ Usage TLDR
 
 1. Click <kbd>Use this template</kbd> to create a new repo.
-2. Set `VERCEL_TOKEN`, `VERCEL_PROJECT_ID`, and `VERCEL_ORG_ID` secrets to
+2. Set [`VERCEL_TOKEN`], `VERCEL_PROJECT_ID`, and [`VERCEL_ORG_ID`] secrets to
    deploy to Vercel from GHA (enables access to git history).
 3. Add `OG_IMAGE_SECRET` to secure your OG image endpoint.
 
@@ -76,7 +76,7 @@ All commands are run from the root of the project, from a terminal:
 ## 👌 Usage
 
 1. Click <kbd>Use this template</kbd> to create a new repo.
-2. Set `VERCEL_TOKEN`, `VERCEL_PROJECT_ID`, and `VERCEL_ORG_ID` secrets to
+2. Set [`VERCEL_TOKEN`], `VERCEL_PROJECT_ID`, and [`VERCEL_ORG_ID`] secrets to
    deploy to Vercel from GHA (enables access to git history).
 
    - Alternatively — if all your blog posts have a `date` in frontmatter, you
@@ -86,3 +86,6 @@ All commands are run from the root of the project, from a terminal:
      from it. (TODO: Can we make it more convenient?)
 
 3. Add `OG_IMAGE_SECRET` to secure your OG image endpoint.
+
+[`vercel_token`]: https://vercel.com/account/tokens
+[`vercel_org_id`]: https://vercel.com/account#your-id
