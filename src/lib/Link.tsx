@@ -34,7 +34,10 @@ function isChildType(children: JSX.Element, type: string) {
   // A child can be a JSX element or an stringified Astro slot.
   if ("type" in children) return children.type === type;
   if ("t" in children) {
-    return (children.t as string).startsWith(`<astro-slot><${type} `);
+    return (
+      (children.t as string).startsWith(`<astro-slot><${type} `) ||
+      (children.t as string).startsWith(`<astro-slot><span zaduma-image`)
+    );
   }
 
   return false;
