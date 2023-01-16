@@ -263,6 +263,14 @@
       margin-left: unset;
       transform: unset;
     }
+
+    & .zaduma-image-box {
+      transform: unset;
+    }
+
+    &:is(a) {
+      padding-bottom: 0;
+    }
   }
 
   /* #endregion images */
