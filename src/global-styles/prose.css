@@ -28,9 +28,17 @@
 
     line-height: 1.75;
     text-overflow: ellipsis;
+    overflow-x: hidden;
 
-    &:has(a) {
-      overflow-x: hidden;
+    /* This is under assumption that `img` is full width image not just an icon. */
+    /* I can think of a reorganization using CSS Grid that would also work on Firefox,
+       but this seems sufficient for the time being. */
+    &:has(img) {
+      overflow-x: visible;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: 0;
+      margin-right: 0;
     }
 
     & a {
