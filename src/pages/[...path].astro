@@ -1,5 +1,9 @@
 ---
+import type { MarkdownInstance } from "astro";
+
+import PostLayout from "../layouts/PostLayout.astro";
 import { createHeading } from "../lib/Heading";
+import Image from "../lib/Image.astro";
 import { Link } from "../lib/Link";
 import { OrderedList } from "../lib/OrderedList";
 import type { PostFrontmatter } from "../types";
@@ -17,6 +21,9 @@ export const getStaticPaths = async () => {
   });
 };
 
+interface Props extends Omit<MarkdownInstance<{}>, "frontmatter"> {
+  frontmatter: PostFrontmatter;
+}
 const { Content } = Astro.props;
 
 const mdxComponents = {
@@ -28,9 +35,10 @@ const mdxComponents = {
   h4: createHeading("h4"),
   h5: createHeading("h5"),
   h6: createHeading("h6"),
+  img: Image,
 };
-
-// You can find the UI layout for the post in src/layouts/PostLayout.astro
 ---
 
-<Content components={mdxComponents} />
+<PostLayout {...Astro.props} headings={Astro.props.getHeadings()}>
+  <Content components={mdxComponents} />
+</PostLayout>

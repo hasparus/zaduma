@@ -1,0 +1,78 @@
+---
+/**
+ * @file Optimized Image component with placeholder
+ *
+ * This file started as a "fork" / "eject" of Image from `@astrojs/image`,
+ * because I couldn't get its props to expose from an Image component that
+ * would compose it.
+ *
+ * The `@ts-ignore` at the top of the original file didn't add much confidence too.
+ *
+ * @changes
+ * - Added placeholder powered by `plaiceholder` CSS strategy.
+ */
+
+import { getImage } from "@astrojs/image";
+import type { ImgHTMLAttributes } from "@astrojs/image/components";
+import { warnForMissingAlt } from "@astrojs/image/components";
+import type { TransformOptions } from "@astrojs/image/dist/loaders";
+import type { OutputFormat } from "@astrojs/image/dist/loaders";
+import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
+import { getPlaiceholder } from "plaiceholder";
+
+interface LocalImageProps
+  extends Omit<TransformOptions, "src">,
+    Omit<ImgHTMLAttributes, "src" | "width" | "height"> {
+  src: ImageMetadata | Promise<{ default: ImageMetadata }>;
+  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
+  alt: string;
+}
+
+interface RemoteImageProps
+  extends TransformOptions,
+    astroHTML.JSX.ImgHTMLAttributes {
+  src: string;
+  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
+  alt: string;
+  format?: OutputFormat;
+  width?: number;
+  height?: number;
+}
+
+export type Props = LocalImageProps | RemoteImageProps;
+
+const { loading = "lazy", decoding = "async", ...props } = Astro.props as Props;
+
+if (props.alt === undefined || props.alt === null) {
+  warnForMissingAlt();
+}
+
+let src = await props.src;
+if (typeof src === "object") {
+  if ("default" in src) src = src.default;
+  if ("src" in src) {
+    src = src.src;
+  }
+}
+
+// TODO: Consider computing just `css` placeholder
+const placeholder = await getPlaiceholder(decodeURIComponent(src), {
+  size: 10,
+});
+
+if (!props.width && !props.height && !props.aspectRatio) {
+  props.width ??= placeholder.img.width;
+  props.aspectRatio ??= placeholder.img.width / placeholder.img.height;
+}
+
+const attrs = await getImage(props);
+---
+
+<span zaduma-image class="zaduma-image-box block relative overflow-hidden">
+  <img {...attrs} loading={loading} decoding={decoding} />
+  <span
+    style={placeholder.css}
+    class="absolute inset-0 w-full h-full transform scale-150 filter blur-2xl -z-10 dark:opacity-80"
+  >
+  </span>
+</span>

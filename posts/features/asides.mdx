@@ -29,11 +29,8 @@ implemented with a rehype plugin. We grab the nearest previous sibling of an
 
 <style>{`
   /* tiny tweak to ensure screenshotted text is not mistaken with written text */
-  img {
-    padding-left: 1rem;
-  }
-  html.dark img {
-    padding-left: unset;
+  html:not(.dark) img {
+    border: 1px solid rgb(229 229 229);
   }
 `}</style>
 

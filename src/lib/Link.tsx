@@ -21,7 +21,7 @@ export function Link(props: LinkProps) {
         "p-2 -mx-2 rounded-sm before:rounded-sm transition-colors relative":
           true,
         "zaduma-hover-before": true,
-        "zaduma-image-link": childIsImg,
+        "zaduma-image-box": childIsImg,
       }}
       {...rest}
     />
@@ -34,7 +34,10 @@ function isChildType(children: JSX.Element, type: string) {
   // A child can be a JSX element or an stringified Astro slot.
   if ("type" in children) return children.type === type;
   if ("t" in children) {
-    return (children.t as string).startsWith(`<astro-slot><${type} `);
+    return (
+      (children.t as string).startsWith(`<astro-slot><${type} `) ||
+      (children.t as string).startsWith(`<astro-slot><span zaduma-image`)
+    );
   }
 
   return false;
