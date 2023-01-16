@@ -7,3 +7,15 @@
     focus:before:bg-gray-100 dark:focus:before:bg-gray-800/60
     selected:before:bg-gray-100 dark:selected:before:bg-gray-800/60;
 }
+
+/*
+ * This isn't needed if your base font-size is 16px or higher.
+ * IOS Safari zooms in on inputs on focus if their text size is smaller than 16px.
+ */
+@supports (-webkit-overflow-scrolling: touch) {
+  input,
+  textarea,
+  select {
+    @apply text-lg;
+  }
+}
