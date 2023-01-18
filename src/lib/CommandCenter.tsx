@@ -247,7 +247,7 @@ export function CommandItem(props: CommandItemProps) {
     res.ariaSelected = String(selected);
     res.style.display = matchesFilter(text) ? "" : "none";
 
-    if (selected) res.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    if (selected) res.scrollIntoView({ block: "center", behavior: "smooth" });
   });
 
   return res;
