@@ -150,7 +150,7 @@ export function CommandsPalette({
         " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
         " mx-auto transform rounded-xl bg-white" +
         " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
-        " transition-all" +
+        " transition-all flex flex-col" +
         " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
       }
     >
@@ -160,17 +160,17 @@ export function CommandsPalette({
           <span class="sr-only">Close</span>
         </DialogCloseButton>
       </div>
-      <CommandList class="px-2">
-        <CommandInput
-          aria-label="Commands"
-          class={
-            "py-2 indent-2 w-full focus:outline-none border-b" +
-            " dark:border-gray-700 bg-transparent" +
-            " my-1"
-          }
-          placeholder="What do you need?"
-          autofocus
-        />
+      <CommandInput
+        aria-label="Commands"
+        class={
+          "p-2 indent-2 w-full focus:outline-none border-b" +
+          " dark:border-gray-700 bg-transparent" +
+          " my-1"
+        }
+        placeholder="What do you need?"
+        autofocus
+      />
+      <CommandList class="px-2 overflow-scroll">
         <Switch
           fallback={
             <>
@@ -186,8 +186,12 @@ export function CommandsPalette({
                 <CommandItem href="https://twitter.com/hasparus">
                   Twitter
                 </CommandItem>
-                <CommandItem href="">GitHub</CommandItem>
-                <CommandItem href="">Contact</CommandItem>
+                <CommandItem href="https://github.com/hasparus/zaduma">
+                  GitHub
+                </CommandItem>
+                <CommandItem href="https://github.com/hasparus/zaduma/issues">
+                  Contact
+                </CommandItem>
                 <CommandItem href="/rss.xml">RSS</CommandItem>
               </CommandGroup>
             </>
@@ -231,12 +235,7 @@ export type CommandItemProps = CommonCommandItemProps &
   );
 
 function CommandItem(props: CommandItemProps) {
-  const [own, rest] = splitProps(props, [
-    "shortcut",
-    "children",
-    "onClick",
-    "href",
-  ]);
+  const [own, rest] = splitProps(props, ["shortcut", "children", "onClick"]);
 
   const content = (
     <>
@@ -247,29 +246,21 @@ function CommandItem(props: CommandItemProps) {
     </>
   );
 
-  const className =
-    "p-2 cursor-pointer focus-visible:outline-black" +
-    " flex justify-between text-gray-700 dark:text-gray-300 " +
-    "relative";
-
   return (
     <CommandCenterItem
-      class="zaduma-hover-before"
+      class={
+        "zaduma-hover-before p-2 cursor-pointer w-full focus-visible:outline-black " +
+        "flex justify-between text-gray-700 dark:text-gray-300 " +
+        "relative"
+      }
       tabIndex={-1}
-      onClick={(event) => {
-        if (!own.href) event.preventDefault();
+      onClick={() => {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         if (own.shortcut) own.onClick!(own.shortcut);
       }}
       {...rest}
     >
-      {own.href ? (
-        <a class={className} href={own.href}>
-          {content}
-        </a>
-      ) : (
-        <div class={className}>{content}</div>
-      )}
+      {content}
     </CommandCenterItem>
   );
 }

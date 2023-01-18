@@ -9,6 +9,7 @@ import {
   JSX,
   onCleanup,
   Show,
+  splitProps,
   useContext,
 } from "solid-js";
 
@@ -208,24 +209,45 @@ export function CommandGroup(props: CommandGroupProps) {
   );
 }
 
-export interface CommandItemProps extends JSX.HTMLAttributes<HTMLDivElement> {
+export interface CommandItemProps extends JSX.HTMLAttributes<HTMLElement> {
   children: JSX.Element;
+  href?: string | undefined;
 }
 
 export function CommandItem(props: CommandItemProps) {
+  const [own, rest] = splitProps(props, ["href"]);
   const { isSelected, matchesFilter } = useCtx();
 
   const res = (
-    <div role="option" aria-selected="false" {...props}>
-      {props.children}
-    </div>
+    own.href ? (
+      <a
+        href={own.href}
+        role="option"
+        aria-selected="false"
+        {...(rest as JSX.HTMLAttributes<HTMLAnchorElement>)}
+      >
+        {props.children}
+      </a>
+    ) : (
+      <button
+        type="button"
+        role="option"
+        aria-selected="false"
+        {...(rest as JSX.HTMLAttributes<HTMLButtonElement>)}
+      >
+        {props.children}
+      </button>
+    )
   ) as HTMLElement;
 
   createEffect(() => {
     const text = getCommandText(res);
 
-    res.ariaSelected = String(isSelected(text));
+    const selected = isSelected(text);
+    res.ariaSelected = String(selected);
     res.style.display = matchesFilter(text) ? "" : "none";
+
+    if (selected) res.scrollIntoView({ block: "nearest", behavior: "smooth" });
   });
 
   return res;
@@ -279,7 +301,6 @@ export function CommandCenterDialog(props: CommandCenterDialogProps) {
         position: "fixed",
         "max-height": "361px",
         top: "calc(50% - 180px)",
-        overflow: "scroll",
       }}
       ref={(dialog) => {
         ctx.setDialogRef(dialog);
