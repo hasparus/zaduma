@@ -150,7 +150,7 @@ export function CommandsPalette({
         " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
         " mx-auto transform rounded-xl bg-white" +
         " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
-        " transition-all" +
+        " transition-all flex flex-col" +
         " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
       }
     >
@@ -160,17 +160,17 @@ export function CommandsPalette({
           <span class="sr-only">Close</span>
         </DialogCloseButton>
       </div>
-      <CommandList class="px-2">
-        <CommandInput
-          aria-label="Commands"
-          class={
-            "py-2 indent-2 w-full focus:outline-none border-b" +
-            " dark:border-gray-700 bg-transparent" +
-            " my-1"
-          }
-          placeholder="What do you need?"
-          autofocus
-        />
+      <CommandInput
+        aria-label="Commands"
+        class={
+          "p-2 indent-2 w-full focus:outline-none border-b" +
+          " dark:border-gray-700 bg-transparent" +
+          " my-1"
+        }
+        placeholder="What do you need?"
+        autofocus
+      />
+      <CommandList class="px-2 overflow-scroll">
         <Switch
           fallback={
             <>
