@@ -243,8 +243,11 @@ export function CommandItem(props: CommandItemProps) {
   createEffect(() => {
     const text = getCommandText(res);
 
-    res.ariaSelected = String(isSelected(text));
+    const selected = isSelected(text);
+    res.ariaSelected = String(selected);
     res.style.display = matchesFilter(text) ? "" : "none";
+
+    if (selected) res.scrollIntoView({ block: "nearest", behavior: "smooth" });
   });
 
   return res;
