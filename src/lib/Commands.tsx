@@ -150,7 +150,7 @@ export function CommandsPalette({
         " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
         " mx-auto transform rounded-xl bg-white" +
         " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
-        " transition-all" +
+        " transition-all [&[open]]:flex flex-col" +
         " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
       }
     >
