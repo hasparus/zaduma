@@ -164,13 +164,12 @@ export function CommandsPalette({
         aria-label="Commands"
         class={
           "p-2 indent-2 w-full focus:outline-none border-b" +
-          " dark:border-gray-700 bg-transparent" +
-          " my-1"
+          " dark:border-gray-700 bg-transparent"
         }
         placeholder="What do you need?"
         autofocus
       />
-      <CommandList class="px-2 overflow-scroll">
+      <CommandList class="p-2 overflow-scroll">
         <Switch
           fallback={
             <>
@@ -217,7 +216,6 @@ export function CommandsPalette({
           </Match>
         </Switch>
       </CommandList>
-      <footer class="pb-2" />
     </CommandCenterDialog>
   );
 }
