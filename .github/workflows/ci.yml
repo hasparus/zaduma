@@ -29,6 +29,12 @@ jobs:
 
       - run: echo ">> ${{ !env.IS_DEPENDABOT }} {{ env.IS_DEPENDABOT }} <<"
 
+      - run: echo "IS TRUE"
+        if: ${{ env.IS_DEPENDABOT }}
+
+      - run: echo "IS FALSE"
+        if: ${{ !env.IS_DEPENDABOT }}
+
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT }}
         uses: EndBug/add-and-commit@v9
