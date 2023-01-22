@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       deployments: write
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,7 +23,15 @@ jobs:
           cache: "pnpm"
 
       - name: Install
-        run: pnpm install --no-optional
+        id: install
+        run: |
+          pnpm install --no-optional --frozen-lockfile ${{ env.IS_DEPENDABOT == 0 }}
+
+      - name: Commit lockfile
+        if: ${{ env.IS_DEPENDABOT == 1 }}
+        uses: EndBug/add-and-commit@v9
+        with:
+          { add: "pnpm-lock.yaml", fetch: false, message: "Update lockfile" }
 
       - name: Run linter
         run: pnpm lint --quiet
@@ -50,7 +59,7 @@ jobs:
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
-          environment-url: https://${{ env.DEPLOYMENT_ALIAS }}
+          environment-url: https://${{ env.DEPLOYMENT_ALIAS }} # <- set by deploy.mjs
           environment: Preview
           production-environment: false
           initial-status: success
@@ -67,4 +76,5 @@ jobs:
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  DEPLOYMENT_ALIAS: "${{ github.ref_name }}--zaduma.vercel.app"
+  REF_NAME: "${{ github.ref_name }}"
+  IS_DEPENDABOT: ${{ secrets.IS_DEPENDABOT }}

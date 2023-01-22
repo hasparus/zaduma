@@ -26,10 +26,28 @@ execSync(
       --token=${token} \
       ${prod ? "--prod" : ""} \
   ) && \
+
+  DEPLOYMENT_ALIAS="${createDeploymentAlias()}" && \
   
+  echo "DEPLOYMENT_ALIAS=$DEPLOYMENT_ALIAS" >> $GITHUB_ENV && \
+
   vercel alias $DEPLOYMENT_URL $DEPLOYMENT_ALIAS --token=${token}
 `
     .split("\n")
     .filter((s) => s.trim())
     .join("\n")
 );
+
+function createDeploymentAlias() {
+  if (!process.env.REF_NAME) throw new Error("process.env.REF_NAME is missing");
+
+  const refSlug = process.env.REF_NAME.replace(
+    "dependabot/npm_and_yarn/",
+    "deps-"
+  )
+    .replace(/[^a-z0-9]/gi, "-")
+    .replace(/-+/g, "-")
+    .toLowerCase();
+
+  return `${refSlug}--zaduma.vercel.app`;
+}
