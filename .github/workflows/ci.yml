@@ -25,7 +25,7 @@ jobs:
       - name: Install
         id: install
         run: |
-          pnpm install --no-optional --frozen-lockfile ${{ env.IS_DEPENDABOT == 1 }}
+          pnpm install --no-optional --frozen-lockfile ${{ env.IS_DEPENDABOT == 0 }}
 
       - run: echo "IS ONE"
         if: ${{ env.IS_DEPENDABOT == 1 }}
