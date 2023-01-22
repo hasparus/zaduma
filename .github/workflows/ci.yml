@@ -23,6 +23,7 @@ jobs:
 
       - name: Install
         run: |
+          echo ${{ secrets.IS_DEPENDABOT }} "<- IS_DEPENDABOT"
           pnpm install --no-optional --frozen-lockfile false
 
       - name: Run linter
