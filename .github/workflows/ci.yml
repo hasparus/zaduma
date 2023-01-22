@@ -27,7 +27,7 @@ jobs:
         run: |
           pnpm install --no-optional --frozen-lockfile ${{ !env.IS_DEPENDABOT }}
 
-      - run: echo ">> ${{ !env.IS_DEPENDABOT }} <<"
+      - run: echo ">> ${{ !env.IS_DEPENDABOT }} {{ env.IS_DEPENDABOT }} <<"
 
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT }}
