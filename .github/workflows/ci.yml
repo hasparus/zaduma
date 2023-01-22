@@ -22,7 +22,8 @@ jobs:
           cache: "pnpm"
 
       - name: Install
-        run: pnpm install --no-optional
+        run: |
+          pnpm install --no-optional --frozen-lockfile ${{ secrets.IS_DEPENDABOT != 'true' }}
 
       - name: Run linter
         run: pnpm lint --quiet
