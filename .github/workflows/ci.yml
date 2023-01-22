@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       deployments: write
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -29,7 +30,7 @@ jobs:
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT }}
         uses: EndBug/add-and-commit@v9
-        with: { add: "pnpm-lock.yaml", fetch: false }
+        with: { add: "pnpm-lock.yaml", fetch: false, commit: "Update lockfile" }
 
       - name: Run linter
         run: pnpm lint --quiet
