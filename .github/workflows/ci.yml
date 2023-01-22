@@ -23,7 +23,7 @@ jobs:
 
       - name: Install
         run: |
-          pnpm install --no-optional --frozen-lockfile ${{ secrets.IS_DEPENDABOT != 'true' }}
+          pnpm install --no-optional --frozen-lockfile false
 
       - name: Run linter
         run: pnpm lint --quiet
