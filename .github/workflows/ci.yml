@@ -27,12 +27,6 @@ jobs:
         run: |
           pnpm install --no-optional --frozen-lockfile ${{ env.IS_DEPENDABOT == 0 }}
 
-      - run: echo "IS ONE"
-        if: ${{ env.IS_DEPENDABOT == 1 }}
-
-      - run: echo "IS ZERO"
-        if: ${{ env.IS_DEPENDABOT == 0 }}
-
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT == 1 }}
         uses: EndBug/add-and-commit@v9
