@@ -27,13 +27,13 @@ jobs:
         run: |
           pnpm install --no-optional --frozen-lockfile ${{ !env.IS_DEPENDABOT }}
 
-      - run: echo ">> ${{ !env.IS_DEPENDABOT }} {{ env.IS_DEPENDABOT }} <<"
+      - run: echo ">> ${{ !env.IS_DEPENDABOT }} ${{ env.IS_DEPENDABOT }} <<"
 
-      - run: echo "IS TRUE"
-        if: ${{ env.IS_DEPENDABOT }}
+      - run: echo "IS ONE"
+        if: ${{ env.IS_DEPENDABOT == 1 }}
 
-      - run: echo "IS FALSE"
-        if: ${{ !env.IS_DEPENDABOT }}
+      - run: echo "IS ZERO"
+        if: ${{ env.IS_DEPENDABOT == 0 }}
 
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT }}
@@ -85,4 +85,4 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   REF_NAME: "${{ github.ref_name }}"
-  IS_DEPENDABOT: false # ${{ secrets.IS_DEPENDABOT == 'true' }}
+  IS_DEPENDABOT: 0 # ${{ secrets.IS_DEPENDABOT == 'true' }}
