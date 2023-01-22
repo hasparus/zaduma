@@ -77,4 +77,4 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   REF_NAME: "${{ github.ref_name }}"
-  IS_DEPENDABOT: ${{ secrets.IS_DEPENDABOT == 'true' }}
+  IS_DEPENDABOT: false # ${{ secrets.IS_DEPENDABOT == 'true' }}
