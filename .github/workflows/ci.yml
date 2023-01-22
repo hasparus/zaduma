@@ -22,9 +22,14 @@ jobs:
           cache: "pnpm"
 
       - name: Install
+        id: install
         run: |
-          echo ${{ secrets.IS_DEPENDABOT }} "<- IS_DEPENDABOT"
-          pnpm install --no-optional --frozen-lockfile false
+          pnpm install --no-optional --frozen-lockfile ${{ !env.IS_DEPENDABOT }}
+
+      - name: Commit lockfile
+        if: ${{ env.IS_DEPENDABOT }}
+        uses: EndBug/add-and-commit@v9
+        with: { add: "pnpm-lock.yaml", fetch: false }
 
       - name: Run linter
         run: pnpm lint --quiet
@@ -70,3 +75,4 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   DEPLOYMENT_ALIAS: "${{ github.ref_name }}--zaduma.vercel.app"
+  IS_DEPENDABOT: true # ${{ secrets.IS_DEPENDABOT == 'true' }}
