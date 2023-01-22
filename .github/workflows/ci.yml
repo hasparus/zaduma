@@ -27,7 +27,9 @@ jobs:
         run: |
           pnpm install --no-optional --frozen-lockfile ${{ !env.IS_DEPENDABOT }}
 
-      - run: echo ">> ${{ !env.IS_DEPENDABOT }} ${{ env.IS_DEPENDABOT }} <<"
+      - run:
+          echo ">> ${{ !env.IS_DEPENDABOT }} ${{ env.IS_DEPENDABOT }} ${{
+          secrets.IS_DEPENDABOT }} <<"
 
       - run: echo "IS ONE"
         if: ${{ env.IS_DEPENDABOT == 1 }}
