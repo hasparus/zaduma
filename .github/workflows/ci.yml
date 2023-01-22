@@ -30,7 +30,8 @@ jobs:
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT }}
         uses: EndBug/add-and-commit@v9
-        with: { add: "pnpm-lock.yaml", fetch: false, commit: "Update lockfile" }
+        with:
+          { add: "pnpm-lock.yaml", fetch: false, message: "'Update lockfile'" }
 
       - name: Run linter
         run: pnpm lint --quiet
