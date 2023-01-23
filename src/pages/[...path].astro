@@ -9,7 +9,11 @@ import { OrderedList } from "../lib/OrderedList";
 import type { PostFrontmatter } from "../types";
 
 export const getStaticPaths = async () => {
-  const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+  let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+
+  if (import.meta.env.PROD) {
+    posts = posts.filter((post) => !post.frontmatter.draft);
+  }
 
   return posts.map((post) => {
     return {

@@ -34,4 +34,5 @@ export interface PostFrontmatter {
    * }
    */
   readingTime: ReadTimeResults;
+  draft?: boolean;
 }
