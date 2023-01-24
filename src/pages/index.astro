@@ -4,7 +4,12 @@ import { formatDate } from "../lib/formatDate";
 import { Link } from "../lib/Link";
 import type { PostFrontmatter } from "../types";
 
-const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+
+if (import.meta.env.PROD) {
+  posts = posts.filter((post) => !post.frontmatter.draft);
+}
+
 posts.sort((a, b) => {
   return (
     new Date(b.frontmatter.date).getTime() -
