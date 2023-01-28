@@ -32,6 +32,7 @@ Code blocks structurally look like:
 
 pre.shiki {
   overflow-x: auto;
+  position: relative;
 }
 pre.shiki:hover .dim {
   opacity: 1;
