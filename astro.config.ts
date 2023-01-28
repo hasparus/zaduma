@@ -20,7 +20,6 @@ const site = `https://${hostname}/`;
 export default defineConfig({
   site,
   markdown: {
-    extendDefaultPlugins: true,
     // We'll highlight using Shiki Twoslash remark plugin
     syntaxHighlight: false,
   },
@@ -31,8 +30,8 @@ export default defineConfig({
       },
     }),
     mdx({
+      extendMarkdownConfig: true,
       // MDX integration inherits all remark plugins from markdown.remarkPlugins
-      extendPlugins: "markdown",
       remarkPlugins: remarkPlugins(__dirname),
       rehypePlugins: rehypePlugins,
     }),
