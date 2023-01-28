@@ -107,6 +107,10 @@
       }
     }
 
+    & li {
+      line-height: 1.75;
+    }
+
     & li > p {
       display: contents;
     }
