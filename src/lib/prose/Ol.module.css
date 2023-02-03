@@ -8,8 +8,11 @@
     padding-left: 1.5em;
 
     &:before {
-      /* TODO: dark: prefix in the CSS module doesn't work */
-      @apply text-gray-600 dark:text-gray-400;
+      @apply text-gray-600;
+
+      :global(.dark) & {
+        @apply text-gray-400;
+      }
 
       counter-increment: ol;
       content: counter(ol) ".";

@@ -3,7 +3,7 @@
   table-layout: fixed;
 
   & thead {
-    @apply border-b dark:border-gray-700;
+    @apply border-b;
   }
 
   & th {
@@ -14,4 +14,8 @@
   & td {
     @apply py-1 px-2 md:px-4;
   }
+}
+
+:global(.dark) .Table thead {
+  @apply border-gray-700;
 }

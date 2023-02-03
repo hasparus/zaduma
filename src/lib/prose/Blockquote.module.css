@@ -23,9 +23,12 @@
 
   &:after,
   &:before {
-    /* TODO: dark: prefix for the color doesn't work */
-    @apply text-4xl leading-none text-gray-300 dark:text-gray-600 font-black;
+    @apply text-4xl leading-none text-gray-300 font-black;
     position: absolute;
+
+    :global(.dark) & {
+      @apply text-gray-600;
+    }
   }
 
   &:before {
