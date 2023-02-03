@@ -6,6 +6,7 @@ import Image from "../lib/Image.astro";
 import { Link } from "../lib/Link";
 import { OrderedList } from "../lib/OrderedList";
 import { createHeading } from "../lib/prose/Heading";
+import { Table } from "../lib/prose/Table";
 import type { PostFrontmatter } from "../types";
 
 export const getStaticPaths = async () => {
@@ -40,6 +41,7 @@ const mdxComponents = {
   h5: createHeading("h5"),
   h6: createHeading("h6"),
   img: Image,
+  table: Table,
 };
 ---
 
