@@ -4,6 +4,8 @@ import type { MarkdownInstance } from "astro";
 import PostLayout from "../layouts/PostLayout.astro";
 import Image from "../lib/Image.astro";
 import { Link } from "../lib/Link";
+import { Blockquote } from "../lib/prose/Blockquote";
+import { Figcaption } from "../lib/prose/Figcaption";
 import { createHeading } from "../lib/prose/Heading";
 import { Ol } from "../lib/prose/Ol";
 import { Table } from "../lib/prose/Table";
@@ -44,6 +46,8 @@ const mdxComponents = {
   table: Table,
   ul: Ul,
   ol: Ol,
+  figcaption: Figcaption,
+  blockquote: Blockquote,
 };
 ---
 
