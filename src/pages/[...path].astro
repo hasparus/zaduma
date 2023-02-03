@@ -2,10 +2,10 @@
 import type { MarkdownInstance } from "astro";
 
 import PostLayout from "../layouts/PostLayout.astro";
-import { createHeading } from "../lib/Heading";
 import Image from "../lib/Image.astro";
 import { Link } from "../lib/Link";
 import { OrderedList } from "../lib/OrderedList";
+import { createHeading } from "../lib/prose/Heading";
 import type { PostFrontmatter } from "../types";
 
 export const getStaticPaths = async () => {
