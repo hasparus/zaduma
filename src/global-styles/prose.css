@@ -58,31 +58,6 @@
 
   /* #endregion */
 
-  /* #region headings — h1, h2, h3... */
-
-  & :where(h1, h2, h3, h4, h5, h6) {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-
-    font: 555 1em var(--sans);
-
-    &::before {
-      @apply text-gray-400 dark:text-gray-600;
-    }
-  }
-
-  & > h1::before {
-    content: "# ";
-  }
-  & > h2::before {
-    content: "## ";
-  }
-  & > h3::before {
-    content: "### ";
-  }
-
-  /* #endregion */
-
   /* #region code snippets — code and pre */
 
   & code {
