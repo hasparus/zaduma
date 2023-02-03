@@ -9,6 +9,7 @@ import { Figcaption } from "../lib/prose/Figcaption";
 import { createHeading } from "../lib/prose/Heading";
 import Image from "../lib/prose/Image.astro";
 import { Ol } from "../lib/prose/Ol";
+import { Paragraph } from "../lib/prose/Paragraph";
 import { Table } from "../lib/prose/Table";
 import { Ul } from "../lib/prose/Ul";
 import type { PostFrontmatter } from "../types";
@@ -47,10 +48,13 @@ const mdxComponents = {
   table: Table,
   ul: Ul,
   ol: Ol,
-  figcaption: Figcaption,
   blockquote: Blockquote,
   code: Code,
   pre: Pre,
+  p: Paragraph,
+  // Take note that `mdxComponents` replace only Markdown and uppercased components,
+  // not inline lowercased JSX, so using `<p>` in and .mdx file won't use the `Paragraph`.
+  Figcaption: Figcaption,
 };
 ---
 
