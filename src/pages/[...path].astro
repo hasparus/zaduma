@@ -4,9 +4,10 @@ import type { MarkdownInstance } from "astro";
 import PostLayout from "../layouts/PostLayout.astro";
 import Image from "../lib/Image.astro";
 import { Link } from "../lib/Link";
-import { OrderedList } from "../lib/OrderedList";
 import { createHeading } from "../lib/prose/Heading";
+import { Ol } from "../lib/prose/Ol";
 import { Table } from "../lib/prose/Table";
+import { Ul } from "../lib/prose/Ul";
 import type { PostFrontmatter } from "../types";
 
 export const getStaticPaths = async () => {
@@ -33,7 +34,6 @@ const { Content } = Astro.props;
 
 const mdxComponents = {
   a: Link,
-  ol: OrderedList,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
@@ -42,6 +42,8 @@ const mdxComponents = {
   h6: createHeading("h6"),
   img: Image,
   table: Table,
+  ul: Ul,
+  ol: Ol,
 };
 ---
 
