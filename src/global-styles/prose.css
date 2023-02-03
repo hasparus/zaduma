@@ -33,6 +33,12 @@
   }
 
   /* #endregion */
+
+  & figcaption {
+    @apply px-6 text-gray-600 dark:text-gray-400;
+
+    font: italic 400 1em var(--serif);
+  }
 }
 
 /* Introduced in src/build-time/asidesPlugin.ts */
