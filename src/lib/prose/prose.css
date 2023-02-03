@@ -17,12 +17,6 @@
     margin-bottom: var(--block-mb);
   }
 
-  & hr {
-    @apply border-gray-100 dark:border-gray-800 border-b-2;
-  }
-
-  /* #region text — p, em, and strong */
-
   & em {
     font: var(--italic-serif);
   }
@@ -32,7 +26,9 @@
     font-weight: 700;
   }
 
-  /* #endregion */
+  & hr {
+    @apply border-gray-100 dark:border-gray-800 border-b-2;
+  }
 
   & figcaption {
     @apply px-6 text-gray-600 dark:text-gray-400;
