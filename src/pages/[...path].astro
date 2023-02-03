@@ -5,6 +5,7 @@ import PostLayout from "../layouts/PostLayout.astro";
 import Image from "../lib/Image.astro";
 import { Link } from "../lib/Link";
 import { Blockquote } from "../lib/prose/Blockquote";
+import { Code, Pre } from "../lib/prose/code-and-pre";
 import { Figcaption } from "../lib/prose/Figcaption";
 import { createHeading } from "../lib/prose/Heading";
 import { Ol } from "../lib/prose/Ol";
@@ -48,6 +49,8 @@ const mdxComponents = {
   ol: Ol,
   figcaption: Figcaption,
   blockquote: Blockquote,
+  code: Code,
+  pre: Pre,
 };
 ---
 
