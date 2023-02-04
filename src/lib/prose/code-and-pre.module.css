@@ -25,7 +25,7 @@
   tab-size: 2;
 
   & .Code {
-    /* Reset letter-spacing that was increased above in `.zaduma-prose code`. */
+    /* Reset letter-spacing that was increased above in `.Code`. */
     letter-spacing: unset;
     font-size: 1em;
 
