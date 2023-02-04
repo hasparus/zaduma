@@ -245,9 +245,15 @@ async function assertTokenIsValid(
   post: StringifiedPost,
   receivedToken: string
 ): Promise<void> {
+  const secret = process.env.OG_IMAGE_SECRET;
+
+  if (!secret) {
+    throw new Error("process.env.OG_IMAGE_SECRET is missing");
+  }
+
   const key = await crypto.subtle.importKey(
     "raw",
-    new TextEncoder().encode(process.env.OG_IMAGE_SECRET),
+    new TextEncoder().encode(secret),
     { name: "HMAC", hash: { name: "SHA-256" } },
     false,
     ["sign"]
