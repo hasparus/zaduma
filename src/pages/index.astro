@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate } from "../lib/formatDate";
 import { Link } from "../lib/Link";
+import { Paragraph } from "../lib/prose/Paragraph";
 import type { PostFrontmatter } from "../types";
 
 let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
@@ -21,20 +22,20 @@ posts.sort((a, b) => {
 <BaseLayout title="zaduma">
   <h1 slot="header-content" class="text-gray-600 dark:text-gray-500">zaduma</h1>
   <main class="py-10 zaduma-prose">
-    <p>
+    <Paragraph>
       <small class="text-gray-600 dark:text-gray-500"
         >IPA /zaˈdu.ma/ — reverie, musing</small
       >
       <br />
       is an Astro starter template for understated personal websites
-    </p>
-    <p class="mt-6">
+    </Paragraph>
+    <Paragraph class="mt-6">
       Learn about it by reading the articles below, take a look at the
       <Link href="https://github.com/hasparus/zaduma">readme</Link>, or boldly
       <Link href="https://github.com/hasparus/zaduma/generate">
         {"create a new repository"}
       </Link>. I wish you a pleasant journey.
-    </p>
+    </Paragraph>
   </main>
   <ul>
     {

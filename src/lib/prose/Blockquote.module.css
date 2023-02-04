@@ -1,0 +1,47 @@
+/*
+  * Example of blockquote with attribution:
+  *
+  *  <figure>
+  *    <blockquote cite="https://www.huxley.net/bnw/four.html">
+  *      <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced.</p>
+  *    </blockquote>
+  *    <figcaption>
+  *      —Aldous Huxley, <cite>
+  *        <a href="https://www.huxley.net/bnw/four.html">
+  *          Brave New World
+  *        </a>
+  *      </cite>
+  *    </figcaption>
+  *  </figure>
+  */
+
+.Blockquote {
+  font: 444 1.15em var(--serif);
+
+  position: relative;
+  quotes: "“" "”" "‘" "’";
+
+  &:after,
+  &:before {
+    @apply text-4xl leading-none text-gray-300 font-black;
+    position: absolute;
+
+    :global(.dark) & {
+      @apply text-gray-600;
+    }
+  }
+
+  &:before {
+    content: open-quote;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -0.5rem);
+  }
+
+  &:after {
+    content: close-quote;
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, calc(50% + 0.25rem));
+  }
+}

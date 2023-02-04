@@ -1,0 +1,41 @@
+.Ol {
+  counter-reset: ol var(--start, 0);
+  list-style-type: none;
+  padding: 0;
+
+  & > li {
+    text-indent: -1.5em;
+    padding-left: 1.5em;
+
+    &:before {
+      @apply text-gray-600;
+
+      :global(.dark) & {
+        @apply text-gray-400;
+      }
+
+      counter-increment: ol;
+      content: counter(ol) ".";
+      font: var(--italic-serif);
+      font-size: 1em;
+      font-weight: 700;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      text-align: right;
+      min-width: 0.75em;
+      margin-right: 0.5em;
+      user-select: none;
+    }
+  }
+
+  & li {
+    line-height: 1.75;
+  }
+
+  & li > p {
+    display: contents;
+  }
+}

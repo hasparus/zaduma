@@ -1,0 +1,91 @@
+:root {
+  --container-width: 43rem;
+  --wide-content-width: min(var(--container-width), 100vw);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --wide-breakout: 0.2;
+    --wide-content-width: min(
+      100vw,
+      calc(var(--container-width) * (1 + var(--wide-breakout)))
+    );
+  }
+}
+
+.zaduma-prose {
+  /* TODO: Get rid of thesse two and apply Tailwind styles */
+  --sans: "Inter";
+  --serif: "Brygada 1918";
+  --italic-serif: italic 444 1.15em var(--serif);
+
+  --block-mb: 1.5rem;
+
+  @apply max-w-container;
+
+  & > :not(:last-child) {
+    margin-bottom: var(--block-mb);
+  }
+
+  & em {
+    font: var(--italic-serif);
+  }
+
+  & strong,
+  & strong > em {
+    font-weight: 700;
+  }
+
+  & hr {
+    @apply border-gray-100 dark:border-gray-800 border-b-2;
+  }
+
+  & figcaption {
+    @apply px-6 text-gray-600 dark:text-gray-400;
+
+    font: italic 400 1em var(--serif);
+  }
+}
+
+/* Introduced in src/build-time/asidesPlugin.ts */
+.zaduma-aside {
+  --aside-width: 20rem;
+  --gap: 1rem;
+  --divider-width: 1px;
+
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% + var(--aside-width) + var(--gap) + var(--divider-width));
+  max-width: 100vw;
+
+  & > :first-child {
+    @apply flex-shrink-0 flex-grow max-w-container w-full;
+  }
+
+  & > aside {
+    @apply flex-shrink-0 flex-grow relative h-min text-sm;
+    width: var(--aside-width);
+    padding-left: var(--gap);
+
+    &::before {
+      content: "";
+      @apply border-l absolute h-full -left-px dark:border-gray-700;
+    }
+  }
+
+  @media (max-width: 1280px) {
+    & {
+      width: 100%;
+    }
+
+    & > aside {
+      margin-top: var(--block-mb);
+
+      &::before {
+        /* The left border of `aside` will always be positioned inside of the
+           prose container. */
+        @apply left-0;
+      }
+    }
+  }
+}

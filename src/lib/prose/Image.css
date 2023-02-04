@@ -1,0 +1,25 @@
+/*
+  - .zaduma-image-box class is also used in Link, so this is a global class
+  - we use it twice here to bump the specificity over `.zaduma-prose p a`
+*/
+.zaduma-image-box.zaduma-image-box {
+  @apply inline-block rounded-sm;
+  max-width: unset;
+  transform: translateX(min(calc(-50% * var(--wide-breakout)), 0px));
+
+  @media (max-width: 640px) {
+    margin: 0 -1rem;
+  }
+
+  & img {
+    max-width: var(--wide-content-width);
+  }
+
+  & .zaduma-image-box {
+    transform: unset;
+  }
+
+  &:is(a) {
+    padding-bottom: 0;
+  }
+}

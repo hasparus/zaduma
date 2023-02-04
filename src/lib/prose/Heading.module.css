@@ -1,0 +1,38 @@
+.Heading {
+  &:is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    font: 555 1em var(--sans);
+
+    &::before {
+      @apply text-gray-400 dark:text-gray-600;
+    }
+  }
+
+  &:is(h1)::before {
+    content: "# ";
+  }
+  &:is(h2)::before {
+    content: "## ";
+  }
+  &:is(h3)::before {
+    content: "### ";
+  }
+
+  & > a::after {
+    @apply transition-opacity;
+
+    content: "🔗";
+    display: inline-flex;
+    height: 100%;
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    transform: translateY(-0.1rem);
+    opacity: 0;
+  }
+
+  &:hover > a::after {
+    opacity: 1;
+  }
+}

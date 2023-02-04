@@ -1,0 +1,37 @@
+.Code {
+  @apply font-mono;
+  /* We decrease letter spacing to make inline code stand out less from the
+       surrounding text. */
+  letter-spacing: -0.02em;
+  font-size: 0.97em;
+
+  &::before,
+  &::after {
+    @apply text-gray-400 font-black;
+    content: "`";
+
+    :global(.dark) & {
+      @apply text-gray-600;
+    }
+  }
+}
+
+.Pre {
+  @apply md:rounded-md text-sm -mx-4 p-4 overflow-x-auto;
+
+  /* Needed to fit 80 monospaced characters with Fira Code in 43rem space. */
+  padding-right: calc(1rem - 1px);
+
+  tab-size: 2;
+
+  & .Code {
+    /* Reset letter-spacing that was increased above in `.Code`. */
+    letter-spacing: unset;
+    font-size: 1em;
+
+    &::before,
+    &::after {
+      content: "";
+    }
+  }
+}

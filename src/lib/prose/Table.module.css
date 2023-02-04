@@ -1,0 +1,21 @@
+.Table {
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  & thead {
+    @apply border-b;
+  }
+
+  & th {
+    text-align: left;
+  }
+
+  & th,
+  & td {
+    @apply py-1 px-2 md:px-4;
+  }
+}
+
+:global(.dark) .Table thead {
+  @apply border-gray-700;
+}

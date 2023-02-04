@@ -2,10 +2,15 @@
 import type { MarkdownInstance } from "astro";
 
 import PostLayout from "../layouts/PostLayout.astro";
-import { createHeading } from "../lib/Heading";
-import Image from "../lib/Image.astro";
 import { Link } from "../lib/Link";
-import { OrderedList } from "../lib/OrderedList";
+import { Blockquote } from "../lib/prose/Blockquote";
+import { Code, Pre } from "../lib/prose/code-and-pre";
+import { createHeading } from "../lib/prose/Heading";
+import Image from "../lib/prose/Image.astro";
+import { Ol } from "../lib/prose/Ol";
+import { Paragraph } from "../lib/prose/Paragraph";
+import { Table } from "../lib/prose/Table";
+import { Ul } from "../lib/prose/Ul";
 import type { PostFrontmatter } from "../types";
 
 export const getStaticPaths = async () => {
@@ -32,7 +37,6 @@ const { Content } = Astro.props;
 
 const mdxComponents = {
   a: Link,
-  ol: OrderedList,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
@@ -40,6 +44,15 @@ const mdxComponents = {
   h5: createHeading("h5"),
   h6: createHeading("h6"),
   img: Image,
+  table: Table,
+  ul: Ul,
+  ol: Ol,
+  blockquote: Blockquote,
+  code: Code,
+  pre: Pre,
+  // Take note that `mdxComponents` replace only Markdown and uppercased components,
+  // not inline lowercased JSX, so using `<p>` in and .mdx file won't use the `Paragraph`.
+  p: Paragraph,
 };
 ---
 
