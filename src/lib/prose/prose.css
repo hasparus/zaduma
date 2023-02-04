@@ -1,6 +1,12 @@
 :root {
   --container-width: 43rem;
-  --wide-content-width: min(100vw, calc(var(--container-width) * 1.2));
+  --wide-content-width: min(var(--container-width), 100vw);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --wide-content-width: min(100vw, calc(var(--container-width) * 1.2));
+  }
 }
 
 .zaduma-prose {

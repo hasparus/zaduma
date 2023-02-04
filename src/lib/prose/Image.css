@@ -9,12 +9,14 @@
 
   & img {
     max-width: var(--wide-content-width);
-    margin-left: unset;
-    transform: unset;
   }
 
   & .zaduma-image-box {
     transform: unset;
+
+    @media (max-width: 640px) {
+      margin: 0 -1rem;
+    }
   }
 
   &:is(a) {
