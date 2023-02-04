@@ -5,7 +5,11 @@
 
 @media (min-width: 640px) {
   :root {
-    --wide-content-width: min(100vw, calc(var(--container-width) * 1.2));
+    --wide-breakout: 0.2;
+    --wide-content-width: min(
+      100vw,
+      calc(var(--container-width) * (1 + var(--wide-breakout)))
+    );
   }
 }
 
@@ -15,7 +19,7 @@
   --serif: "Brygada 1918";
   --italic-serif: italic 444 1.15em var(--serif);
 
-  --block-mb: 1.5rem; /* same as Tailwind's mb-6 */
+  --block-mb: 1.5rem;
 
   @apply max-w-container;
 

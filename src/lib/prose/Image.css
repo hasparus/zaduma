@@ -5,7 +5,7 @@
 .zaduma-image-box.zaduma-image-box {
   @apply inline-block rounded-sm;
   max-width: unset;
-  transform: translateX(min(calc((100% - var(--container-width)) / -2), 0px));
+  transform: translateX(min(calc(-50% * var(--wide-breakout)), 0px));
 
   & img {
     max-width: var(--wide-content-width);
