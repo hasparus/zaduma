@@ -7,16 +7,16 @@
   max-width: unset;
   transform: translateX(min(calc(-50% * var(--wide-breakout)), 0px));
 
+  @media (max-width: 640px) {
+    margin: 0 -1rem;
+  }
+
   & img {
     max-width: var(--wide-content-width);
   }
 
   & .zaduma-image-box {
     transform: unset;
-
-    @media (max-width: 640px) {
-      margin: 0 -1rem;
-    }
   }
 
   &:is(a) {
