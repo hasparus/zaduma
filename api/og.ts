@@ -103,7 +103,7 @@ function Illustration({
     "div",
     {
       tw: `
-          flex flex-1 justify-start items-end w-full pt-4 px-4 -mb-1.5 relative
+          flex flex-1 justify-start items-end w-full pt-4 px-4 relative
           bg-[rgb(23,23,23)]
         `,
     },
