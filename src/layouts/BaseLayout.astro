@@ -45,18 +45,16 @@ posts.sort((a, b) => {
     <InitColorScheme />
   </head>
   <body>
-    <div class="max-w-container mx-auto">
-      <header
-        class="flex justify-between items-center -mt-2"
-        style={{ height: "37.5px" }}
-      >
-        <slot name="header-content">
-          <Link href="/">← back</Link>
-        </slot>
-        <Commands client:load posts={posts} />
-      </header>
-      <slot />
-      <GrainOverlay opacity={0.25} />
-    </div>
+    <header
+      class="flex justify-between items-center -mt-2 mx-auto max-w-container"
+      style={{ height: "37.5px" }}
+    >
+      <slot name="header-content">
+        <Link href="/">← back</Link>
+      </slot>
+      <Commands client:load posts={posts} />
+    </header>
+    <slot />
+    <GrainOverlay opacity={0.25} />
   </body>
 </html>
