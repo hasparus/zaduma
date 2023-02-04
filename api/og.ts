@@ -35,6 +35,8 @@ export default async function og(req: Request) {
 
     await assertTokenIsValid(stringifiedPost, token);
 
+    console.log("returning ImageResponse for", stringifiedPost);
+
     return new ImageResponse(
       h(
         "div",
@@ -73,6 +75,12 @@ export default async function og(req: Request) {
     );
   } catch (err: unknown) {
     console.error(err);
+
+    if (err instanceof HttpError) {
+      return new Response(JSON.stringify({ message: err.message }), {
+        status: err.status,
+      });
+    }
 
     const error = err instanceof Error ? err : new Error(String(err));
 
