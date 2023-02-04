@@ -1,6 +1,5 @@
 :root {
   --container-width: 43rem;
-  --wide-content-width: min(100vw, calc(var(--container-width) * 1.2));
 }
 
 .zaduma-prose {
@@ -9,25 +8,21 @@
   --serif: "Brygada 1918";
   --italic-serif: italic 444 1.15em var(--serif);
 
-  --block-mb: 1.5rem; /* same as Tailwind's mb-6 */
-
-  --bleed: calc((var(--container-width) - var(--wide-content-width)) / 2);
+  --bleed: 2rem;
 
   display: grid;
-  gap: 0.5rem;
+  gap: 1.5rem 0.5rem;
   grid-template-columns:
     [body-start left-start] auto
     [left-end wide-start] var(--bleed)
-    [main-start] var(--container-width) [main-end]
+    [main-start] minmax(1fr, var(--container-width)) [main-end]
     var(--bleed) [wide-end right-start]
     auto [body-end right-end];
 
+  grid-template-rows: repeat(auto-fill, minmax(0, max-content));
+
   & > * {
     grid-column: main;
-  }
-
-  & > :not(:last-child) {
-    margin-bottom: var(--block-mb);
   }
 
   & em {
@@ -82,7 +77,7 @@
     }
 
     & > aside {
-      margin-top: var(--block-mb);
+      margin-top: 1.5rem;
 
       &::before {
         /* The left border of `aside` will always be positioned inside of the

@@ -25,5 +25,5 @@ html {
 
 body {
   @apply text-gray-800 dark:text-gray-300 bg-white dark:bg-gray-900
-    p-4 md:p-8 relative min-h-screen overflow-x-clip;
+    py-4 md:py-8 relative min-h-screen;
 }

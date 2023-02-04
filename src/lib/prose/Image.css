@@ -4,18 +4,9 @@
 */
 .zaduma-image-box.zaduma-image-box {
   @apply inline-block rounded-sm;
-  max-width: unset;
-  transform: translateX(min(calc((100% - var(--container-width)) / -2), 0px));
 
-  & img {
-    max-width: var(--wide-content-width);
-    margin-left: unset;
-    transform: unset;
-  }
-
-  & .zaduma-image-box {
-    transform: unset;
-  }
+  grid-column-start: wide-start;
+  grid-column-start: wide-end;
 
   &:is(a) {
     padding-bottom: 0;
