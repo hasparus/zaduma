@@ -20,13 +20,14 @@ interface Props {
 
 const { title, ogImage } = Astro.props;
 
-const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx")).map(
-  (p) => ({
+const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx"))
+  .filter((p) => (import.meta.env.PROD ? !p.frontmatter.draft : true))
+  .map((p) => ({
     href: p.frontmatter.path,
     title: p.frontmatter.title,
     date: p.frontmatter.date,
-  })
-);
+  }));
+
 posts.sort((a, b) => {
   return new Date(b.date).getTime() - new Date(a.date).getTime();
 });
