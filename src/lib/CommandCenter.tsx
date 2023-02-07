@@ -3,6 +3,7 @@ import {
   createContext,
   createEffect,
   createMemo,
+  createRenderEffect,
   createSelector,
   createSignal,
   createUniqueId,
@@ -23,6 +24,8 @@ type CommandCenterCtx = {
   isSelected: (command: string) => boolean;
   matchesFilter: (command: string) => boolean;
   onInput: (filter: string) => void;
+  selectOption: (element: HTMLElement) => void;
+  onSelectedUnmount: () => void;
 };
 const CommandCenterCtx = createContext<CommandCenterCtx>({
   inputId: "",
@@ -32,6 +35,8 @@ const CommandCenterCtx = createContext<CommandCenterCtx>({
   isSelected: () => false,
   matchesFilter: () => true,
   onInput: () => {},
+  selectOption: () => {},
+  onSelectedUnmount: () => {},
 });
 
 const useCtx = () => useContext(CommandCenterCtx);
@@ -88,7 +93,7 @@ export function CommandCenter(props: CommandCenterProps) {
   createEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const dialog = dialogRef.current;
-      if (!dialog) return;
+      if (!dialog || !dialog.open) return;
 
       let move: -1 | 1;
 
@@ -165,6 +170,8 @@ export function CommandCenter(props: CommandCenterProps) {
             }
           }
         },
+        selectOption: (element) => selectCommand(getCommandText(element)),
+        onSelectedUnmount: () => selectCommand(""),
       }}
     >
       {props.children}
@@ -216,7 +223,7 @@ export interface CommandItemProps extends JSX.HTMLAttributes<HTMLElement> {
 
 export function CommandItem(props: CommandItemProps) {
   const [own, rest] = splitProps(props, ["href"]);
-  const { isSelected, matchesFilter } = useCtx();
+  const { isSelected, matchesFilter, onSelectedUnmount } = useCtx();
 
   const res = (
     own.href ? (
@@ -247,7 +254,12 @@ export function CommandItem(props: CommandItemProps) {
     res.ariaSelected = String(selected);
     res.style.display = matchesFilter(text) ? "" : "none";
 
-    if (selected) res.scrollIntoView({ block: "center", behavior: "smooth" });
+    if (selected) {
+      res.scrollIntoView({ block: "center", behavior: "smooth" });
+      onCleanup(() => {
+        if (isSelected(text)) onSelectedUnmount();
+      });
+    }
   });
 
   return res;
@@ -317,7 +329,29 @@ function getCommandText(element: HTMLElement) {
 export function CommandList(
   props: Omit<JSX.HTMLAttributes<HTMLDivElement>, "id">
 ) {
-  const { listId } = useCtx();
+  const { listId, isSelected, selectOption } = useCtx();
+
+  createRenderEffect(() => {
+    const nothingSelected = isSelected("");
+    const kids = children(() => props.children).toArray();
+
+    if (nothingSelected) {
+      for (const child of kids) {
+        if (child instanceof HTMLElement) {
+          if (child.role === "option") {
+            selectOption(child);
+            break;
+          }
+
+          const first = child.querySelector("[role=option]") as HTMLElement;
+          if (first) {
+            selectOption(first);
+            break;
+          }
+        }
+      }
+    }
+  });
 
   return <div id={listId} {...props} />;
 }
