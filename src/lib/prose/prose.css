@@ -49,7 +49,7 @@
 
 /* Introduced in src/build-time/asidesPlugin.ts */
 .zaduma-aside {
-  --aside-width: 20rem;
+  --aside-width: 20em;
   --gap: 1rem;
   --divider-width: 1px;
 
