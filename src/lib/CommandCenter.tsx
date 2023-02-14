@@ -254,8 +254,16 @@ export function CommandItem(props: CommandItemProps) {
     res.ariaSelected = String(selected);
     res.style.display = matchesFilter(text) ? "" : "none";
 
+    const isVisible = matchesFilter(text);
+
+    res.style.display = isVisible ? "" : "none";
+    res.role = isVisible ? "option" : "none";
+
     if (selected) {
-      res.scrollIntoView({ block: "center", behavior: "smooth" });
+      setTimeout(
+        () => res.scrollIntoView({ block: "center", behavior: "smooth" }),
+        0
+      );
       onCleanup(() => {
         if (isSelected(text)) onSelectedUnmount();
       });
