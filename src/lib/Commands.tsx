@@ -75,7 +75,7 @@ export function CommandsPalette({
     [
       "escape",
       () => {
-        setPage(undefined);
+        // setPage(undefined);
       },
     ],
     [
@@ -143,8 +143,19 @@ export function CommandsPalette({
 
   return (
     <CommandCenterDialog
-      onClose={() => setPage(undefined)}
-      ref={(ref) => (dialog = ref)}
+      onClose={(event) => {
+        event.preventDefault();
+        setPage(undefined);
+      }}
+      ref={(ref) => {
+        dialog = ref;
+        dialog?.addEventListener("cancel", (event) => {
+          if (page() !== undefined) {
+            event.preventDefault();
+            setPage(undefined);
+          }
+        });
+      }}
       class={
         "backdrop:bg-white backdrop:bg-opacity-30" +
         " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +

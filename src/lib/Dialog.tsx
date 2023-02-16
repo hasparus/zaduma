@@ -6,7 +6,7 @@ import { useFocusTrap } from "./useFocusTrap";
 export interface DialogProps
   extends JSX.DialogHtmlAttributes<HTMLDialogElement> {
   open?: boolean;
-  onClose?: () => void;
+  onClose?: (event: MouseEvent & { currentTarget: HTMLDialogElement }) => void;
   children: JSX.Element;
   ref?: (dialog: HTMLDialogElement) => void;
 }
@@ -36,7 +36,7 @@ export function Dialog(props: DialogProps) {
   > = (event) => {
     if (event.target === event.currentTarget) {
       event.currentTarget.close("dismiss");
-      props.onClose?.();
+      props.onClose?.(event);
     }
   };
 
