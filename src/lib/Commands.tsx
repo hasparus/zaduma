@@ -20,6 +20,7 @@ import {
   CommandItem as CommandCenterItem,
   CommandItemProps as CommandCenterItemProps,
   CommandList,
+  useCommandCenterCtx,
 } from "./CommandCenter";
 import { DialogCloseButton } from "./Dialog";
 import { isMac } from "./isMac";
@@ -53,6 +54,8 @@ export function CommandsPalette({
   posts: { title: string; href: string }[];
 }) {
   type CommandsPage = "posts" | "theme" | undefined;
+  const { getInputValue } = useCommandCenterCtx();
+
   const [page, setPage] = createSignal<CommandsPage>();
   let dialog: HTMLDialogElement | undefined;
 
@@ -76,6 +79,12 @@ export function CommandsPalette({
       "escape",
       () => {
         setPage(undefined);
+      },
+    ],
+    [
+      "backspace",
+      () => {
+        if (!getInputValue()) setPage(undefined);
       },
     ],
     [
