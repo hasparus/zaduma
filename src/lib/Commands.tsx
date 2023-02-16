@@ -152,10 +152,7 @@ export function CommandsPalette({
 
   return (
     <CommandCenterDialog
-      onClose={(event) => {
-        event.preventDefault();
-        setPage(undefined);
-      }}
+      onClose={() => setPage(undefined)}
       ref={(ref) => (dialog = ref)}
       class={
         "backdrop:bg-white backdrop:bg-opacity-30" +
