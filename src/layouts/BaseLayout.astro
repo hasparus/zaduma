@@ -45,7 +45,13 @@ console.log(interPath);
       name="description"
       content="Astro starter template for understated personal websites using Solid.js, Tailwind CSS, and MDX."
     />
-    <link rel="preload" href={interPath} as="font" type="font/woff2" />
+    <link
+      rel="preload"
+      href={interPath}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <SocialCardMetaTags ogImage={ogImage} />
 
