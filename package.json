@@ -10,6 +10,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "serve": "astro preview",
     "astro": "astro",
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
