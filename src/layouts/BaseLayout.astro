@@ -33,8 +33,6 @@ const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx"))
 posts.sort((a, b) => {
   return new Date(b.date).getTime() - new Date(a.date).getTime();
 });
-
-console.log(interPath);
 ---
 
 <html lang="en">
