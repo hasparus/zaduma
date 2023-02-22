@@ -1,4 +1,6 @@
 ---
+import interPath from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2";
+
 import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
@@ -31,6 +33,8 @@ const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx"))
 posts.sort((a, b) => {
   return new Date(b.date).getTime() - new Date(a.date).getTime();
 });
+
+console.log(interPath);
 ---
 
 <html lang="en">
@@ -41,12 +45,7 @@ posts.sort((a, b) => {
       name="description"
       content="Astro starter template for understated personal websites using Solid.js, Tailwind CSS, and MDX."
     />
-    <link
-      rel="preload"
-      href="@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
-      as="font"
-      type="font/woff2"
-    />
+    <link rel="preload" href={interPath} as="font" type="font/woff2" />
 
     <SocialCardMetaTags ogImage={ogImage} />
 
