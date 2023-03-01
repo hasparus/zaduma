@@ -20,7 +20,7 @@
   "dependencies": {
     "@astrojs/image": "^0.13.0",
     "@astrojs/markdown-remark": "^2.0.0",
-    "@astrojs/mdx": "^0.15.0",
+    "@astrojs/mdx": "^0.17.2",
     "@astrojs/solid-js": "^2.0.0",
     "@astrojs/tailwind": "^3.0.0",
     "@fontsource/brygada-1918": "^4.5.11",
