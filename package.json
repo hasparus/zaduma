@@ -30,7 +30,7 @@
     "@types/react": "^18.0.26",
     "@vercel/og": "^0.0.21",
     "astro": "^2.0.1",
-    "astro-eslint-parser": "^0.11.0",
+    "astro-eslint-parser": "^0.13.2",
     "eslint-plugin-markdown": "^3.0.0",
     "estree-util-value-to-estree": "^2.0.0",
     "plaiceholder": "^2.5.0",
