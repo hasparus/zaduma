@@ -76,7 +76,9 @@ All commands are run from the root of the project, from a terminal:
 ## 👌 Usage
 
 1. Click <kbd>Use this template</kbd> to create a new repo.
-2. Set [`VERCEL_TOKEN`], `VERCEL_PROJECT_ID`, and [`VERCEL_ORG_ID`] secrets to
+2. Clone the repository, install with `pnpm install` and run with `pnpm dev`.
+3. Style it and personalize however you like 💅
+4. Set [`VERCEL_TOKEN`], `VERCEL_PROJECT_ID`, and [`VERCEL_ORG_ID`] secrets to
    deploy to Vercel from GHA (enables access to git history).
 
    - Alternatively — if all your blog posts have a `date` in frontmatter, you
