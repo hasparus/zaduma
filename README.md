@@ -87,7 +87,7 @@ All commands are run from the root of the project, from a terminal:
      to `derivedTitleAndDatePlugin` function and remove `execSync("git log")`
      from it. (TODO: Can we make it more convenient?)
 
-3. Add `OG_IMAGE_SECRET` to secure your OG image endpoint.
+3. Generate a passphrase for `OG_IMAGE_SECRET` to secure your OG image endpoint, and add it to [Actions Secrets]((https://github.com/hasparus/zaduma/settings/secrets/actions)). 
 
 [`vercel_token`]: https://vercel.com/account/tokens
 [`vercel_org_id`]: https://vercel.com/account#your-id
