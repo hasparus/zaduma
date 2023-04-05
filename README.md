@@ -79,7 +79,7 @@ All commands are run from the root of the project, from a terminal:
 2. Clone the repository, install with `pnpm install` and run with `pnpm dev`.
 3. Style it and personalize however you like 💅
 4. Set [`VERCEL_TOKEN`], `VERCEL_PROJECT_ID`, and [`VERCEL_ORG_ID`] secrets to
-   deploy to Vercel from GHA (enables access to git history).
+   deploy to Vercel from GHA (what enables access to git history). ([_Settings→Secrets_](https://github.com/hasparus/zaduma/settings/secrets/actions)
 
    - Alternatively — if all your blog posts have a `date` in frontmatter, you
      don't need to deploy through _workflows/ci.yml_. Feel free to remove the
