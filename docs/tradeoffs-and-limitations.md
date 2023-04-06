@@ -30,7 +30,7 @@ render correctly. `System` corresponds `null` in `localStorage` and leads to a
 
 - A component with [`client:only`][client-only] directive also cannot be
   rendered above the fold.
-  [It will blink](<./client-only blinks on navigation.mov>).
+  [It will blink](https://user-images.githubusercontent.com/15332326/230307183-406e80ba-36ac-48d3-944e-170408c759ff.mov)
 
 **Solutions**
 
