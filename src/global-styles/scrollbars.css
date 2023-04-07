@@ -1,0 +1,24 @@
+html {
+  scroll-behavior: smooth;
+  --scrollbar-color: 0, 0, 0;
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+::-webkit-scrollbar-track:hover {
+  background-color: rgba(var(--scrollbar-color), 0.02);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--scrollbar-color), 0.2);
+  background-clip: padding-box;
+  border: 3px solid rgba(var(--scrollbar-color), 0);
+  border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover {
+  border-width: 3px;
+  background-color: rgba(var(--scrollbar-color), 0.32);
+}
+::-webkit-scrollbar-corner {
+  background-color: rgba(var(--scrollbar-color), 0);
+}
