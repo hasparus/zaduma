@@ -9,11 +9,11 @@ import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
 import type { PostFrontmatter } from "../types";
 
 import "../global-styles/base.css";
-import "../global-styles/scrollbars.css";
 import "../global-styles/controls.css";
 import "../global-styles/integrations.css";
 import "../global-styles/font.css";
 import "../lib/prose/prose.css";
+import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
 
 interface Props {
   title: string;
@@ -73,5 +73,6 @@ posts.sort((a, b) => {
       <slot />
       <GrainOverlay opacity={0.25} />
     </div>
+    <ScrollbarStyles />
   </body>
 </html>

@@ -1,0 +1,43 @@
+---
+// We add .bars class instead of adding .mac class, because we really want to
+// avoid scrollbars blinking in and out.
+---
+
+<script is:inline>
+  if (!navigator.userAgent.includes("Mac OS"))
+    document.documentElement.classList.add("bars");
+</script>
+
+<style is:global>
+  html.bars {
+    --scrollbar-color: 0, 0, 0;
+
+    &.dark {
+      --scrollbar-color: 255, 255, 255;
+    }
+
+    & ::-webkit-scrollbar {
+      width: 15px;
+    }
+
+    & ::-webkit-scrollbar-track:hover {
+      background-color: rgba(var(--scrollbar-color), 0.02);
+    }
+
+    & ::-webkit-scrollbar-thumb {
+      background-color: rgba(var(--scrollbar-color), 0.2);
+      background-clip: padding-box;
+      border: 3px solid rgba(var(--scrollbar-color), 0);
+      border-radius: 100px;
+    }
+
+    & ::-webkit-scrollbar-thumb:hover {
+      border-width: 3px;
+      background-color: rgba(var(--scrollbar-color), 0.32);
+    }
+
+    & ::-webkit-scrollbar-corner {
+      background-color: rgba(var(--scrollbar-color), 0);
+    }
+  }
+</style>
