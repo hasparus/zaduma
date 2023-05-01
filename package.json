@@ -52,7 +52,7 @@
     "@types/hast": "2.3.4",
     "@types/node": "^18.11.18",
     "autoprefixer": "^10.4.13",
-    "cssnano": "^5.1.14",
+    "cssnano": "^6.0.1",
     "eslint": "^8.30.0",
     "prettier": "^2.8.1",
     "prettier-plugin-astro": "^0.7.2",
