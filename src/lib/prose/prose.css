@@ -89,3 +89,45 @@
     }
   }
 }
+
+details {
+  @apply border border-gray-300 dark:border-gray-700/60 rounded-lg -mx-4;
+
+  & summary::after {
+    content: "↧";
+    @apply absolute right-2 top-0 text-xl;
+  }
+
+  &:not([open]) {
+    border-bottom-style: dashed;
+  }
+
+  &[open] summary {
+    @apply mb-2;
+
+    &::after {
+      transform: rotate(-180deg) translateY(-0.1em);
+    }
+  }
+
+  & > * {
+    @apply px-2 !m-0;
+  }
+
+  & summary {
+    cursor: pointer;
+    list-style: none;
+
+    & > p {
+      @apply !px-0 !m-0;
+    }
+
+    @apply relative
+    before:content-[''] before:absolute before:inset-0
+    before:-z-10 before:pointer-events-none
+    before:rounded before:transition-colors before:bg-transparent
+    hover:before:bg-gray-100 dark:hover:before:bg-gray-800/60
+    focus:before:bg-gray-100 dark:focus:before:bg-gray-800/60
+    selected:before:bg-gray-100 dark:selected:before:bg-gray-800/60;
+  }
+}
