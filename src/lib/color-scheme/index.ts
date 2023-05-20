@@ -21,7 +21,7 @@ export const setScheme = (scheme: ColorScheme): void => {
       isDark = mql.matches;
     }
 
-    document.documentElement.classList.toggle("dark", isDark);
+    setClass(isDark);
   }
 
   if (typeof localStorage !== "undefined") {
