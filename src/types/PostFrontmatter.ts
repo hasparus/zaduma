@@ -3,8 +3,13 @@ import type { ReadTimeResults } from "reading-time";
 export interface PostFrontmatter {
   tags: string[];
   /**
-   * Optional URL to a picture. */
+   * Optional URL to a picture.
+   */
   img?: string;
+  /**
+   * Optional URL to og:image if it's premade, not created by /api/og.ts.
+   */
+  ogImage?: string;
   /**
    * @computed by derivedTitleAndDatePlugin from file name
    *           if not given

@@ -6,6 +6,8 @@ import type { PostFrontmatter } from "../types/PostFrontmatter";
 const OG_IMAGE_SECRET = import.meta.env.OG_IMAGE_SECRET;
 
 export function createOgImageLink(frontmatter: PostFrontmatter) {
+  if (frontmatter.ogImage) return frontmatter.ogImage;
+
   // prettier-ignore
   const stringifiedPost: StringifiedPost = `${
     new Date(frontmatter.date).getTime()
