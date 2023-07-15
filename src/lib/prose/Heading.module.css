@@ -6,7 +6,7 @@
     font: 555 1em var(--sans);
 
     &::before {
-      @apply text-gray-400 dark:text-gray-600;
+      @apply text-textSpecial;
     }
   }
 

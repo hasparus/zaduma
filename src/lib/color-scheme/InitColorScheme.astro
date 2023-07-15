@@ -1,13 +1,53 @@
+---
+import { ColorScheme, setScheme } from "./index";
+
+
+---
+
 <script is:inline>
-  const setClass = (isDark) =>
-    document.documentElement.classList.toggle("dark", isDark);
+  // const setClass = (isDark) =>
+  //   document.documentElement.classList.toggle("dark", isDark);
 
-  const scheme = localStorage.getItem("ⲍ 🎨");
+  // const scheme = localStorage.getItem("ⲍ 🎨");
 
-  if (!scheme) {
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    setClass(mql.matches);
-    mql.onchange = (e) => setClass(e.matches);
-    window.ⲍ_schemeMql = mql;
-  } else setClass(scheme === "dark");
+  // if (!scheme) {
+  //   const mql = window.matchMedia("(prefers-color-scheme: dark)");
+  //   setClass(mql.matches);
+  //   mql.onchange = (e) => setClass(e.matches);
+  //   window.ⲍ_schemeMql = mql;
+  // } else setClass(scheme === "dark");
+
+
+  
+//   const themes = {
+// 			'light-theme': ['bg-white', 'text-black'],
+// 			'dark-theme': ['bg-black', 'text-red-200'],
+// 			'bright-red': ['bg-red-500', 'text-green-700'],
+// 			};
+		  
+// 			// Select the theme selector element
+// 			const themeSelector = document.getElementById('theme-select');
+
+// 			// Add an event listener to handle theme changes
+// 			themeSelector.addEventListener('change', (event) => {
+// 			const selectedTheme = event.target.value;
+
+// 			// Remove existing theme classes from the body element
+// 			Object.values(themes).forEach((theme) => {
+// 				theme.forEach((className) => {
+// 				document.body.classList.remove(className);
+// 				});
+// 			});
+
+// 			// Apply the selected theme classes to the body element
+// 			themes[selectedTheme].forEach((className) => {
+// 				document.body.classList.add(className);
+// 			});
+// 			});
+
+
+
+
+
+
 </script>

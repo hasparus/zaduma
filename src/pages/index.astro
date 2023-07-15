@@ -5,7 +5,12 @@ import { Link } from "../lib/Link";
 import { Paragraph } from "../lib/prose/Paragraph";
 import type { PostFrontmatter } from "../types";
 
-let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+import PhotoSwipeLightbox from "photoswipe/lightbox";
+import "photoswipe/dist/photoswipe.css";
+
+import LatestStream from "../components/LatestStream.astro";
+
+let posts = await Astro.glob<PostFrontmatter>("../../posts/journal/*.mdx");
 
 if (import.meta.env.PROD) {
   posts = posts.filter((post) => !post.frontmatter.draft);
@@ -17,26 +22,31 @@ posts.sort((a, b) => {
     new Date(a.frontmatter.date).getTime()
   );
 });
+
+// import Plyr from 'plyr';
+
+// const player = new Plyr('#player');
 ---
 
-<BaseLayout title="zaduma">
-  <h1 slot="header-content" class="text-gray-600 dark:text-gray-500">zaduma</h1>
+<BaseLayout title="edson">
+  <h1 slot="header-content" class="text-textSpecial">edson</h1>
   <main class="py-10 zaduma-prose">
     <Paragraph>
       <small class="text-gray-600 dark:text-gray-500"
-        >IPA /zaˈdu.ma/ — reverie, musing</small
+        >per audacia ad astra {'>>'} from adversity to the stars</small
       >
       <br />
-      is an Astro starter template for understated personal websites
+      I'm a product manager at <Link href="https://company.onefootball.com/">OneFootball</Link>. A third culture kid with a passion for seasoned food, photography, video games, writing and knowing when something should become tech debt.
     </Paragraph>
     <Paragraph class="mt-6">
-      Learn about it by reading the articles below, take a look at the
-      <Link href="https://github.com/hasparus/zaduma">readme</Link>, or boldly
-      <Link href="https://github.com/hasparus/zaduma/generate">
-        {"create a new repository"}
-      </Link>. I wish you a pleasant journey.
+      Learn more about me by checking out
+      <Link href="https://drive.google.com/file/d/1IbeLvscALmKHxZiRmAMtGk4s9xnkO-EZ/view?usp=drive">my resume</Link>, or reading the posts below.
+      <br>Have a wonderful day!
     </Paragraph>
   </main>
+
+  <LatestStream />
+
   <ul>
     {
       posts.map(({ frontmatter }) => {
@@ -49,12 +59,10 @@ posts.sort((a, b) => {
               class="flex flex-row gap-2 justify-between"
               noUnderline
             >
-              <h2 class="text-gray-800 dark:text-gray-300 font-sans">
-                {frontmatter.title}
-              </h2>
+              <h2 class="text-proseTitle ">{frontmatter.title}</h2>
               <time
                 datetime={date.toISOString()}
-                class="text-gray-600 dark:text-gray-400 tabular-nums tracking-tighter shrink-0"
+                class="text-proseDate tabular-nums tracking-tighter shrink-0"
               >
                 {formatDate(date)}
               </time>
@@ -64,12 +72,14 @@ posts.sort((a, b) => {
       })
     }
   </ul>
+
   <style>
     ul:hover li:not(:hover) :where(h2, time) {
-      @apply text-gray-600 transition-colors;
-      :global(.dark) & {
+      @apply text-[#737373] transition-colors;
+      /* :global(.dark) & {
         @apply text-gray-500;
-      }
+      } */
     }
   </style>
 </BaseLayout>
+

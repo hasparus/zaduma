@@ -1,19 +1,23 @@
 ---
 import interPath from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2";
 
-import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
+// import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
 import { Link } from "../lib/Link";
 import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
 import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
 import type { PostFrontmatter } from "../types";
+import Footer from "../components/Footer.astro";
 
+
+// import "../lib/color-scheme/index.ts";
 import "../global-styles/base.css";
 import "../global-styles/controls.css";
 import "../global-styles/integrations.css";
 import "../global-styles/font.css";
 import "../lib/prose/prose.css";
+
 
 interface Props {
   title: string;
@@ -36,6 +40,8 @@ posts.sort((a, b) => {
 });
 ---
 
+
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -57,10 +63,11 @@ posts.sort((a, b) => {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <title>{title}</title>
-    <InitColorScheme />
+    <!-- <InitColorScheme client:only/> -->
   </head>
-  <body>
-    <div class="max-w-container mx-auto px-4">
+  <body class="outline-coloroutline text-text bg-background selection:bg-colorselectionBg selection:text-colorselectionText h-screen">
+    <div class="bg-background text-text px-0 md:px-4 py-4 md:py-8 relative min-h-screen">
+    <div class="max-w-container mx-auto px-4 pb-[96px]">
       <header
         class="flex justify-between items-center -mt-2"
         style={{ height: "37.5px" }}
@@ -74,5 +81,38 @@ posts.sort((a, b) => {
       <GrainOverlay opacity={0.25} />
     </div>
     <ScrollbarStyles />
+    <Footer />
+  </div>
   </body>
 </html>
+
+<script >
+
+  import { ColorScheme, setScheme } from "../lib/color-scheme/index.ts";
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const selectedTheme = localStorage.getItem("selectedTheme");
+    if (selectedTheme) {
+      setScheme(selectedTheme);
+    }
+
+    else {
+      let mediaQueryObj = window.matchMedia('(prefers-color-scheme: dark)');
+      let isDarkMode = mediaQueryObj.matches; 
+      if(isDarkMode){
+        setScheme("dark");
+    }
+    }
+  });
+
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import 'photoswipe/dist/photoswipe.css';
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#gallery',
+    children: 'a',
+    pswpModule: () => import('photoswipe'),
+  });
+  lightbox.init();
+
+</script>

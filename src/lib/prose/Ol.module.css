@@ -8,11 +8,13 @@
     padding-left: 1.5em;
 
     &:before {
-      @apply text-gray-600;
+      /* @apply text-gray-50; */
 
-      :global(.dark) & {
-        @apply text-gray-400;
-      }
+      /* :global(.dark) & {
+        @apply text-gray-950;
+      } */
+
+      @apply text-textSpecial;
 
       counter-increment: ol;
       content: counter(ol) ".";

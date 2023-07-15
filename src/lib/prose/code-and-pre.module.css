@@ -5,14 +5,17 @@
   letter-spacing: -0.02em;
   font-size: 0.97em;
 
-  &::before,
+  &::before{
+    @apply text-gray-50 font-sans;
+  },
+
   &::after {
-    @apply text-gray-400 font-black;
+    @apply text-text font-black;
     content: "`";
 
-    :global(.dark) & {
+    /* :global(.dark) & {
       @apply text-gray-600;
-    }
+    } */
   }
 }
 

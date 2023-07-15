@@ -15,7 +15,7 @@
 
 .zaduma-prose {
   /* TODO: Get rid of thesse two and apply Tailwind styles */
-  --sans: "Inter";
+  /* --sans: "Inter"; */
   --serif: "Brygada 1918";
   --italic-serif: italic 444 1.15em var(--serif);
 
@@ -37,11 +37,11 @@
   }
 
   & hr {
-    @apply border-gray-100 dark:border-gray-800 border-b-2;
+    @apply border-text border-b-2;
   }
 
   & figcaption {
-    @apply px-6 text-gray-600 dark:text-gray-400;
+    @apply px-6 text-colordecoration;
 
     font: italic 400 1em var(--serif);
   }
@@ -69,7 +69,7 @@
 
     &::before {
       content: "";
-      @apply border-l absolute h-full -left-px dark:border-gray-700;
+      @apply border-l absolute h-full -left-px border-colorselectionBg;
     }
   }
 
@@ -91,7 +91,7 @@
 }
 
 details {
-  @apply border border-gray-300 dark:border-gray-700/60 rounded-lg -mx-4;
+  @apply border border-colorhover rounded-lg -mx-4;
 
   & summary::after {
     content: "↧";

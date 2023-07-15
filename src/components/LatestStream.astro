@@ -1,0 +1,47 @@
+---
+import type { PostFrontmatter } from "../types";
+
+const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx"))
+  .filter((p) => (import.meta.env.PROD ? !p.frontmatter.draft : true))
+  .map((p) => ({
+    href: p.frontmatter.path,
+    title: p.frontmatter.title,
+    date: p.frontmatter.date,
+    content: p.frontmatter.description,
+  }));
+
+posts.sort((a, b) => {
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+});
+
+const post = posts[0];
+
+// max character limit for content should be 240 characters
+const latestPostContent = post.content.slice(0, 240);
+
+// posts.sort((a, b) => {
+//   return (
+//     new Date(b.frontmatter.date).getTime() -
+//     new Date(a.frontmatter.date).getTime()
+//   );
+// });
+
+// const latestPost =posts[0];
+
+// const latestPostContent = latestPost.Content;
+---
+
+<div class="pb-8 text-text">
+  <a href="/streams">
+    <div
+      class="hover:bg-colorhover focus:bg-colorhover selected-bg-colorhover transition-colors"
+    >
+      <h4 class="text-textSpecial pb-1">Latest Stream</h4>
+      <p>{latestPostContent}</p>
+
+      <!-- <a href={latestPost.url} class="text-textSpecial hover:text-textSpecialHover focus:text-textSpecialHover selected-text-textSpecialHover transition-colors">Read more</a> -->
+      <!-- <p class="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore temporibus quam nobis vero exercitationem, perferendis veritatis repudiandae natus.At perspiciatis voluptatum expedita vel, itaque fugit molestiae id quaerat rerum tenetur?
+            </p> -->
+    </div>
+  </a>
+</div>

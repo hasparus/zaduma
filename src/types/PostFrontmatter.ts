@@ -1,6 +1,8 @@
 import type { ReadTimeResults } from "reading-time";
 
 export interface PostFrontmatter {
+  description: string;
+
   tags: string[];
   /**
    * Optional URL to a picture.

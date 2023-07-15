@@ -1,0 +1,46 @@
+---
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import { formatDate } from "../lib/formatDate";
+import { Link } from "../lib/Link";
+let posts = await Astro.glob<PostFrontmatter>("../../posts/streams/*.mdx");
+
+
+---
+
+<BaseLayout title="Streams">
+    <main class="my-12">
+        <h2 class="text-textSpecial">Streams</h2>
+    </main>
+
+    <ul>
+        {
+          posts.map(({ frontmatter }) => {
+            const date = new Date(frontmatter.date);
+    
+            return (
+              <li>
+                <Link
+                  href={frontmatter.path}
+                  class="flex flex-row gap-2 justify-between"
+                  noUnderline
+                >
+                  <h2 class="text-proseTitle ">
+                    {frontmatter.title}
+                  </h2>
+                  <time
+                    datetime={date.toISOString()}
+                    class="text-proseDate tabular-nums tracking-tighter shrink-0"
+                  >
+                    {formatDate(date)}
+                  </time>
+                </Link>
+              </li>
+            );
+          })
+        }
+      </ul>
+    
+
+</BaseLayout>  

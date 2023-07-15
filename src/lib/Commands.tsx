@@ -40,7 +40,7 @@ export function Commands({
 
   return (
     <CommandCenter inputId={INPUT_ID}>
-      <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-4 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
+      <CommandCenterTrigger class="zaduma-hover-before hover:before:bg-colorhover focus:before:bg-colorhover selected:before:bg-colorhover hover:bg-colorhover focus:bg-colorhover selection:bg-colorhover transition-colors rounded-sm w-12 h-12 -mx-4 text-textSpecial" />
       <Show when={clientside()} keyed>
         {() => <CommandsPalette posts={posts} />}
       </Show>
@@ -114,6 +114,7 @@ export function CommandsPalette({
     ["1", () => setColorScheme("light")],
     ["2", () => setColorScheme("dark")],
     ["3", () => setColorScheme(null)],
+    ["4", () => setColorScheme("fav")],
     [
       "alt+slash",
       () => {
@@ -155,12 +156,11 @@ export function CommandsPalette({
       onClose={() => setPage(undefined)}
       ref={(ref) => (dialog = ref)}
       class={
-        "backdrop:bg-white backdrop:bg-opacity-30" +
-        " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
-        " mx-auto transform rounded-xl bg-white" +
+        "backdrop:bg-background backdrop:bg-opacity-30" +
+        " mx-auto transform rounded-xl bg-background" +
         " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
         " transition-all [&[open]]:flex flex-col" +
-        " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
+        " relative p-0 bg-background w-96 max-w-full text-text"
       }
     >
       <div class="flex justify-end">
@@ -173,7 +173,7 @@ export function CommandsPalette({
         aria-label="Commands"
         class={
           "p-2 indent-2 w-full focus:outline-none border-b" +
-          " dark:border-gray-700 bg-transparent"
+          " border-textSpecial bg-transparent"
         }
         placeholder="What do you need?"
         autofocus
@@ -182,23 +182,34 @@ export function CommandsPalette({
         <Switch
           fallback={
             <>
+              <CommandGroup heading={<GroupHeading>Pages</GroupHeading>}>
+                <CommandItem href="/journal" shortcut="alt+j" onClick={handleShortcut}>
+                  Journal
+                </CommandItem>
+                <CommandItem href="/streams" shortcut="alt+k" onClick={handleShortcut}>
+                  Streams
+                </CommandItem>
+              </CommandGroup>
+              <CommandGroup heading={<GroupHeading>Settings</GroupHeading>}>
+
               <CommandItem shortcut="alt+t" onClick={handleShortcut}>
                 Set Theme
               </CommandItem>
+              </CommandGroup>
               <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
                 <CommandItem shortcut="alt+slash" onClick={handleShortcut}>
                   Search Posts
                 </CommandItem>
               </CommandGroup>
               <CommandGroup heading={<GroupHeading>Links</GroupHeading>}>
-                <CommandItem href="https://twitter.com/hasparus">
-                  Twitter
+                <CommandItem href="https://https://linkedin.com/in/edsonac">
+                  LinkedIn
+                </CommandItem>
+                <CommandItem href="https://www.flickr.com/photos/edson_ac">
+                  Flickr
                 </CommandItem>
                 <CommandItem href="https://github.com/hasparus/zaduma">
                   GitHub
-                </CommandItem>
-                <CommandItem href="https://github.com/hasparus/zaduma/issues">
-                  Contact
                 </CommandItem>
                 <CommandItem href="/rss.xml">RSS</CommandItem>
               </CommandGroup>
@@ -256,8 +267,8 @@ function CommandItem(props: CommandItemProps) {
   return (
     <CommandCenterItem
       class={
-        "zaduma-hover-before p-2 cursor-pointer w-full focus-visible:outline-black " +
-        "flex justify-between text-gray-700 dark:text-gray-300 " +
+        "zaduma-hover-before hover:before:bg-colorhover focus:before:bg-colorhover selected:before:bg-colorhover p-2 cursor-pointer w-full focus-visible:outline-black " +
+        "flex justify-between text-textSpecial" +
         "relative"
       }
       tabIndex={-1}
@@ -274,7 +285,7 @@ function CommandItem(props: CommandItemProps) {
 
 function GroupHeading(props: { children: JSX.Element }) {
   return (
-    <span class="text-xs p-2 font-semibold text-gray-400 dark:text-gray-500 uppercase leading-none tracking-wider">
+    <span class="text-xs p-2 font-semibold text-textSpecial uppercase leading-none tracking-wider">
       {props.children}
     </span>
   );

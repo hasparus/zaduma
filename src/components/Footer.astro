@@ -1,0 +1,33 @@
+---
+const d = new Date();
+const year = d.getFullYear();
+---
+
+<script>
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      const timeString = `${hours}:${minutes}:${seconds}`;
+  
+      const clockElement = document.getElementById('clock');
+      clockElement.textContent = timeString;
+    }
+  
+    setInterval(updateClock, 1000); // Update every second
+  </script>
+
+<footer class="absolute w-screen bottom-0">
+    <div class="border-t border-textSpecial py-2">
+        <div class="max-w-container mx-auto flex text-textSpecial">
+            <div class=" mr-auto">Made with ❤️</div> 
+            <div class="flex justify-around ">
+                <div class="">&copy; {year} - </div>
+                <!-- <div class="ml-2" id="clock"></div> -->
+                <div id="clock" class="ml-2"></div>
+            </div>
+        </div>
+    </div>
+</footer>
+

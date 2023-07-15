@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Link } from "../lib/Link";
+import { formatDate } from "../lib/formatDate";
+
+import type { PostFrontmatter } from "../types";
+
+let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+
+if (import.meta.env.PROD) {
+  posts = posts.filter((post) => !post.frontmatter.draft);
+}
+
+posts.sort((a, b) => {
+  return (
+    new Date(b.frontmatter.date).getTime() -
+    new Date(a.frontmatter.date).getTime()
+  );
+});
+
+---
+
+<BaseLayout title="Journal">
+    <main>
+        <h1 class="my-12 text-textSpecial">Journal</h1>
+    </main>
+    <ul>
+        {
+          posts.map(({ frontmatter }) => {
+            const date = new Date(frontmatter.date);
+    
+            return (
+              <li>
+                <Link
+                  href={frontmatter.path}
+                  class="flex flex-row gap-2 justify-between"
+                  noUnderline
+                >
+                  <h2 class="text-proseTitle ">
+                    {frontmatter.title}
+                  </h2>
+                  <time
+                    datetime={date.toISOString()}
+                    class="text-proseDate tabular-nums tracking-tighter shrink-0"
+                  >
+                    {formatDate(date)}
+                  </time>
+                </Link>
+              </li>
+            );
+          })
+        }
+      </ul>
+    
+      <style>
+        ul:hover li:not(:hover) :where(h2, time) {
+          @apply text-[#737373] transition-colors;
+          /* :global(.dark) & {
+            @apply text-gray-500;
+          } */
+        }
+      </style>
+    
+</BaseLayout>

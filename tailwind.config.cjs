@@ -1,7 +1,7 @@
 // @ts-check
-
 const tailwindColors = require("tailwindcss/colors");
 const plugin = require("tailwindcss/plugin");
+const path = require("path");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -12,21 +12,7 @@ module.exports = {
   content: ["./src/**/*.{astro,ts,tsx,css}"],
   theme: {
     fontFamily: {
-      sans: [
-        "Inter",
-        "ui-sans-serif",
-        "system-ui",
-        "-apple-system",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-        '"Noto Color Emoji"',
-      ],
+      sans: ["Inter-Regular", "sans-serif"],
       serif: [
         '"Brygada 1918"',
         "ui-serif",
@@ -52,8 +38,18 @@ module.exports = {
       transparent: tailwindColors.transparent,
       black: tailwindColors.black,
       white: tailwindColors.white,
-
       gray: tailwindColors.neutral,
+
+      background: "var(--color-background)",
+      text: "var(--color-text)",
+      textSpecial: "var(--color-textSpecial)",
+      proseTitle: "var(--color-proseTitle)",
+      proseDate: "var(--color-proseDate)",
+      coloroutline: "var(--color-outline)",
+      colorselectionText: "var(--color-selectionText)",
+      colorselectionBg: "var(--color-selectionBg)",
+      colorhover: "var(--color-hover)",
+      colordecoration: "var(--color-decoration)",
     },
     extend: {
       maxWidth: {
@@ -70,6 +66,9 @@ module.exports = {
         },
       },
     },
+  },
+  fonts: {
+    paths: [path.resolve(__dirname, "fonts")],
   },
   plugins: [
     plugin(({ addVariant }) => {

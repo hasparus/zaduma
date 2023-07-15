@@ -3,13 +3,12 @@ import type { MarkdownLayoutProps } from "astro";
 
 import { createOgImageLink } from "../lib/createOgImageLink";
 import { formatDate } from "../lib/formatDate";
-import Image from "../lib/prose/Image.astro";
+import Image from  "../lib/prose/Image.astro";
 import TableOfContents from "../lib/TableOfContents/TableOfContents.astro";
 import type { PostFrontmatter } from "../types";
 
 import BaseLayout from "./BaseLayout.astro";
 
-import "../global-styles/shiki.css";
 
 interface Props extends Omit<MarkdownLayoutProps<{}>, "frontmatter"> {
   frontmatter: PostFrontmatter;
@@ -20,6 +19,14 @@ const { frontmatter, headings } = Astro.props;
 const ogImage = createOgImageLink(frontmatter);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
+
+// const { littlefoot } = require('littlefoot')
+
+// import littlefoot from 'littlefoot'
+
+// littlefoot()
+// to use littlefoot footnotes, check the following link:
+// https://codepen.io/goblindegook/pen/oPNzGE
 ---
 
 <BaseLayout title={frontmatter.title} ogImage={ogImage}>
@@ -60,3 +67,8 @@ const date = new Date(frontmatter.date);
   </main>
   <TableOfContents headings={headings} />
 </BaseLayout>
+
+<script>
+  import littlefoot from 'littlefoot'
+  littlefoot()
+</script>

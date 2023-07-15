@@ -18,8 +18,8 @@ export function Kbd(props: KbdProps) {
       ref={ref}
       {...props}
       class={
-        "p-1 border border-b-2 rounded-md bg-gray-50" +
-        " dark:border-gray-700 dark:bg-gray-800" +
+        "p-1 border border-b-2 rounded-md bg-selectionBg " +
+        " border-colordecoration" +
         " tracking-tighter leading-none text-xs" +
         " group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline" +
         " [&[data-pressed]]:border-b [&[data-pressed]]" +
