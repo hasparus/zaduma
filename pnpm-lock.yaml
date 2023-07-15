@@ -64,7 +64,7 @@ dependencies:
     specifier: ^2.0.0
     version: 2.0.0
   littlefoot:
-    specifier: ^4.0.0-9
+    specifier: 4.0.0-9
     version: 4.0.0-9
   photoswipe:
     specifier: ^5.3.8
@@ -91,7 +91,7 @@ dependencies:
     specifier: ^0.31.3
     version: 0.31.3
   solid-js:
-    specifier: ^1.4.3
+    specifier: ^1.5.7
     version: 1.5.7
   tailwindcss:
     specifier: ^3.2.4
@@ -129,7 +129,7 @@ devDependencies:
     specifier: ^5.1.14
     version: 5.1.14(postcss@8.4.20)
   eslint:
-    specifier: ^8.30.0
+    specifier: ^8.31.0
     version: 8.31.0
   prettier:
     specifier: ^2.8.1
@@ -2160,7 +2160,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001431
+      caniuse-lite: 1.0.30001516
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2293,7 +2293,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001431
+      caniuse-lite: 1.0.30001516
       electron-to-chromium: 1.4.270
       node-releases: 2.0.6
       update-browserslist-db: 1.0.9(browserslist@4.21.4)
@@ -2376,17 +2376,13 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001431
+      caniuse-lite: 1.0.30001516
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: true
 
-  /caniuse-lite@1.0.30001431:
-    resolution: {integrity: sha512-zBUoFU0ZcxpvSt9IU66dXVT/3ctO1cy4y9cscs1szkPlcWb6pasYM144GqrUygUbT+k7cmUCW61cvskjcv0enQ==}
-
   /caniuse-lite@1.0.30001516:
     resolution: {integrity: sha512-Wmec9pCBY8CWbmI4HsjBeQLqDTqV91nFVR83DnZpYyRnPI1wePDsTg0bGLPC5VU/3OIZV1fmxEea1b+tFKe86g==}
-    dev: false
 
   /ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}

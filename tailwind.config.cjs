@@ -7,7 +7,7 @@ const path = require("path");
 module.exports = {
   darkMode: "class",
   experimental: {
-    optimizeUniversalDefaults: true,
+    optimizeUniversalDefaults: false,
   },
   content: ["./src/**/*.{astro,ts,tsx,css}"],
   theme: {
