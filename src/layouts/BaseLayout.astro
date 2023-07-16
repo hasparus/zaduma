@@ -27,7 +27,7 @@ interface Props {
 
 const { title, ogImage } = Astro.props;
 
-const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx"))
+const posts = (await Astro.glob<PostFrontmatter>("../../posts/journal/*.mdx"))
   .filter((p) => (import.meta.env.PROD ? !p.frontmatter.draft : true))
   .map((p) => ({
     href: p.frontmatter.path,
@@ -48,7 +48,7 @@ posts.sort((a, b) => {
     <meta name="viewport" content="width=device-width" />
     <meta
       name="description"
-      content="Astro starter template for understated personal websites using Solid.js, Tailwind CSS, and MDX."
+      content="Eds' Personal Website"
     />
     <link
       rel="preload"

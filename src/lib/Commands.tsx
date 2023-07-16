@@ -208,9 +208,6 @@ export function CommandsPalette({
                 <CommandItem href="https://www.flickr.com/photos/edson_ac">
                   Flickr
                 </CommandItem>
-                <CommandItem href="https://github.com/hasparus/zaduma">
-                  GitHub
-                </CommandItem>
                 <CommandItem href="/rss.xml">RSS</CommandItem>
               </CommandGroup>
             </>

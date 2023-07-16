@@ -5,7 +5,7 @@ import { formatDate } from "../lib/formatDate";
 
 import type { PostFrontmatter } from "../types";
 
-let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+let posts = await Astro.glob<PostFrontmatter>("../../posts/journal/*.mdx");
 
 if (import.meta.env.PROD) {
   posts = posts.filter((post) => !post.frontmatter.draft);

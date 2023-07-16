@@ -30,7 +30,7 @@ posts.sort((a, b) => {
 
 <BaseLayout title="edson">
   <h1 slot="header-content" class="text-textSpecial">edson</h1>
-  <main class="py-10 zaduma-prose">
+  <main class="pt-8 pb-4 zaduma-prose">
     <Paragraph>
       <small class="text-gray-600 dark:text-gray-500"
         >per audacia ad astra {'>>'} from adversity to the stars</small
@@ -45,7 +45,11 @@ posts.sort((a, b) => {
     </Paragraph>
   </main>
 
+  <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
+
   <LatestStream />
+
+  <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
 
   <ul>
     {
