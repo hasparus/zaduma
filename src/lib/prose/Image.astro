@@ -18,7 +18,7 @@ import { warnForMissingAlt } from "@astrojs/image/components";
 import type { TransformOptions } from "@astrojs/image/dist/loaders";
 import type { OutputFormat } from "@astrojs/image/dist/loaders";
 import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
-import { getPlaiceholder } from "plaiceholder";
+import { getPlaiceholder, IGetPlaiceholderReturn } from "plaiceholder";
 
 import "./Image.css";
 
@@ -57,17 +57,26 @@ if (typeof src === "object") {
   }
 }
 
-// TODO: Consider computing just `css` placeholder
-const placeholder = await getPlaiceholder(decodeURIComponent(src), {
-  size: 10,
-});
+const isRaw = src.startsWith("raw!");
+let placeholder: IGetPlaiceholderReturn | undefined;
 
-if (!props.width && !props.height && !props.aspectRatio) {
-  props.width ??= placeholder.img.width;
-  props.aspectRatio ??= placeholder.img.width / placeholder.img.height;
+if (!isRaw) {
+  // TODO: Consider computing just `css` placeholder
+  placeholder = await getPlaiceholder(decodeURIComponent(src), {
+    size: 10,
+  });
+
+  if (!props.width && !props.height && !props.aspectRatio) {
+    props.width ??= placeholder.img.width;
+    props.aspectRatio ??= placeholder.img.width / placeholder.img.height;
+  }
+} else {
+  src = src.slice(4);
 }
 
-const attrs = await getImage(props);
+props.alt ||= "";
+
+const attrs = isRaw ? { src, class: "" } : await getImage(props);
 ---
 
 <span zaduma-image class="zaduma-image-box block relative overflow-hidden">
@@ -77,9 +86,12 @@ const attrs = await getImage(props);
     loading={loading}
     decoding={decoding}
   />
-  <span
-    style={placeholder.css}
-    class="absolute inset-0 w-full h-full transform scale-150 filter blur-2xl -z-10 dark:opacity-80"
-  >
-  </span>
+  {
+    placeholder && (
+      <span
+        style={placeholder.css}
+        class="absolute inset-0 w-full h-full transform scale-150 filter blur-2xl -z-10 dark:opacity-80"
+      />
+    )
+  }
 </span>
