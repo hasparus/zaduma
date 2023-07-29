@@ -18,8 +18,7 @@
   ],
 
   "files.associations": {
-    "*.css": "css",
-    "*.mdx": "markdown" // extensions for Markdown are better suited for writing
+    "*.css": "css"
   },
 
   "css.customData": ["./.vscode/css-custom-data.json"],
@@ -34,5 +33,18 @@
     ["tw: `([^`]*)`"]
   ],
 
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "grammarly.selectors": [
+    {
+      "language": "markdown",
+      "scheme": "file",
+      "pattern": "posts/**/*.mdx"
+    },
+    {
+      "language": "markdown",
+      "scheme": "file",
+      "pattern": "posts/**/*.md"
+    }
+  ]
 }
