@@ -24,7 +24,7 @@ html {
 }
 
 body {
-  @apply text-gray-800 dark:text-gray-300 bg-white dark:bg-gray-900 px-0 md:px-4 py-4 md:py-8 relative min-h-screen;
+  @apply text-gray-800 dark:text-gray-300 bg-white dark:bg-gray-900 px-0 md:px-4 pt-4 pb-20 md:pt-8 md:pb-48 relative min-h-screen;
 }
 
 body,
