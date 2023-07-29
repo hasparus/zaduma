@@ -41,7 +41,7 @@
   }
 
   & figcaption {
-    @apply px-6 text-gray-600 dark:text-gray-400;
+    @apply px-6 text-gray-600 dark:text-gray-600;
 
     font: italic 400 1em var(--serif);
   }
