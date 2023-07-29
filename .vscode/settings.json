@@ -45,6 +45,10 @@
       "language": "markdown",
       "scheme": "file",
       "pattern": "posts/**/*.md"
+    },
+    {
+      "language": "mdx",
+      "scheme": "file"
     }
   ]
 }
