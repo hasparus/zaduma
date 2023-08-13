@@ -50,7 +50,7 @@ export default async function og(req: Request) {
         h(
           Illustration,
           { imageHref: post.img },
-          h(Title, { title: post.title })
+          post.img ? null : h(Title, { title: post.title })
         ),
         h(Footer, { author, post })
       ),
@@ -95,7 +95,7 @@ function Illustration({
   imageHref,
 }: {
   children?: React.ReactNode[];
-  imageHref: string | undefined;
+  imageHref: string | null | undefined;
 }) {
   imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
 
@@ -142,8 +142,8 @@ function Footer({ author, post }: { author: Author; post: Post }) {
     `,
     },
     h("img", {
-      width: 92,
-      height: 92,
+      width: 80,
+      height: 80,
       src: author.avatarSrc,
       tw: `rounded-full`,
     }),
@@ -222,7 +222,7 @@ function parseSearchParams(searchParams: URLSearchParams) {
     date: new Date(Number(postArray[0])),
     readingTimeMinutes: Math.round(Number(postArray[1])),
     title: postArray[2]!,
-    img: postArray[3]!,
+    img: postArray[3],
   };
 
   return {
