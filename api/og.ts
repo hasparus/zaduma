@@ -185,7 +185,7 @@ type Post = {
   date: Date;
   title: string;
   readingTimeMinutes: number;
-  img: string;
+  img: string | null | undefined;
 };
 
 const SEPARATOR = "\t";
