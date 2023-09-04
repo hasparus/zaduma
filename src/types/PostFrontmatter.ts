@@ -3,9 +3,16 @@ import type { ReadTimeResults } from "reading-time";
 export interface PostFrontmatter {
   tags: string[];
   /**
-   * Optional URL to a picture.
-   */
-  img?: string;
+   * Optional URL to a picture or a dict of URLs to pictures.
+   * */
+  img?:
+    | string
+    | {
+        /** Image for the Open Graph social card. */
+        og?: string;
+        /** Image for the post header.` */
+        src?: string;
+      };
   /**
    * Optional URL to og:image if it's premade, not created by /api/og.ts.
    */

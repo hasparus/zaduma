@@ -6,7 +6,8 @@ import type { PostFrontmatter } from "../types/PostFrontmatter";
 const OG_IMAGE_SECRET = import.meta.env.OG_IMAGE_SECRET;
 
 export function createOgImageLink(frontmatter: PostFrontmatter) {
-  if (frontmatter.ogImage) return frontmatter.ogImage;
+  let img = frontmatter.img;
+  if (typeof img === "object") img = img.src;
 
   // prettier-ignore
   const stringifiedPost: StringifiedPost = `${
@@ -16,7 +17,7 @@ export function createOgImageLink(frontmatter: PostFrontmatter) {
   }\t${
     frontmatter.title
   }\t${
-    frontmatter.img?.replace(/^raw!/, "") || ""
+    img?.replace(/^raw!/, "") || ""
   }`;
 
   const hmac = createHmac("sha256", OG_IMAGE_SECRET);

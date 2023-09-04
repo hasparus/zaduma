@@ -20,6 +20,8 @@ const { frontmatter, headings } = Astro.props;
 const ogImage = createOgImageLink(frontmatter);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
+const imgSrc =
+  typeof frontmatter.img === "object" ? frontmatter.img.src : frontmatter.img;
 ---
 
 <BaseLayout title={frontmatter.title} ogImage={ogImage}>
@@ -46,14 +48,8 @@ const date = new Date(frontmatter.date);
       </div>
     </header>
     {
-      frontmatter.img && (
-        <Image
-          alt=""
-          src={frontmatter.img}
-          format="webp"
-          width={774}
-          aspectRatio={2}
-        />
+      imgSrc && (
+        <Image alt="" src={imgSrc} format="webp" width={774} aspectRatio={2} />
       )
     }
     <slot />
