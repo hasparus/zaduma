@@ -15,4 +15,8 @@
       transform: translateY(1px);
     }
   }
+
+  & .Ul {
+    margin-top: 0;
+  }
 }
