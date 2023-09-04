@@ -27,7 +27,7 @@ export const remarkPlugins = (projectDir: string): PluggableList => {
         themes: ["github-light", "github-dark"],
         defaultCompilerOptions: {
           strict: true,
-          module: 99 /* ESNext */,
+          module: 199 /* NodeNext */,
           moduleResolution: 99 /* NodeNext */,
           target: 99 /* ESNext */,
           types: ["node"],
