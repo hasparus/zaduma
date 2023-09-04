@@ -21,7 +21,19 @@ export const remarkPlugins = (projectDir: string): PluggableList => {
     ],
     [derivedTitleAndDatePlugin, { title: titleCase }],
     remarkSupersub,
-    [shikiTwoslash, { themes: ["github-light", "github-dark"] }],
+    [
+      shikiTwoslash,
+      {
+        themes: ["github-light", "github-dark"],
+        defaultCompilerOptions: {
+          strict: true,
+          module: 99 /* ESNext */,
+          moduleResolution: 99 /* NodeNext */,
+          target: 99 /* ESNext */,
+          types: ["node"],
+        },
+      },
+    ],
     readingTimePlugin,
     remarkMdxReadingTimePlugin
   );
