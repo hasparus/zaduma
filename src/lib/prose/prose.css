@@ -3,7 +3,7 @@
   --wide-content-width: min(var(--container-width), 100vw);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 774px) {
   :root {
     --wide-breakout: 0.2;
     --wide-content-width: min(

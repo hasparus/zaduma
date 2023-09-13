@@ -57,12 +57,19 @@ if (typeof src === "object") {
   }
 }
 
-let pathToImage = src.startsWith("/") ? `../../images${props.src}` : src;
+let pathToImage = decodeURIComponent(
+  src.startsWith("/") ? `../../images${props.src}` : src,
+);
 let importedImage = null;
 
 if (src.startsWith("/")) {
   const allImages = import.meta.glob("../../images/**/*");
-  importedImage = (await allImages[pathToImage]()).default;
+  try {
+    importedImage = (await allImages[pathToImage]()).default;
+  } catch (err) {
+    console.error({ allImages, pathToImage });
+    throw err;
+  }
   props.width ??= importedImage.width;
   props.height ??= importedImage.height;
   if ((importedImage.format = "jpg")) importedImage.format = "webp";
@@ -80,6 +87,8 @@ if (!width && !height && !props.aspectRatio) {
   const { metadata } = placeholder;
   width ??= metadata.width;
   props.aspectRatio ??= metadata.width / metadata.height;
+  width = Math.min(width, 774);
+  height = Math.round(width / props.aspectRatio);
 }
 
 height ??=

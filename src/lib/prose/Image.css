@@ -7,7 +7,7 @@
   max-width: unset;
   transform: translateX(min(calc(-50% * var(--wide-breakout)), 0px));
 
-  @media (max-width: 640px) {
+  @media (max-width: 774px) {
     margin: 0 -1rem;
   }
 
