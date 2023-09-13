@@ -7,11 +7,14 @@ import type { PostFrontmatter } from "../types";
 const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 
 const linksToOGImages = posts.map((post) =>
-  createOgImageLink(post.frontmatter)
+  createOgImageLink(post.frontmatter),
 );
 ---
 
-<BaseLayout title="admin">
+<BaseLayout
+  title="admin"
+  description="a page for inspecting and debugging OG images"
+>
   <section class="py-10">
     <h1>OG Images</h1>
     <ul class="flex flex-col">

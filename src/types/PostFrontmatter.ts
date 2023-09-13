@@ -3,6 +3,10 @@ import type { ReadTimeResults } from "reading-time";
 export interface PostFrontmatter {
   tags: string[];
   /**
+   * Optional description for the post, visible in Open Graph cards.
+   */
+  description?: string;
+  /**
    * Optional URL to a picture or a dict of URLs to pictures.
    * */
   img?:

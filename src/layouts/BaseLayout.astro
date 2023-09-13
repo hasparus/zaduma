@@ -17,11 +17,12 @@ import "../lib/prose/prose.css";
 
 interface Props {
   title: string;
+  description: string;
   children: astroHTML.JSX.Element;
   ogImage?: string;
 }
 
-const { title, ogImage } = Astro.props;
+const { title, description, ogImage } = Astro.props;
 
 const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx"))
   .filter((p) => (import.meta.env.PROD ? !p.frontmatter.draft : true))
@@ -40,10 +41,7 @@ posts.sort((a, b) => {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta
-      name="description"
-      content="Astro starter template for understated personal websites using Solid.js, Tailwind CSS, and MDX."
-    />
+    <meta name="description" content={description} />
     <link
       rel="preload"
       href={interPath}

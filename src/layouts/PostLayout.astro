@@ -22,9 +22,10 @@ const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
 const imgSrc =
   typeof frontmatter.img === "object" ? frontmatter.img.src : frontmatter.img;
+const description = frontmatter.date || ""
 ---
 
-<BaseLayout title={frontmatter.title} ogImage={ogImage}>
+<BaseLayout title={frontmatter.title} ogImage={ogImage} description={description}>
   <main class="zaduma-prose py-4">
     <header
       class="flex justify-between items-start sm:items-center flex-col sm:flex-row"
