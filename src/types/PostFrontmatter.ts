@@ -14,10 +14,6 @@ export interface PostFrontmatter {
         src?: string;
       };
   /**
-   * Optional URL to og:image if it's premade, not created by /api/og.ts.
-   */
-  ogImage?: string;
-  /**
    * @computed by derivedTitleAndDatePlugin from file name
    *           if not given
    */
