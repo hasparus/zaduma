@@ -1,4 +1,4 @@
-import { JSX, splitProps } from "solid-js";
+import { type JSX, splitProps } from "solid-js";
 
 export interface LinkProps extends JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
   noUnderline?: boolean;

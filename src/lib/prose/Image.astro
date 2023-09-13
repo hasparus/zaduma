@@ -12,37 +12,23 @@
  * - Added placeholder powered by `plaiceholder` CSS strategy.
  */
 
-import { getImage } from "astro:assets";
-// import type { ImgHTMLAttributes } from "@astrojs/image/components";
-// import { warnForMissingAlt } from "@astrojs/image/components";
-// import type { TransformOptions } from "@astrojs/image/dist/loaders";
-// import type { OutputFormat } from "@astrojs/image/dist/loaders";
-// import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
-import { getPlaiceholder } from "plaiceholder";
+import {
+  getImage,
+  type LocalImageProps,
+  type RemoteImageProps,
+} from "astro:assets";
 import fs from "node:fs/promises";
+import { getPlaiceholder } from "plaiceholder";
 
 import "./Image.css";
 
-interface LocalImageProps
-  extends Omit<TransformOptions, "src">,
-    Omit<ImgHTMLAttributes, "src" | "width" | "height"> {
-  src: ImageMetadata | Promise<{ default: ImageMetadata }>;
-  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
-  alt: string;
+interface LocalProps extends LocalImageProps {
+  aspectRatio?: number | string;
 }
-
-interface RemoteImageProps
-  extends TransformOptions,
-    astroHTML.JSX.ImgHTMLAttributes {
-  src: string;
-  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
-  alt: string;
-  format?: OutputFormat;
-  width?: number;
-  height?: number;
+interface RemoteProps extends RemoteImageProps {
+  aspectRatio?: number | string;
 }
-
-export type Props = LocalImageProps | RemoteImageProps;
+export type Props = LocalProps | RemoteProps;
 
 const { loading = "lazy", decoding = "async", ...props } = Astro.props as Props;
 
@@ -57,7 +43,7 @@ if (typeof src === "object") {
   }
 }
 
-let pathToImage = decodeURIComponent(
+const pathToImage = decodeURIComponent(
   src.startsWith("/") ? `../../images${props.src}` : src,
 );
 let importedImage = null;
@@ -88,13 +74,13 @@ if (!width && !height && !props.aspectRatio) {
   width ??= metadata.width;
   props.aspectRatio ??= metadata.width / metadata.height;
   width = Math.min(width, 774);
-  height = Math.round(width / props.aspectRatio);
+  height = Math.round(width / parseFloat(props.aspectRatio as string));
 }
 
 height ??=
   typeof props.aspectRatio === "number"
     ? parseFloat(width as unknown as string) / props.aspectRatio
-    : null;
+    : undefined;
 
 props.alt ||= "";
 let attrs = { src, class: "", width: props.width, height: props.height };

@@ -1,9 +1,9 @@
-import type { RemarkPlugin } from "@astrojs/markdown-remark/dist/types";
 import { execSync } from "node:child_process";
+import type { Plugin } from "unified";
 
 import type { PostFrontmatter, PostProps } from "../types";
 
-export const derivedTitleAndDatePlugin: RemarkPlugin<
+export const derivedTitleAndDatePlugin: Plugin<
   [{ title: (fileStem: string) => string }]
 > = ({ title }) => {
   return (_tree, file) => {
@@ -17,7 +17,7 @@ export const derivedTitleAndDatePlugin: RemarkPlugin<
     if (!frontmatter.date) {
       let createdAt = execSync(
         `git log --follow --diff-filter=A --find-renames=40% --format="%ai" "${file.path}"`,
-        { encoding: "utf-8" }
+        { encoding: "utf-8" },
       )
         .trim()
         .split("\n")[0];

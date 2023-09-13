@@ -12,7 +12,7 @@ const READING_TIME_IDENTIFIER: keyof PostFrontmatter = "readingTime";
  *
  * Same as remark-reading-time, but assigns to `frontmatter` instead of `file.data`.
  */
-export const readingTimePlugin: RemarkPlugin<[]> = () => {
+export const readingTimePlugin: RemarkPlugin = () => {
   return function (tree, file) {
     const data = file.data as { astro: PostProps };
 
@@ -39,6 +39,7 @@ export const remarkMdxReadingTimePlugin: RemarkPlugin<[]> = () => {
 
     const readingTime = data.astro.frontmatter.readingTime;
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (readingTime === undefined) return;
 
     tree.children.unshift({

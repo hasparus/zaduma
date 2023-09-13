@@ -35,7 +35,7 @@ export const remarkPlugins = (projectDir: string): PluggableList => {
       },
     ],
     readingTimePlugin,
-    remarkMdxReadingTimePlugin
+    remarkMdxReadingTimePlugin,
   );
 };
 
@@ -48,7 +48,7 @@ function checkOptions<TPlugins extends Pluggable[]>(
   ...p: {
     [I in keyof TPlugins]: TPlugins[I] extends [
       infer TPlugin extends (...args: never[]) => unknown,
-      unknown
+      unknown,
     ]
       ? [TPlugin, ...Parameters<TPlugin>]
       : TPlugins[I];

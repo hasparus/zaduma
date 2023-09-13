@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-import { createEffect, JSX, splitProps } from "solid-js";
+import { createEffect, type JSX, splitProps } from "solid-js";
 
 import { useFocusTrap } from "./useFocusTrap";
 

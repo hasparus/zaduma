@@ -1,4 +1,4 @@
-import { createEffect, JSX } from "solid-js";
+import { createEffect, type JSX } from "solid-js";
 
 import { parseKeys } from "./parseKeys";
 
