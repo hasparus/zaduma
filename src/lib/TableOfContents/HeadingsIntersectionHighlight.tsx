@@ -7,7 +7,7 @@ export interface HeadingsIntersectionHighlightProps {
 }
 
 export function HeadingsIntersectionHighlight(
-  props: HeadingsIntersectionHighlightProps
+  props: HeadingsIntersectionHighlightProps,
 ) {
   const toc = !isServer && document.getElementById("table-of-contents")!;
   let current: HTMLAnchorElement | undefined;
@@ -19,34 +19,39 @@ export function HeadingsIntersectionHighlight(
     current = anchor;
   };
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries = entries.filter((e) => e.isIntersecting);
-      if (entries.length === 0) return;
+  const observer =
+    typeof globalThis.IntersectionObserver !== "undefined"
+      ? new IntersectionObserver(
+          (entries) => {
+            entries = entries.filter((e) => e.isIntersecting);
+            if (entries.length === 0) return;
 
-      const max = entries.reduce((acc, val) =>
-        val.intersectionRatio > acc.intersectionRatio ? val : acc
-      );
+            const max = entries.reduce((acc, val) =>
+              val.intersectionRatio > acc.intersectionRatio ? val : acc,
+            );
 
-      if (max) {
-        highlightTocItem(
-          toc.querySelector<HTMLAnchorElement>(`a[href="#${max.target.id}"]`)
-        );
-      }
-    },
-    { threshold: 1, rootMargin: "-15% 0% -55% 0%" }
-  );
+            if (max && toc) {
+              highlightTocItem(
+                toc.querySelector<HTMLAnchorElement>(
+                  `a[href="#${max.target.id}"]`,
+                ),
+              );
+            }
+          },
+          { threshold: 1, rootMargin: "-15% 0% -55% 0%" },
+        )
+      : null;
 
   createEffect(() => {
     for (const heading of props.headings) {
       const element = document.getElementById(heading.slug);
       if (element) {
-        observer.observe(element);
+        observer!.observe(element);
       }
     }
 
     onCleanup(() => {
-      observer.disconnect();
+      observer!.disconnect();
     });
   }, [props.headings]);
 

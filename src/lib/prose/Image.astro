@@ -12,14 +12,14 @@
  * - Added placeholder powered by `plaiceholder` CSS strategy.
  */
 
-import { getImage } from "@astrojs/image";
-import type { ImgHTMLAttributes } from "@astrojs/image/components";
-import { warnForMissingAlt } from "@astrojs/image/components";
-import type { TransformOptions } from "@astrojs/image/dist/loaders";
-import type { OutputFormat } from "@astrojs/image/dist/loaders";
-import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
+import { getImage } from "astro:assets";
+// import type { ImgHTMLAttributes } from "@astrojs/image/components";
+// import { warnForMissingAlt } from "@astrojs/image/components";
+// import type { TransformOptions } from "@astrojs/image/dist/loaders";
+// import type { OutputFormat } from "@astrojs/image/dist/loaders";
+// import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
 import { getPlaiceholder } from "plaiceholder";
-
+``;
 import "./Image.css";
 
 interface LocalImageProps
@@ -60,28 +60,33 @@ if (typeof src === "object") {
 const isRaw = src.startsWith("raw!");
 if (isRaw) src = src.slice(4);
 
+if (src.startsWith("/")) src = "public" + src;
+
 const placeholder = await getPlaiceholder(decodeURIComponent(src), {
   size: 10,
 });
 
 if (!props.width && !props.height && !props.aspectRatio) {
-  props.width ??= placeholder.img.width;
-  props.aspectRatio ??= placeholder.img.width / placeholder.img.height;
+  props.width ??= placeholder.metadata.width;
+  props.aspectRatio ??=
+    placeholder.metadata.width / placeholder.metadata.height;
 }
 
 props.alt ||= "";
 
-const attrs = isRaw
-  ? {
-      src,
-      class: "",
-      width: props.width,
-      height:
-        typeof props.aspectRatio === "number"
-          ? props.aspectRatio * parseFloat(props.width as any as string)
-          : null,
-    }
-  : await getImage(props);
+props.height ??=
+  typeof props.aspectRatio === "number"
+    ? parseFloat(props.width as any as string) / props.aspectRatio
+    : null;
+
+let attrs = { src, class: "", width: props.width, height: props.height };
+
+if (!isRaw) {
+  let options;
+  let attributes;
+  ({ options, src, attributes } = await getImage(props));
+  attrs = { ...attrs, ...options, ...attributes, src };
+}
 ---
 
 <span zaduma-image class="zaduma-image-box block relative overflow-hidden">

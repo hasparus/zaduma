@@ -13,7 +13,10 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# hidden directories
 .vercel
+.astro
 
+# environment files
 .env.local
 .env.*.local
