@@ -19,7 +19,8 @@ import { getImage } from "astro:assets";
 // import type { OutputFormat } from "@astrojs/image/dist/loaders";
 // import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
 import { getPlaiceholder } from "plaiceholder";
-``;
+import fs from "node:fs/promises";
+
 import "./Image.css";
 
 interface LocalImageProps
@@ -45,9 +46,8 @@ export type Props = LocalImageProps | RemoteImageProps;
 
 const { loading = "lazy", decoding = "async", ...props } = Astro.props as Props;
 
-if (props.alt === undefined || props.alt === null) {
-  warnForMissingAlt();
-}
+let width = props.width;
+let height = props.height;
 
 let src = await props.src;
 if (typeof src === "object") {
@@ -57,35 +57,50 @@ if (typeof src === "object") {
   }
 }
 
+let pathToImage = src.startsWith("/") ? `../../images${props.src}` : src;
+let importedImage = null;
+
+if (src.startsWith("/")) {
+  const allImages = import.meta.glob("../../images/**/*");
+  importedImage = (await allImages[pathToImage]()).default;
+  props.width ??= importedImage.width;
+  props.height ??= importedImage.height;
+  if ((importedImage.format = "jpg")) importedImage.format = "webp";
+}
+
 const isRaw = src.startsWith("raw!");
 if (isRaw) src = src.slice(4);
 
-if (src.startsWith("/")) src = "public" + src;
+const placeholder = await getPlaiceholder(
+  await fs.readFile(new URL(pathToImage, import.meta.url)),
+  { size: 10 },
+);
 
-const placeholder = await getPlaiceholder(decodeURIComponent(src), {
-  size: 10,
-});
-
-if (!props.width && !props.height && !props.aspectRatio) {
-  props.width ??= placeholder.metadata.width;
-  props.aspectRatio ??=
-    placeholder.metadata.width / placeholder.metadata.height;
+if (!width && !height && !props.aspectRatio) {
+  const { metadata } = placeholder;
+  width ??= metadata.width;
+  props.aspectRatio ??= metadata.width / metadata.height;
 }
 
-props.alt ||= "";
-
-props.height ??=
+height ??=
   typeof props.aspectRatio === "number"
-    ? parseFloat(props.width as any as string) / props.aspectRatio
+    ? parseFloat(width as unknown as string) / props.aspectRatio
     : null;
 
+props.alt ||= "";
 let attrs = { src, class: "", width: props.width, height: props.height };
 
 if (!isRaw) {
-  let options;
   let attributes;
-  ({ options, src, attributes } = await getImage(props));
-  attrs = { ...attrs, ...options, ...attributes, src };
+  props.src = src;
+  ({ src, attributes } = await getImage({
+    ...props,
+    src: importedImage,
+    format: "webp",
+    width,
+    height,
+  }));
+  attrs = { ...attrs, ...attributes, src };
 }
 ---
 

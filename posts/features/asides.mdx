@@ -14,14 +14,14 @@ in a second column on [Paco Coursey's website][paco].
 
 [paco]: https://paco.me/writing/redesign-2021
 
-![](/content/asides/sidenote-1.png)
+![](/asides/sidenote-1.png)
 
 Paco has used `position: absolute` in his implementation, and that's very
 elegant and simple, but it has one tiny problem. On narrow screens, you end up
 with the sidenote _above_ the content, and in a left-to-right language, we'd
 expect what's on _right_ to go _below_ when it's no room for it on the side.
 
-![](/content/asides/sidenote-2.png)
+![](/asides/sidenote-2.png)
 
 I couldn't think of a pure-CSS solution, so this is ~~overengineered~~
 implemented with a rehype plugin. We grab the nearest previous sibling of an
