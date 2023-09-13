@@ -7,7 +7,7 @@ export interface LinkProps extends JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
 export function Link(props: LinkProps) {
   const [own, rest] = splitProps(props, ["classList", "noUnderline"]);
 
-  const childIsImg = isChildType(rest.children, "img");
+  const childIsImg = isChildAnImage(rest.children);
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
@@ -28,16 +28,17 @@ export function Link(props: LinkProps) {
   );
 }
 
-function isChildType(children: JSX.Element, type: string) {
+function isChildAnImage(children: JSX.Element) {
+  console.log({ children });
+
   if (!children || typeof children !== "object") return false;
 
   // A child can be a JSX element or an stringified Astro slot.
-  if ("type" in children) return children.type === type;
+  if ("type" in children) return children.type === "img";
   if ("t" in children) {
-    return (
-      (children.t as string).startsWith(`<astro-slot><${type} `) ||
-      (children.t as string).startsWith(`<astro-slot><span zaduma-image`)
-    );
+    let t = children.t as string;
+    if (t.startsWith("<astro-")) t = t.slice(t.indexOf(">") + 1, -1);
+    return t.startsWith(`<img `) || t.startsWith(`<span zaduma-image`);
   }
 
   return false;
