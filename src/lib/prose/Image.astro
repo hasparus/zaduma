@@ -47,6 +47,9 @@ if (typeof src === "object") {
   }
 }
 
+const isRaw = src.startsWith("raw!");
+if (isRaw) src = src.slice(4);
+
 const pathToImage = decodeURIComponent(
   src.startsWith(SRC_IMAGES_PREFIX)
     ? `../../../src/images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
@@ -71,9 +74,6 @@ if (src.startsWith(SRC_IMAGES_PREFIX)) {
   props.height ??= importedImage.height;
   if ((importedImage.format = "jpg")) importedImage.format = "webp";
 }
-
-const isRaw = src.startsWith("raw!");
-if (isRaw) src = src.slice(4);
 
 const placeholder = await getPlaiceholder(
   await fs.readFile(new URL(pathToImage, import.meta.url)),
