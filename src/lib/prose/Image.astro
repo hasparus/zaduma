@@ -49,7 +49,7 @@ if (typeof src === "object") {
 
 const pathToImage = decodeURIComponent(
   src.startsWith(SRC_IMAGES_PREFIX)
-    ? `../../images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
+    ? `../../../src/images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
     : src,
 );
 let importedImage = null;
@@ -57,11 +57,12 @@ let importedImage = null;
 if (src.startsWith(SRC_IMAGES_PREFIX)) {
   src = src.slice(SRC_IMAGES_PREFIX.length - 1);
   const allImages = import.meta.glob<false, string, { default: ImageMetadata }>(
-    "../../images/**/*",
+    "../../../src/images/**/*",
   );
 
   try {
-    importedImage = (await allImages[pathToImage]!()).default;
+    importedImage = (await allImages[pathToImage.replace("../src/", "")]!())
+      .default;
   } catch (err) {
     console.error({ allImages, pathToImage });
     throw err;
