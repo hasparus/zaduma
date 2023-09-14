@@ -37,9 +37,9 @@ Inside of your Astro project, you'll see the following folders and files:
 
 <pre>
 <code>
-├── public/ — <i>static assets</i>
 ├── posts/
 │   └── rebuilding-a-blog.mdx — <i>posts written in <a href="https://mdxjs.com/">MDX</a></i>
+├── public/ — <i>static assets apart from images</i>
 ├── src/
 │   ├── build-time/* — <i>remark plugins</i>
 │   ├── global-styles/* — <i>fonts, body and prose styles</i>
@@ -47,6 +47,7 @@ Inside of your Astro project, you'll see the following folders and files:
 │   │   ├── BaseLayout.astro — <i>UI shared between all pages</i>
 │   │   └── PostLayout.astro — <i>layout for all posts</i>
 │   ├── lib/* — <i>reusable utils and UI components</i>
+│   ├── images/* — <i>pictures (need to be here to be optimized by Astro Image)</i>
 │   ├── pages/
 │   │   ├── [path].astro — <i>Astro dynamic route for posts, supplies MDX components</i>
 │   │   └── index.astro — <i>index page, lists all posts</i>
@@ -79,7 +80,8 @@ All commands are run from the root of the project, from a terminal:
 2. Clone the repository, install with `pnpm install` and run with `pnpm dev`.
 3. Style it and personalize however you like 💅
 4. Set [`VERCEL_TOKEN`], `VERCEL_PROJECT_ID`, and [`VERCEL_ORG_ID`] secrets to
-   deploy to Vercel from GHA (what enables access to git history). ([_Settings→Secrets_](https://github.com/hasparus/zaduma/settings/secrets/actions))
+   deploy to Vercel from GHA (what enables access to git history).
+   ([_Settings→Secrets_](https://github.com/hasparus/zaduma/settings/secrets/actions))
 
    - Alternatively — if all your blog posts have a `date` in frontmatter, you
      don't need to deploy through _workflows/ci.yml_. Feel free to remove the
@@ -87,7 +89,9 @@ All commands are run from the root of the project, from a terminal:
      to `derivedTitleAndDatePlugin` function and remove `execSync("git log")`
      from it. (TODO: Can we make it more convenient?)
 
-3. Generate a passphrase for `OG_IMAGE_SECRET` to secure your OG image endpoint, and add it to [Actions Secrets]((https://github.com/hasparus/zaduma/settings/secrets/actions)). 
+5. Generate a passphrase for `OG_IMAGE_SECRET` to secure your OG image endpoint,
+   and add it to
+   [Actions Secrets](<(https://github.com/hasparus/zaduma/settings/secrets/actions)>).
 
 [`vercel_token`]: https://vercel.com/account/tokens
 [`vercel_org_id`]: https://vercel.com/account#your-id
