@@ -95,7 +95,7 @@ details {
 
   & summary::after {
     content: "↧";
-    @apply absolute -top-0.5 right-2 text-xl;
+    @apply absolute -top-0.5 right-2 translate-y-[-0.5px] text-xl;
   }
 
   &:not([open]) {
