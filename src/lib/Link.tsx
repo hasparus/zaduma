@@ -29,8 +29,6 @@ export function Link(props: LinkProps) {
 }
 
 function isChildAnImage(children: JSX.Element) {
-  console.log({ children });
-
   if (!children || typeof children !== "object") return false;
 
   // A child can be a JSX element or an stringified Astro slot.

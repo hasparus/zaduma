@@ -357,7 +357,7 @@ export function CommandList(
 
           const first: HTMLElement | null =
             child.querySelector("[role=option]");
-          ``;
+
           if (first) {
             selectOption(first);
             break;

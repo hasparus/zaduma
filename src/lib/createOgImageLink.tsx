@@ -3,7 +3,17 @@ import { createHmac } from "node:crypto";
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
 
-const OG_IMAGE_SECRET = import.meta.env.OG_IMAGE_SECRET;
+declare global {
+  interface ImportMetaEnv {
+    OG_IMAGE_SECRET?: string;
+  }
+}
+
+const OG_IMAGE_SECRET =
+  import.meta.env.OG_IMAGE_SECRET ||
+  (() => {
+    throw new Error("OG_IMAGE_SECRET is not set");
+  })();
 
 export function createOgImageLink(frontmatter: PostFrontmatter) {
   let img = frontmatter.img;

@@ -46,7 +46,7 @@ export function PostProgressBar(props: { children: JSX.Element }) {
 
 function createScrollListener(callback: (scrollY: number) => void) {
   let scrollY = -1;
-  const animatedKilled = false;
+  let animatedKilled = false;
 
   const animate = () => {
     requestAnimationFrame(onScroll);
@@ -68,5 +68,8 @@ function createScrollListener(callback: (scrollY: number) => void) {
 
   animate();
 
-  return () => window.removeEventListener("scroll", animate);
+  return () => {
+    animatedKilled = true;
+    window.removeEventListener("scroll", animate);
+  };
 }
