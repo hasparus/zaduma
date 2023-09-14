@@ -22,7 +22,7 @@ const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
 const imgSrc =
   typeof frontmatter.img === "object" ? frontmatter.img.src : frontmatter.img;
-const description = frontmatter.date || ""
+const description = frontmatter.description || ""
 ---
 
 <BaseLayout title={frontmatter.title} ogImage={ogImage} description={description}>
