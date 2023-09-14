@@ -10,6 +10,7 @@
  *
  * @changes
  * - Added placeholder powered by `plaiceholder` CSS strategy.
+ * - Limited the width of the image to wide container width, to get smaller & ligher images.
  */
 
 import type { ImageMetadata, ImageTransform } from "astro";
@@ -18,13 +19,20 @@ import {
   type LocalImageProps,
   type RemoteImageProps,
 } from "astro:assets";
-import fs from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
 
 import "./Image.css";
 
-// All images with `src`s starting from / are imported from `src/images/` folder.
+// All* images with `src`s starting from / are imported from `src/images/` folder.
 const SRC_IMAGES_PREFIX = "/";
+
+// Images with `src` starting with /content/ live in public dir.
+const PUBLIC_IMAGES_PREFIX = "/content/";
+
+// No image needs to be wider than this.
+// TODO: Support High DPI screens by ensuring Astro emits images 2x of that.
+const WIDE_CONTAINER_WIDTH = 774;
 
 interface LocalProps extends LocalImageProps {
   aspectRatio?: number | string;
@@ -47,9 +55,6 @@ if (typeof src === "object") {
   }
 }
 
-const isRaw = src.startsWith("raw!");
-if (isRaw) src = src.slice(4);
-
 const pathToImage = decodeURIComponent(
   src.startsWith(SRC_IMAGES_PREFIX)
     ? `../../../src/images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
@@ -57,35 +62,71 @@ const pathToImage = decodeURIComponent(
 );
 let importedImage = null;
 
-if (src.startsWith(SRC_IMAGES_PREFIX)) {
-  src = src.slice(SRC_IMAGES_PREFIX.length - 1);
-  const allImages = import.meta.glob<false, string, { default: ImageMetadata }>(
-    "../../../src/images/**/*",
-  );
+let placeholder: null | {
+  backgroundImage: string;
+  backgroundPosition: string;
+  backgroundSize: string;
+  backgroundRepeat: string;
+} = null;
 
-  try {
-    importedImage = (await allImages[pathToImage.replace("../src/", "")]!())
-      .default;
-  } catch (err) {
-    console.error({ allImages, pathToImage });
-    throw err;
+const isRaw = src.startsWith("raw!") || src.startsWith(PUBLIC_IMAGES_PREFIX);
+if (isRaw) {
+  src = src.slice(4);
+
+  if (src.startsWith(PUBLIC_IMAGES_PREFIX)) {
+    const globbed = import.meta.glob<false, string, { default: ImageMetadata }>(
+      "../../../public/content/**/*",
+    );
+    const path = "../../../public" + src;
+    const imported = (await globbed[path]!()).default;
+
+    // I'm preserving the aspect ratio of the imported image, because
+    // the 'raw' images can contain text or important details that should
+    // not be cut off.
+    height =
+      parseFloat(props.width as string) /
+      parseFloat(props.aspectRatio as string);
+    props.aspectRatio = imported.width / imported.height;
+    width = height * (imported.width / imported.height);
   }
-  props.width ??= importedImage.width;
-  props.height ??= importedImage.height;
-  if ((importedImage.format = "jpg")) importedImage.format = "webp";
-}
+} else {
+  if (src.startsWith(SRC_IMAGES_PREFIX)) {
+    src = src.slice(SRC_IMAGES_PREFIX.length - 1);
+    const allImages = import.meta.glob<
+      false,
+      string,
+      { default: ImageMetadata }
+    >("../../../src/images/**/*");
 
-const placeholder = await getPlaiceholder(
-  await fs.readFile(new URL(pathToImage, import.meta.url)),
-  { size: 10 },
-);
+    try {
+      importedImage = (await allImages[pathToImage.replace("../src/", "")]!())
+        .default;
+    } catch (err) {
+      console.error({ allImages, pathToImage });
+      throw err;
+    }
+    props.width ??= importedImage.width;
+    props.height ??= importedImage.height;
+    if ((importedImage.format = "jpg")) importedImage.format = "webp";
+  }
 
-if (!width && !height && !props.aspectRatio) {
-  const { metadata } = placeholder;
-  width ??= metadata.width;
-  props.aspectRatio ??= metadata.width / metadata.height;
-  width = Math.min(width, 774);
-  height = Math.round(width / parseFloat(props.aspectRatio as string));
+  const imageForPlaceholder = await (pathToImage.startsWith("http")
+    ? fetch(pathToImage).then(async (res) =>
+        Buffer.from(await res.arrayBuffer()),
+      )
+    : readFile(new URL(pathToImage, import.meta.url)));
+
+  const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
+    size: 10,
+  });
+  placeholder = css;
+
+  if (!width && !height && !props.aspectRatio) {
+    width ??= metadata.width;
+    props.aspectRatio ??= metadata.width / metadata.height;
+    width = Math.min(width, WIDE_CONTAINER_WIDTH);
+    height = Math.round(width / parseFloat(props.aspectRatio as string));
+  }
 }
 
 height ??=
@@ -94,7 +135,7 @@ height ??=
     : undefined;
 
 props.alt ||= "";
-let attrs = { src, class: "", width: props.width, height: props.height };
+let attrs = { src, class: "", width, height, aspectRatio: props.aspectRatio };
 
 if (!isRaw) {
   let attributes;
@@ -110,18 +151,25 @@ if (!isRaw) {
 }
 ---
 
-<span zaduma-image class="zaduma-image-box block relative overflow-hidden">
+<span
+  zaduma-image
+  class:list={[
+    "zaduma-image-box relative block overflow-hidden",
+    !placeholder &&
+      "bg-current/10 !inline-flex w-[var(--wide-content-width)] justify-center [&>img]:h-full [&>img]:object-contain",
+  ]}
+>
   <img
     {...attrs}
-    class:list={["dark:opacity-80 rounded-sm", attrs.class]}
+    class:list={["rounded-sm dark:opacity-80", attrs.class]}
     loading={loading}
     decoding={decoding}
   />
   {
-    !isRaw && (
+    placeholder && (
       <span
-        style={placeholder.css}
-        class="absolute inset-0 w-full h-full transform scale-150 filter blur-2xl -z-10 dark:opacity-80"
+        style={placeholder}
+        class="absolute inset-0 -z-10 h-full w-full scale-150 transform blur-2xl filter dark:opacity-80"
       />
     )
   }
