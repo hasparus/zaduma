@@ -4,7 +4,8 @@
     "lib": ["DOM"],
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowJs": true
   },
-  "include": ["src", "api", "*.ts"]
+  "include": ["src", "api", "test", "*.ts"]
 }

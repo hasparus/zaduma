@@ -3,7 +3,13 @@
   "configurations": [
     {
       "command": "./node_modules/.bin/astro dev",
-      "name": "Development server",
+      "name": "Develop",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "pnpm test:debug",
+      "name": "Test",
       "request": "launch",
       "type": "node-terminal"
     }
