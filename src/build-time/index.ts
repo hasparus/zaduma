@@ -22,7 +22,7 @@ export const remarkPlugins = (projectDir: string): PluggableList => {
     [derivedTitleAndDatePlugin, { title: titleCase }],
     remarkSupersub,
     [
-      shikiTwoslash,
+      (shikiTwoslash as unknown as { default: typeof shikiTwoslash }).default,
       {
         themes: ["github-light", "github-dark"],
         defaultCompilerOptions: {
