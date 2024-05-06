@@ -34,10 +34,10 @@ const PUBLIC_IMAGES_PREFIX = "/content/";
 // TODO: Support High DPI screens by ensuring Astro emits images 2x of that.
 const WIDE_CONTAINER_WIDTH = 774;
 
-interface LocalProps extends LocalImageProps {
+type LocalProps = LocalImageProps & {
   aspectRatio?: number | string;
 }
-interface RemoteProps extends RemoteImageProps {
+type RemoteProps = RemoteImageProps & {
   aspectRatio?: number | string;
 }
 export type Props = LocalProps | RemoteProps;
@@ -114,7 +114,7 @@ if (isRaw) {
     ? fetch(pathToImage).then(async (res) =>
         Buffer.from(await res.arrayBuffer()),
       )
-    : readFile(new URL(pathToImage, import.meta.url)));
+    : readFile(new URL(pathToImage.replace("../src", ""), import.meta.url)));
 
   const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
     size: 10,
