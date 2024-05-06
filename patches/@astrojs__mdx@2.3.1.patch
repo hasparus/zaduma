@@ -1,0 +1,15 @@
+diff --git a/dist/index.js b/dist/index.js
+index 54815f4c26ea041e4782099dab75aa44925ee41f..ab3326a78cb44ef961ef1e7dd53128d266c8d863 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -146,6 +146,10 @@ export const file = ${JSON.stringify(fileId)};`;
+                       "export default function MDXContent",
+                       "function MDXContent"
+                     );
++                    code = code.replace(
++                      "export default MDXContent;",
++                      ""
++                    )
+                     code += `
+ export const Content = (props = {}) => MDXContent({
+ 											...props,
