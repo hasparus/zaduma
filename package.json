@@ -17,7 +17,8 @@
     "format": "prettier --write src",
     "ci": "pnpm lint && prettier --check src",
     "test": "vitest run --no-file-parallelism",
-    "test:debug": "vitest run --inspect --no-file-parallelism"
+    "test:debug": "vitest run --inspect --no-file-parallelism",
+    "test:update-snapshots": "vitest run --no-file-parallelism --update"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^3.1.0",
@@ -56,6 +57,7 @@
     "cssnano": "^6.0.1",
     "eslint": "^8.49.0",
     "jest-image-snapshot": "^6.4.0",
+    "pptr-testing-library": "^0.8.0",
     "prettier": "^3.0.3",
     "prettier-plugin-astro": "^0.12.0",
     "prettier-plugin-tailwindcss": "^0.5.4",
