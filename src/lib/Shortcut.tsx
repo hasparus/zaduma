@@ -15,6 +15,7 @@ export function Shortcut(props: ShortcutProps) {
   return (
     <span
       {...props}
+      class={props.class}
       classList={{
         ...props.classList,
         "inline-flex gap-1": true,
