@@ -2,7 +2,7 @@ import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { readdir } from "node:fs/promises";
 import { getDocument, queries } from "pptr-testing-library";
 import puppeteer, { type Browser, Page } from "puppeteer";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vitest } from "vitest";
 
 const HEADLESS = true;
 
@@ -60,14 +60,14 @@ describe("visual regression", async () => {
   });
 
   it("matches screenshot on index page", async () => {
-    const screenshot = await page.screenshot();
+    const screenshot = await page.screenshot({ fullPage: true });
     expect(screenshot).toMatchImageSnapshot();
   });
 
-  it("matches screenshot in blog posts", async () => {
+  it("matches screenshots in blog posts", { timeout: 60_000 }, async () => {
     for (const post of postsInFS) {
       await page.goto(`http://localhost:4321/${post}`);
-      const screenshot = await page.screenshot();
+      const screenshot = await page.screenshot({ fullPage: true });
       expect(screenshot).toMatchImageSnapshot();
     }
   });
