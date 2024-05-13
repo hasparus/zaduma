@@ -36,10 +36,10 @@ const WIDE_CONTAINER_WIDTH = 774;
 
 type LocalProps = LocalImageProps & {
   aspectRatio?: number | string;
-}
+};
 type RemoteProps = RemoteImageProps & {
   aspectRatio?: number | string;
-}
+};
 export type Props = LocalProps | RemoteProps;
 
 const { loading = "lazy", decoding = "async", ...props } = Astro.props as Props;
@@ -114,7 +114,7 @@ if (isRaw) {
     ? fetch(pathToImage).then(async (res) =>
         Buffer.from(await res.arrayBuffer()),
       )
-    : readFile(new URL(pathToImage.replace("../src", ""), import.meta.url)));
+    : readFile(new URL(pathToImage.replace("../", ""), import.meta.url)));
 
   const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
     size: 10,

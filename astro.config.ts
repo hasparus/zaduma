@@ -4,7 +4,6 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import gfm from "remark-gfm";
 
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
 
@@ -22,10 +21,7 @@ export default defineConfig({
   markdown: {
     // We'll highlight using Shiki Twoslash remark plugin
     syntaxHighlight: false,
-    // Workaround for [@mdx-js/rollup] Cannot read properties of undefined (reading 'inTable')
-    // We use `remark-gfm` manually.
-    gfm: false,
-    remarkPlugins: [gfm],
+    gfm: true,
   },
   integrations: [
     tailwind({
