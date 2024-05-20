@@ -35,7 +35,10 @@ function isChildAnImage(children: JSX.Element) {
   if ("type" in children) return children.type === "img";
   if ("t" in children) {
     let t = children.t as string;
-    if (t.startsWith("<astro-")) t = t.slice(t.indexOf(">") + 1, -1);
+    if (t.startsWith("<astro-")) {
+      t = t.slice(t.indexOf(">") + 1, -1);
+      t = t.trim();
+    }
     return t.startsWith(`<img `) || t.startsWith(`<span zaduma-image`);
   }
 
