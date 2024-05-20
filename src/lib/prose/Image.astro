@@ -114,7 +114,13 @@ if (isRaw) {
     ? fetch(pathToImage).then(async (res) =>
         Buffer.from(await res.arrayBuffer()),
       )
-    : readFile(new URL(pathToImage.replace("../", ""), import.meta.url)));
+    : readFile(
+        new URL(
+          pathToImage.replace("../", ""),
+          // this normalizes the path between prod and dev
+          import.meta.url.replace("/src/", "/"),
+        ),
+      ));
 
   const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
     size: 10,
