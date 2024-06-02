@@ -55,7 +55,7 @@
     "@types/node": "20.12.9",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.1",
-    "eslint": "^9.2.0",
+    "eslint": "^8",
     "jest-image-snapshot": "^6.4.0",
     "pptr-testing-library": "^0.8.0",
     "prettier": "^3.2.5",
