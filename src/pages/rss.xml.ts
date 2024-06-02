@@ -7,7 +7,7 @@ const postImportResult = import.meta.glob<PostProps>("../../posts/**/*.mdx", {
 });
 const posts = Object.values(postImportResult);
 
-export const get = () =>
+export const GET = () =>
   rss({
     // `<title>` field in output xml
     title: "",
