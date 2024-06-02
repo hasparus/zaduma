@@ -2,7 +2,7 @@ import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { readdir } from "node:fs/promises";
 import { getDocument, queries } from "pptr-testing-library";
 import puppeteer, { type Browser, Page } from "puppeteer";
-import { afterAll, beforeAll, describe, expect, it, vitest } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 const HEADLESS = true;
 

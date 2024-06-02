@@ -1,6 +1,7 @@
 import type { RemarkPlugin } from "@astrojs/markdown-remark";
 import { valueToEstree } from "estree-util-value-to-estree";
 import getReadingTime from "reading-time";
+import * as unist from "unist";
 import { visit } from "unist-util-visit";
 
 import type { PostFrontmatter, PostProps } from "../types";
@@ -42,8 +43,8 @@ export const remarkMdxReadingTimePlugin: RemarkPlugin<[]> = () => {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (readingTime === undefined) return;
 
-    tree.children.unshift({
-      type: "mdxjsEsm" as any /* tree should be typed as MDX root, not MD root */,
+    (tree as unist.Parent).children.unshift({
+      type: "mdxjsEsm",
       data: {
         estree: {
           type: "Program",

@@ -29,6 +29,7 @@
     "@fontsource-variable/inter": "^5.0.18",
     "@mdx-js/mdx": "3.0.1",
     "@types/react": "^18.3.1",
+    "@types/unist": "^3.0.2",
     "@vercel/og": "^0.6.2",
     "astro": "^4.7.1",
     "astro-eslint-parser": "^1.0.2",
