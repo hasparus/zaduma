@@ -1,7 +1,7 @@
 import type { RemarkPlugin } from "@astrojs/markdown-remark";
 import { valueToEstree } from "estree-util-value-to-estree";
 import getReadingTime from "reading-time";
-import * as unist from "unist";
+import type * as unist from "unist";
 import { visit } from "unist-util-visit";
 
 import type { PostFrontmatter, PostProps } from "../types";
