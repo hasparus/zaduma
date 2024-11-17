@@ -38,4 +38,9 @@
   & li > p {
     display: contents;
   }
+
+  ul &,
+  ol & {
+    margin-top: 0;
+  }
 }
