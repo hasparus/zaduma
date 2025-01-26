@@ -14,9 +14,7 @@ export function Link(props: LinkProps) {
     <a
       classList={{
         ...own.classList,
-        [" underline underline-offset-4 decoration-gray-200 dark:decoration-gray-700" +
-        " hover:decoration-transparent dark:hover:decoration-transparent" +
-        " focus:decoration-transparent dark:focus:decoration-transparent"]:
+        "underline underline-offset-4 decoration-gray-200 dark:decoration-gray-700  hover:decoration-transparent dark:hover:decoration-transparent focus:decoration-transparent dark:focus:decoration-transparent":
           !own.noUnderline,
         "p-2 -mx-2 rounded-sm before:rounded-sm transition-colors relative":
           true,

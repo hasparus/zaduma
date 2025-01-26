@@ -40,7 +40,7 @@ export function Commands({
 
   return (
     <CommandCenter inputId={INPUT_ID}>
-      <CommandCenterTrigger class="zaduma-hover-before w-12 h-12 -mx-4 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
+      <CommandCenterTrigger class="zaduma-hover-before -mx-4 h-12 w-12 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
       <Show when={clientside()} keyed>
         <CommandsPalette posts={posts} />
       </Show>
@@ -155,30 +155,23 @@ export function CommandsPalette({
       onClose={() => setPage(undefined)}
       ref={(ref) => (dialog = ref)}
       class={
-        "backdrop:bg-white backdrop:bg-opacity-30" +
-        " dark:backdrop:bg-black dark:backdrop:bg-opacity-30" +
-        " mx-auto transform rounded-xl bg-white" +
-        " overflow-hidden shadow-2xl ring-1 ring-black ring-opacity-5" +
-        " transition-all [&[open]]:flex flex-col" +
-        " relative p-0 bg-white dark:bg-gray-900 w-96 max-w-full"
+        "relative mx-auto w-96 max-w-full transform flex-col overflow-hidden rounded-xl bg-white p-0 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all backdrop:bg-white backdrop:bg-opacity-30 dark:bg-gray-900 dark:backdrop:bg-black dark:backdrop:bg-opacity-30 [&[open]]:flex"
       }
     >
       <div class="flex justify-end">
-        <DialogCloseButton class="p-2 cursor-pointer group focus:outline-none">
+        <DialogCloseButton class="group cursor-pointer p-2 focus:outline-none">
           <Kbd aria-hidden>esc</Kbd>
           <span class="sr-only">Close</span>
         </DialogCloseButton>
       </div>
       <CommandInput
         aria-label="Commands"
-        class={
-          "p-2 indent-2 w-full focus:outline-none border-b" +
-          " dark:border-gray-700 bg-transparent"
-        }
+        class="relative w-full bg-transparent p-2 indent-2 focus:outline-none"
         placeholder="What do you need?"
         autofocus
       />
-      <CommandList class="p-2 overflow-scroll">
+      <div class="mx-2 border-b border-gray-200 dark:border-gray-800" />
+      <CommandList class="overflow-scroll p-2">
         <Switch
           fallback={
             <>
@@ -256,9 +249,7 @@ function CommandItem(props: CommandItemProps) {
   return (
     <CommandCenterItem
       class={
-        "zaduma-hover-before p-2 cursor-pointer w-full focus-visible:outline-black " +
-        "flex justify-between text-gray-700 dark:text-gray-300 " +
-        "relative"
+        "zaduma-hover-before relative flex w-full cursor-pointer justify-between p-2 text-gray-700 focus-visible:outline-black dark:text-gray-300"
       }
       tabIndex={-1}
       onClick={() => {
@@ -274,7 +265,7 @@ function CommandItem(props: CommandItemProps) {
 
 function GroupHeading(props: { children: JSX.Element }) {
   return (
-    <span class="text-xs p-2 font-semibold text-gray-400 dark:text-gray-500 uppercase leading-none tracking-wider">
+    <span class="p-2 text-xs font-semibold uppercase leading-none tracking-wider text-gray-400 dark:text-gray-500">
       {props.children}
     </span>
   );
