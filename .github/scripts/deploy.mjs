@@ -21,7 +21,7 @@ execSync(
   pnpm vercel build --token=${token} ${prod ? "--prod" : ""} && \
 
   DEPLOYMENT_URL=$(\
-    vercel deploy \
+    pnpm vercel deploy \
       --prebuilt \
       --token=${token} \
       ${prod ? "--prod" : ""} \
