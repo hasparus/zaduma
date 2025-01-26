@@ -324,7 +324,10 @@ export function CommandCenterDialog(props: CommandCenterDialogProps) {
         margin: "0 auto",
         position: "fixed",
         "max-height": "361px",
-        top: "calc(50% - 180px)",
+      }}
+      classList={{
+        ...props.classList,
+        "top-[4.5rem] sm:top-[calc(50%-180px)]": true,
       }}
       ref={(dialog) => {
         ctx.setDialogRef(dialog);
