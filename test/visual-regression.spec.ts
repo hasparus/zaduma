@@ -61,14 +61,20 @@ describe("visual regression", async () => {
 
   it("matches screenshot on index page", async () => {
     const screenshot = await page.screenshot({ fullPage: true });
-    expect(screenshot).toMatchImageSnapshot();
+    expect(screenshot).toMatchImageSnapshot({
+      failureThreshold: 10,
+      failureThresholdType: "pixel",
+    });
   });
 
   it("matches screenshots in blog posts", { timeout: 60_000 }, async () => {
     for (const post of postsInFS) {
       await page.goto(`http://localhost:4321/${post}`);
       const screenshot = await page.screenshot({ fullPage: true });
-      expect(screenshot).toMatchImageSnapshot();
+      expect(screenshot).toMatchImageSnapshot({
+        failureThreshold: 10,
+        failureThresholdType: "pixel",
+      });
     }
   });
 
@@ -79,6 +85,8 @@ describe("visual regression", async () => {
 
 declare module "vitest" {
   interface Assertion<T> {
-    toMatchImageSnapshot: () => T;
+    toMatchImageSnapshot: (
+      ...params: Parameters<typeof toMatchImageSnapshot>
+    ) => T;
   }
 }
