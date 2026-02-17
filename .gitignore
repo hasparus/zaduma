@@ -20,3 +20,6 @@ pnpm-debug.log*
 # environment files
 .env.local
 .env.*.local
+screenshots/
+test-results/
+playwright-report/

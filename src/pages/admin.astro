@@ -4,7 +4,8 @@ import { createOgImageLink } from "../lib/createOgImageLink";
 import { Link } from "../lib/Link";
 import type { PostFrontmatter } from "../types";
 
-const posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>("../../posts/**/*.mdx", { eager: true });
+const posts = Object.values(postModules);
 
 const linksToOGImages = posts.map((post) =>
   createOgImageLink(post.frontmatter),

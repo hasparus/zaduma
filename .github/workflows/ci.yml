@@ -1,81 +1,71 @@
 name: CI
+
 on:
   push:
-  workflow_dispatch:
-jobs:
-  test-build-and-deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      deployments: write
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+    branches: [main, astro-5-upgrade]
+  pull_request:
+    branches: [main]
 
-      - uses: pnpm/action-setup@v2
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # needed for git date derivation
+
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          cache: "pnpm"
+          node-version: 22
+          cache: pnpm
 
-      - name: Install
-        id: install
-        run: |
-          pnpm install --no-optional --frozen-lockfile ${{ env.IS_DEPENDABOT == 0 }}
+      - run: pnpm install
 
-      - name: Commit lockfile
-        if: ${{ env.IS_DEPENDABOT == 1 }}
-        uses: EndBug/add-and-commit@v9
-        with:
-          { add: "pnpm-lock.yaml", fetch: false, message: "Update lockfile" }
-
-      - name: Run linter
-        run: pnpm lint --quiet
-
-      - name: Typecheck
-        run: pnpm typecheck
+      - name: TypeScript check
+        run: npx tsc --noEmit
 
       - name: Build
         run: pnpm build
-        env:
-          OG_IMAGE_SECRET: ${{ secrets.OG_IMAGE_SECRET }}
 
-      - name: Deploy Production to Vercel
-        if: github.ref_name == 'main'
-        run:
-          node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
-          --prod
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
 
-      - name: Deploy Preview to Vercel
-        if: github.ref_name != 'main'
-        run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Run Playwright tests
+        run: npx playwright test
 
-      - name: Create GitHub Preview Deployment
-        if: github.ref_name != 'main'
-        uses: chrnorm/deployment-action@v2
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
         with:
-          token: "${{ github.token }}"
-          environment-url: https://${{ env.DEPLOYMENT_ALIAS }} # <- set by deploy.mjs
-          environment: Preview
-          production-environment: false
-          initial-status: success
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
-      - name: Create GitHub Production Deployment
-        if: github.ref_name == 'main'
-        uses: chrnorm/deployment-action@v2
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - uses: actions/checkout@v4
         with:
-          token: "${{ github.token }}"
-          environment-url: https://zaduma.vercel.app
-          environment: Production
-          production-environment: true
-          initial-status: success
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  REF_NAME: "${{ github.ref_name }}"
-  IS_DEPENDABOT: ${{ secrets.IS_DEPENDABOT }}
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install
+      - run: pnpm build
+
+      - name: Lighthouse audit
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          uploadArtifacts: true
+          configPath: .lighthouserc.json
