@@ -31,8 +31,9 @@ const SRC_IMAGES_PREFIX = "/";
 const PUBLIC_IMAGES_PREFIX = "/content/";
 
 // No image needs to be wider than this.
-// TODO: Support High DPI screens by ensuring Astro emits images 2x of that.
-const WIDE_CONTAINER_WIDTH = 774;
+// *2 is here to support High DPI screens by ensuring Astro emits images 2x of that.
+export const WIDE_CONTAINER_WIDTH = 774 * 2;
+export const PARAGRAPH_WIDTH = 609 * 2;
 
 type LocalProps = LocalImageProps & {
   aspectRatio?: number | string;
@@ -55,6 +56,21 @@ if (typeof src === "object") {
   }
 }
 
+const searchParams = src.match(/(\?[^?]+)?$/)?.[0];
+const params = new URLSearchParams(searchParams);
+if (searchParams) {
+  src = src.replace(searchParams, "");
+}
+const isThin = params.get("thin") === "1";
+let isRaw = params.get("raw") === "1";
+
+if (src.startsWith("raw!")) {
+  isRaw = true;
+  src = src.slice(4);
+}
+
+const inPublicDir = src.startsWith(PUBLIC_IMAGES_PREFIX);
+
 const pathToImage = decodeURIComponent(
   src.startsWith(SRC_IMAGES_PREFIX)
     ? `../../../src/images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
@@ -69,11 +85,8 @@ let placeholder: null | {
   backgroundRepeat: string;
 } = null;
 
-const isRaw = src.startsWith("raw!") || src.startsWith(PUBLIC_IMAGES_PREFIX);
 if (isRaw) {
-  src = src.slice(4);
-
-  if (src.startsWith(PUBLIC_IMAGES_PREFIX)) {
+  if (inPublicDir) {
     const globbed = import.meta.glob<false, string, { default: ImageMetadata }>(
       "../../../public/content/**/*",
     );
@@ -130,7 +143,7 @@ if (isRaw) {
   if (!width && !height && !props.aspectRatio) {
     width ??= metadata.width;
     props.aspectRatio ??= metadata.width / metadata.height;
-    width = Math.min(width, WIDE_CONTAINER_WIDTH);
+    width = Math.min(width, isThin ? PARAGRAPH_WIDTH : WIDE_CONTAINER_WIDTH);
     height = Math.round(width / parseFloat(props.aspectRatio as string));
   }
 }
@@ -160,14 +173,15 @@ if (!isRaw) {
 <span
   zaduma-image
   class:list={[
-    "zaduma-image-box relative block overflow-hidden",
+    !isThin && "zaduma-image-box w-[var(--wide-content-width)]",
+    "relative block overflow-hidden",
     !placeholder &&
-      "bg-current/10 !inline-flex w-[var(--wide-content-width)] justify-center [&>img]:h-full [&>img]:object-contain",
+      "bg-current/10 !inline-flex justify-center [&>img]:h-full [&>img]:object-contain",
   ]}
 >
   <img
+    class:list={["rounded-sm object-cover dark:opacity-80", attrs.class]}
     {...attrs}
-    class:list={["rounded-sm dark:opacity-80", attrs.class]}
     loading={loading}
     decoding={decoding}
   />
