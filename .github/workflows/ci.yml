@@ -57,10 +57,9 @@ jobs:
         run: pnpm test
 
       - name: Start preview server
-        run: pnpm preview --port 4321 &
-
-      - name: Wait for server
-        run: npx wait-on http://localhost:4321 --timeout 15000
+        run: |
+          pnpm preview --port 4321 &
+          npx wait-on http://localhost:4321 --timeout 15000
 
       - name: Lighthouse
         uses: foo-software/lighthouse-check-action@master
