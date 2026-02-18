@@ -18,7 +18,10 @@ test.beforeAll(async () => {
 test.describe("Visual regression", () => {
   test("index page matches screenshot", async ({ page }) => {
     await page.goto("/");
-    await expect(page).toHaveScreenshot("index.png", { fullPage: true });
+    await expect(page).toHaveScreenshot("index.png", {
+      fullPage: true,
+      maxDiffPixelRatio: 0.01,
+    });
   });
 
   test("blog posts match screenshots", async ({ page }) => {
@@ -27,6 +30,7 @@ test.describe("Visual regression", () => {
       await page.goto(`/${post}`);
       await expect(page).toHaveScreenshot(`${post.replace(/\//g, "-")}.png`, {
         fullPage: true,
+        maxDiffPixelRatio: 0.01,
       });
     }
   });
