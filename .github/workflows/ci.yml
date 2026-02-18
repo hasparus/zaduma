@@ -51,17 +51,11 @@ jobs:
         env:
           OG_IMAGE_SECRET: ${{ secrets.OG_IMAGE_SECRET }}
 
-      - name: Run unit/visual tests
-        run: pnpm test
-        env:
-          PUPPETEER_CHROMIUM_REVISION: ""
-          PUPPETEER_SKIP_DOWNLOAD: "true"
-
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run Playwright e2e tests
-        run: pnpm exec playwright test
+      - name: Run tests
+        run: pnpm test
 
       - name: Start preview server
         run: |
