@@ -24,7 +24,7 @@ export function createOgImageLink(frontmatter: PostFrontmatter) {
     img?.replace(/^raw!/, "") || ""
   }`;
 
-  const hmac = createHmac("sha256", OG_IMAGE_SECRET);
+  const hmac = createHmac("sha256", OG_IMAGE_SECRET as string);
   hmac.update(stringifiedPost);
   const token = hmac.digest("hex");
 

@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+echo "🔍 Running lint..."
+pnpm lint --quiet
+
+echo "🔍 Running typecheck..."
+pnpm typecheck
+
+echo "🔨 Running build..."
+pnpm build
+
+echo "✅ All checks passed"
