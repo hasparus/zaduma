@@ -36,6 +36,9 @@ jobs:
         with:
           { add: "pnpm-lock.yaml", fetch: false, message: "Update lockfile" }
 
+      - name: Sync Astro types
+        run: pnpm astro sync
+
       - name: Run linter
         run: pnpm lint --quiet
 
