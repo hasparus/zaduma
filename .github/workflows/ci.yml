@@ -49,7 +49,7 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          OG_IMAGE_SECRET: ${{ secrets.OG_IMAGE_SECRET }}
+          OG_IMAGE_SECRET: ${{ secrets.OG_IMAGE_SECRET || 'ci-placeholder-secret' }}
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
