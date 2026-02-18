@@ -91,6 +91,17 @@ pre .twoslash-error {
   padding-bottom: 3px;
 }
 
+/* Error message line (@shikijs/twoslash outputs .twoslash-error-line
+   instead of the old .error / .error-behind pair) */
+pre .twoslash-error-line {
+  margin-top: 0.5em;
+  padding: 0.5em 1em;
+  white-space: pre-wrap;
+  display: block;
+  border-left: 2px solid #bf1818;
+  @apply bg-gray-100 dark:bg-gray-800 dark:text-white;
+}
+
 /* --- Code container --- */
 
 pre .code-container {
