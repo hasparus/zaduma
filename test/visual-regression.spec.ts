@@ -27,6 +27,7 @@ describe("visual regression", async () => {
   beforeAll(async () => {
     browser = await puppeteer.launch({
       headless: HEADLESS,
+      args: process.env.CI ? ["--no-sandbox", "--disable-setuid-sandbox"] : [],
     });
     page = await browser.newPage();
   });
