@@ -1,6 +1,7 @@
 import mdx from "@astrojs/mdx";
 import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
+import { transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig, envField } from "astro/config";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -33,8 +34,27 @@ export default defineConfig({
     },
   },
   markdown: {
-    // We'll highlight using Shiki Twoslash remark plugin
-    syntaxHighlight: false,
+    syntaxHighlight: "shiki",
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+      transformers: [
+        transformerTwoslash({
+          explicitTrigger: true,
+          twoslashOptions: {
+            compilerOptions: {
+              strict: true,
+              module: 199 /* NodeNext */,
+              moduleResolution: 99 /* NodeNext */,
+              target: 99 /* ESNext */,
+              types: ["node"],
+            },
+          },
+        }),
+      ],
+    },
     gfm: true,
   },
   integrations: [

@@ -27,7 +27,7 @@ test.describe("Article pages", () => {
     await page.goto("/features/shiki-twoslash/");
     await expect(page.locator("h1")).toHaveText("Shiki Twoslash");
     // Should have code blocks with syntax highlighting
-    const shikiBlocks = await page.locator("pre.shiki").count();
+    const shikiBlocks = await page.locator("pre.astro-code").count();
     expect(shikiBlocks).toBeGreaterThanOrEqual(2);
   });
 
@@ -56,7 +56,7 @@ test.describe("Code blocks render with syntax highlighting", () => {
   test("code blocks have syntax colors", async ({ page }) => {
     await page.goto("/features/shiki-twoslash/");
     // Shiki generates spans with color styles
-    const coloredSpans = page.locator("pre.shiki span[style*='color']");
+    const coloredSpans = page.locator("pre.astro-code span[style*='color']");
     const count = await coloredSpans.count();
     expect(count).toBeGreaterThan(5);
   });

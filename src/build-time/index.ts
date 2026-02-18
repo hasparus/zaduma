@@ -1,5 +1,4 @@
 import { resolve } from "node:path";
-import shikiTwoslash from "remark-shiki-twoslash";
 import remarkSupersub from "remark-supersub";
 import type { Pluggable, PluggableList } from "unified";
 
@@ -21,19 +20,6 @@ export const remarkPlugins = (projectDir: string): PluggableList => {
     ],
     [derivedTitleAndDatePlugin, { title: titleCase }],
     remarkSupersub,
-    [
-      (shikiTwoslash as unknown as { default: typeof shikiTwoslash }).default,
-      {
-        themes: ["github-light", "github-dark"],
-        defaultCompilerOptions: {
-          strict: true,
-          module: 199 /* NodeNext */,
-          moduleResolution: 99 /* NodeNext */,
-          target: 99 /* ESNext */,
-          types: ["node"],
-        },
-      },
-    ],
     readingTimePlugin,
     remarkMdxReadingTimePlugin,
   );
