@@ -24,12 +24,6 @@ export default defineConfig({
       OG_IMAGE_SECRET: envField.string({
         context: "server",
         access: "secret",
-        optional: true,
-      }),
-      PUBLIC_URL: envField.string({
-        context: "client",
-        access: "public",
-        default: "http://localhost:3000/",
       }),
     },
   },

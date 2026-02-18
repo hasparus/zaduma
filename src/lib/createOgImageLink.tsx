@@ -5,11 +5,6 @@ import type { PostFrontmatter } from "../types/PostFrontmatter";
 import { OG_IMAGE_SECRET } from "astro:env/server";
 
 export function createOgImageLink(frontmatter: PostFrontmatter) {
-  if (!OG_IMAGE_SECRET) {
-    // Gracefully degrade when secret is not set (CI, local dev)
-    return undefined;
-  }
-
   let img = frontmatter.img;
   if (typeof img === "object") img = img.og || img.src;
 
@@ -24,7 +19,7 @@ export function createOgImageLink(frontmatter: PostFrontmatter) {
     img?.replace(/^raw!/, "") || ""
   }`;
 
-  const hmac = createHmac("sha256", OG_IMAGE_SECRET as string);
+  const hmac = createHmac("sha256", OG_IMAGE_SECRET);
   hmac.update(stringifiedPost);
   const token = hmac.digest("hex");
 
