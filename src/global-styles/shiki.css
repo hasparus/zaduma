@@ -1,20 +1,18 @@
-/* Dual-theme: show light by default, dark when html.dark */
-.astro-code-themes.github-dark {
-  display: none;
-}
-
-html.dark {
-  & .astro-code-themes.github-light {
-    display: none;
-  }
-  & .astro-code-themes.github-dark {
-    display: block;
-  }
-}
-
+/* Dual-theme: Astro 5 renders a single <pre> with both theme classes and CSS
+   variables. Light colors are in the default properties, dark colors use
+   --shiki-dark-* variables. We swap them via html.dark. */
 .astro-code-themes {
   background-color: transparent !important;
   color: inherit !important;
+}
+
+html.dark .astro-code-themes {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+html.dark .astro-code-themes span {
+  color: var(--shiki-dark) !important;
 }
 
 /* --- Code blocks --- */
@@ -59,6 +57,7 @@ pre.twoslash:hover .twoslash-hover {
 }
 
 .twoslash-popup-container {
+  display: none;
   position: absolute;
   transform: translate(0, 1rem);
   z-index: 100;
@@ -68,6 +67,10 @@ pre.twoslash:hover .twoslash-hover {
 
   text-align: left;
   white-space: pre-wrap;
+}
+
+.twoslash-hover:hover > .twoslash-popup-container {
+  display: block;
 }
 
 .twoslash-popup-code {
