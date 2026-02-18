@@ -1,7 +1,7 @@
 import mdx from "@astrojs/mdx";
 import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,6 +18,20 @@ const site = `https://${hostname}/`;
 // https://astro.build/config
 export default defineConfig({
   site,
+  env: {
+    schema: {
+      OG_IMAGE_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      PUBLIC_URL: envField.string({
+        context: "client",
+        access: "public",
+        default: "http://localhost:3000/",
+      }),
+    },
+  },
   markdown: {
     // We'll highlight using Shiki Twoslash remark plugin
     syntaxHighlight: false,
