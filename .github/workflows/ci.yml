@@ -10,6 +10,7 @@ jobs:
     permissions:
       deployments: write
       contents: write
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -68,6 +69,7 @@ jobs:
           urls: "http://localhost:4321/,http://localhost:4321/features/asides/,http://localhost:4321/features/shiki-twoslash/"
           prCommentEnabled: true
           prCommentSaveOld: false
+          gitHubAccessToken: ${{ github.token }}
 
       - name: Deploy Production to Vercel
         if: github.ref_name == 'main'
