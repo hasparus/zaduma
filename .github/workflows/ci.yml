@@ -126,6 +126,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Audit Preview
         uses: treosh/lighthouse-ci-action@v12
+        # todo: we should post a link to report to the PR in a sticky comment
         with:
           urls: |
             https://${{ needs.build-and-deploy.outputs.deployment }}/
