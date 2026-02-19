@@ -39,16 +39,19 @@ test.describe("Article pages", () => {
 });
 
 test.describe("Asides render as side notes on wide viewports", () => {
-  test("aside positioned to the right on desktop", async ({ page, browserName }, testInfo) => {
-    test.skip(testInfo.project.name === "mobile", "Side notes only on wide viewports");
+  test("aside positioned to the right on desktop", async ({
+    page,
+    browserName,
+  }, testInfo) => {
+    
     await page.goto("/features/asides/");
     const aside = page.locator("aside").first();
     await expect(aside).toBeVisible();
-    // On desktop, aside should be rendered (the flexbox layout puts it to the right)
-    const box = await aside.boundingBox();
-    expect(box).toBeTruthy();
-    // The aside should be positioned to the right of center
-    expect(box!.x).toBeGreaterThan(300);
+
+    if (testInfo.project.name !== "mobile") {
+      const box = await aside.boundingBox();
+      expect(box?.x).toBeGreaterThan(300);
+    }
   });
 });
 
@@ -62,26 +65,7 @@ test.describe("Code blocks render with syntax highlighting", () => {
   });
 });
 
-test.describe("Dark/light mode toggle", () => {
-  test("toggle switches color scheme", async ({ page }) => {
-    await page.goto("/");
-    // Initially should not have dark class (or have it based on system)
-    const html = page.locator("html");
-
-    // Open command palette and toggle - the ⌘ button triggers it
-    // The site uses a Commands component for toggling
-    // Let's check that the dark class can be toggled via localStorage
-    await page.evaluate(() => {
-      document.documentElement.classList.add("dark");
-    });
-    await expect(html).toHaveClass(/dark/);
-
-    await page.evaluate(() => {
-      document.documentElement.classList.remove("dark");
-    });
-    await expect(html).not.toHaveClass(/dark/);
-  });
-});
+  
 
 test.describe("OG images", () => {
   test("og meta tags are present on article pages", async ({ page }) => {
@@ -111,4 +95,39 @@ test.describe("Mobile responsive layout", () => {
     // Aside should be visible (stacked below content on mobile)
     await expect(page.locator("aside").first()).toBeVisible();
   });
+});
+
+test("color scheme switches with command palette and responds to media preference", async ({ page }) => {
+  await page.goto("/");
+
+  await page.keyboard.press("CmdOrCtrl+K");
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Alt+T");
+  await expect(page.getByText("Set Theme to Dark")).toBeVisible();
+  await page.keyboard.press("2");
+  await expect(page.locator("html")).toHaveClass("dark");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+
+  await page.keyboard.press("CmdOrCtrl+K");
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Alt+T");
+  await expect(page.getByText("Set Theme to Light")).toBeVisible();
+  await page.keyboard.press("1");
+  await expect(page.locator("html")).not.toHaveClass("dark");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+
+  await page.keyboard.press("CmdOrCtrl+K");
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Alt+T");
+  await expect(page.getByText("Set Theme to System")).toBeVisible();
+  await page.keyboard.press("3");
+  await expect(page.locator("html")).not.toHaveClass("dark");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+
+  await page.emulateMedia({ colorScheme: "dark" });
+  await expect(page.locator("html")).toHaveClass("dark");
+  await page.emulateMedia({ colorScheme: "light" });
+  await expect(page.locator("html")).not.toHaveClass("dark");
+
+  await page.emulateMedia({ colorScheme: null });
 });

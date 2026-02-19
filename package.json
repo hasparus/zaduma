@@ -19,9 +19,7 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write src",
     "ci": "pnpm lint && prettier --check src",
-    "test": "playwright test",
-    "test:debug": "vitest run --inspect --no-file-parallelism",
-    "test:update-snapshots": "vitest run --no-file-parallelism --update"
+    "test": "playwright test"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.3.10",
