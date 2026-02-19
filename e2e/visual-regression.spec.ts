@@ -15,14 +15,10 @@ test.beforeAll(async () => {
     .sort();
 });
 
-test.beforeEach(async ({ page }) => {
-  await loadOptionalFonts(page);
-});
-
 test.describe("Visual regression", () => {
   test("index page matches screenshot", async ({ page }) => {
     await page.goto("/");
-    await page.waitForFunction(() => document.fonts.ready);
+    await loadOptionalFonts(page);
 
     await expect(page).toHaveScreenshot("index.png", {
       fullPage: true,
@@ -34,7 +30,7 @@ test.describe("Visual regression", () => {
     test.setTimeout(60_000);
     for (const post of postsInFS) {
       await page.goto(`/${post}`);
-      await page.waitForFunction(() => document.fonts.ready);
+      await loadOptionalFonts(page);
 
       await expect(page).toHaveScreenshot(`${post.replace(/\//g, "-")}.png`, {
         fullPage: true,
@@ -55,4 +51,5 @@ async function loadOptionalFonts(page: Page) {
     link.rel = "stylesheet";
     document.head.appendChild(link);
   });
+  await page.waitForFunction(() => document.fonts.ready);
 }

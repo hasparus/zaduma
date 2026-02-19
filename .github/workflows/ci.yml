@@ -5,7 +5,7 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  test-build-and-deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
     permissions:
       deployments: write
@@ -64,15 +64,6 @@ jobs:
           pnpm preview --port 4321 &
           npx wait-on http://localhost:4321 --timeout 15000
 
-      - name: Lighthouse
-        uses: foo-software/lighthouse-check-action@master
-        id: lighthouse
-        with:
-          urls: "http://localhost:4321/,http://localhost:4321/features/asides/,http://localhost:4321/features/shiki-twoslash/"
-          prCommentEnabled: true
-          prCommentSaveOld: false
-          gitHubAccessToken: ${{ github.token }}
-
       - name: Deploy Production to Vercel
         if: github.ref_name == 'main'
         run:
@@ -102,6 +93,26 @@ jobs:
           environment: Production
           production-environment: true
           initial-status: success
+
+      outputs:
+        deployment: ${{ env.DEPLOYMENT_ALIAS || }}
+
+  lighthouse:
+    needs: build_and_deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit Preview
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            ${{ needs.build_and_deploy.outputs.deployment }}/
+            ${{ needs.build_and_deploy.outputs.deployment }}/features/asides/
+            ${{ needs.build_and_deploy.outputs.deployment }}/features/shiki-twoslash/
+          budgetPath: '.github/lighthouse-budget.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
