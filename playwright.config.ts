@@ -7,7 +7,6 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 1,
   ...(process.env.CI ? { workers: 1 } : {}),
   reporter: [["list", { printSteps: true }], ["html"]],
-  snapshotPathTemplate: "{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}{ext}",
   use: {
     baseURL: "http://localhost:4321",
     trace: "retain-on-first-failure",
