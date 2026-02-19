@@ -96,7 +96,9 @@ jobs:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
 
       - name: Create GitHub Production Deployment
-        if: github.ref_name == 'main'
+        if:
+          ${{ !github.event.pull_request.head.repo.fork || github.ref_name ==
+          'main' }}
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
