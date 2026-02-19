@@ -3,7 +3,9 @@ on:
   push:
     branches: [main]
   pull_request:
-  workflow_dispatch:
+  pull_request_target:
+    types: [labeled]
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -78,9 +80,11 @@ jobs:
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Create GitHub Preview Deployment
-        if:
-          github.ref_name != 'main' && !github.event.pull_request.head.repo.fork
         uses: chrnorm/deployment-action@v2
+        if:
+          ${{ !github.event.pull_request.head.repo.fork || (github.event_name ==
+          'pull_request_target' &&
+          contains(github.event.pull_request.labels.*.name, 'trusted')) }}
         with:
           token: "${{ github.token }}"
           environment-url: https://${{ env.DEPLOYMENT_ALIAS }} # <- set by deploy.mjs
@@ -103,6 +107,10 @@ jobs:
   lighthouse:
     needs: build-and-deploy
     runs-on: ubuntu-latest
+    if:
+      ${{ !github.event.pull_request.head.repo.fork || (github.event_name ==
+      'pull_request_target' && contains(github.event.pull_request.labels.*.name,
+      'trusted')) }}
     steps:
       - uses: actions/checkout@v4
       - name: Audit Preview
