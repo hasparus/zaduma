@@ -126,6 +126,15 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
 
+  remove-trusted-label:
+    needs: lighthouse
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'trusted')
+    steps:
+      - name: Remove trusted label
+        run: |
+          gh api /repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels -X DELETE -F label=trusted
+
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
