@@ -97,7 +97,7 @@ jobs:
 
       - name: Create GitHub Production Deployment
         if:
-          ${{ !github.event.pull_request.head.repo.fork || github.ref_name ==
+          ${{ !github.event.pull_request.head.repo.fork && github.ref_name ==
           'main' }}
         uses: chrnorm/deployment-action@v2
         with:
