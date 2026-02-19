@@ -28,6 +28,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@fontsource-variable/brygada-1918": "^5.0.19",
     "@fontsource-variable/inter": "^5.0.18",
+    "@hasparus/tailwind": "^1.1.7",
     "@mdx-js/mdx": "3.0.1",
     "@shikijs/twoslash": "^3.22.0",
     "@types/react": "^18.3.3",

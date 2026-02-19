@@ -26,6 +26,9 @@ importers:
       '@fontsource-variable/inter':
         specifier: ^5.0.18
         version: 5.0.18
+      '@hasparus/tailwind':
+        specifier: ^1.1.7
+        version: 1.1.7(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@20.13.0)(typescript@5.4.5)))
       '@mdx-js/mdx':
         specifier: 3.0.1
         version: 3.0.1
@@ -840,6 +843,11 @@ packages:
 
   '@hasparus/eslint-plugin@1.0.0':
     resolution: {integrity: sha512-Pef5tKZVNdMxkbO5RJE9KFzdN/vgMOAcZLd9gfmXZa1Th+zKMh8N+JP0p9+oVTeSH1n7MaFmuW23tBJTjzqL0w==}
+
+  '@hasparus/tailwind@1.1.7':
+    resolution: {integrity: sha512-Xcu9wolWMUf/SRMx8xITGFU9HJxoPPPheLVhJDwSnI9ApUG+01w91NRymfFCEZV56RaYcpqSkP7qc1mbEK8uJQ==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0'
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -5823,6 +5831,10 @@ snapshots:
   '@hasparus/eslint-plugin@1.0.0':
     dependencies:
       typescript: 5.8.3
+
+  '@hasparus/tailwind@1.1.7(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@20.13.0)(typescript@5.4.5)))':
+    dependencies:
+      tailwindcss: 3.4.3(ts-node@10.9.1(@types/node@20.13.0)(typescript@5.4.5))
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:

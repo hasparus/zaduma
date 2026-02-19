@@ -2,6 +2,7 @@
 
 const tailwindColors = require("tailwindcss/colors");
 const plugin = require("tailwindcss/plugin");
+const { scrollviewFade } = require("@hasparus/tailwind");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -76,5 +77,6 @@ module.exports = {
       addVariant("selected", '&[aria-selected="true"]');
       addVariant("current", '&[aria-current="true"]');
     }),
+    scrollviewFade,
   ],
 };
