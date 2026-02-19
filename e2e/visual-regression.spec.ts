@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import { readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -15,9 +15,15 @@ test.beforeAll(async () => {
     .sort();
 });
 
+test.beforeEach(async ({ page }) => {
+  await loadOptionalFonts(page);
+});
+
 test.describe("Visual regression", () => {
   test("index page matches screenshot", async ({ page }) => {
     await page.goto("/");
+    await page.waitForFunction(() => document.fonts.ready);
+
     await expect(page).toHaveScreenshot("index.png", {
       fullPage: true,
       maxDiffPixelRatio: 0.01,
@@ -28,6 +34,8 @@ test.describe("Visual regression", () => {
     test.setTimeout(60_000);
     for (const post of postsInFS) {
       await page.goto(`/${post}`);
+      await page.waitForFunction(() => document.fonts.ready);
+
       await expect(page).toHaveScreenshot(`${post.replace(/\//g, "-")}.png`, {
         fullPage: true,
         maxDiffPixelRatio: 0.01,
@@ -35,3 +43,16 @@ test.describe("Visual regression", () => {
     }
   });
 });
+
+/**
+ * We're not loading Fira Code because it doesn't really matter,
+ * and we expect most readers to have it installed on their system.
+ */
+async function loadOptionalFonts(page: Page) {
+  await page.evaluate(() => {
+    const link = document.createElement("link");
+    link.href = "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  });
+}

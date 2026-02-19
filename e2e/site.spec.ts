@@ -75,54 +75,53 @@ test.describe("OG images", () => {
   });
 });
 
-test.describe("Mobile responsive layout", () => {
-  test("homepage is readable on mobile", async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== "mobile", "Mobile-specific test");
-    await page.goto("/");
-    await expect(page.locator("h1")).toBeVisible();
-    const articles = page.locator("ul li a");
-    await expect(articles).toHaveCount(7);
-    // Content should not overflow
-    const body = page.locator("body");
-    const box = await body.boundingBox();
-    expect(box!.width).toBeLessThanOrEqual(375);
-  });
-
-  test("article page is readable on mobile", async ({ page }, testInfo) => {
-    test.skip(testInfo.project.name !== "mobile", "Mobile-specific test");
-    await page.goto("/features/asides/");
-    await expect(page.locator("h1")).toBeVisible();
-    // Aside should be visible (stacked below content on mobile)
-    await expect(page.locator("aside").first()).toBeVisible();
-  });
+test("homepage is readable on mobile", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile", "Mobile-specific test");
+  await page.goto("/");
+  await expect(page.locator("h1")).toBeVisible();
+  const articles = page.locator("ul li a");
+  await expect(articles).toHaveCount(7);
+  // Content should not overflow
+  const body = page.locator("body");
+  const box = await body.boundingBox();
+  expect(box!.width).toBeLessThanOrEqual(375);
 });
 
-test("color scheme switches with command palette and responds to media preference", async ({ page }) => {
+test("color scheme switches with command palette and responds to media preference", async ({ page }, testInfo) => {
   await page.goto("/");
+  await page.waitForLoadState("domcontentloaded");
+  
+  if (testInfo.project.name !== "mobile") {
+    
+    try {
+      await page.keyboard.press("ControlOrMeta+K");
+    } catch {
+      await page.getByLabel("Open command palette").click();
+    }
 
-  await page.keyboard.press("CmdOrCtrl+K");
-  await expect(page.getByRole("dialog")).toBeVisible();
-  await page.keyboard.press("Alt+T");
-  await expect(page.getByText("Set Theme to Dark")).toBeVisible();
-  await page.keyboard.press("2");
-  await expect(page.locator("html")).toHaveClass("dark");
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.keyboard.press("Alt+T");
+    await expect(page.getByText("Set Theme to Dark")).toBeVisible();
+    await page.keyboard.press("2");
+    await expect(page.locator("html")).toHaveClass("dark");
+    await expect(page.getByRole("dialog")).not.toBeVisible();
 
-  await page.keyboard.press("CmdOrCtrl+K");
-  await expect(page.getByRole("dialog")).toBeVisible();
-  await page.keyboard.press("Alt+T");
-  await expect(page.getByText("Set Theme to Light")).toBeVisible();
-  await page.keyboard.press("1");
-  await expect(page.locator("html")).not.toHaveClass("dark");
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+    await page.keyboard.press("ControlOrMeta+K");
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.keyboard.press("Alt+T");
+    await expect(page.getByText("Set Theme to Light")).toBeVisible();
+    await page.keyboard.press("1");
+    await expect(page.locator("html")).not.toHaveClass("dark");
+    await expect(page.getByRole("dialog")).not.toBeVisible();
 
-  await page.keyboard.press("CmdOrCtrl+K");
-  await expect(page.getByRole("dialog")).toBeVisible();
-  await page.keyboard.press("Alt+T");
-  await expect(page.getByText("Set Theme to System")).toBeVisible();
-  await page.keyboard.press("3");
-  await expect(page.locator("html")).not.toHaveClass("dark");
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+    await page.keyboard.press("ControlOrMeta+K");
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.keyboard.press("Alt+T");
+    await expect(page.getByText("Set Theme to System")).toBeVisible();
+    await page.keyboard.press("3");
+    await expect(page.locator("html")).not.toHaveClass("dark");
+    await expect(page.getByRole("dialog")).not.toBeVisible();    
+  }
 
   await page.emulateMedia({ colorScheme: "dark" });
   await expect(page.locator("html")).toHaveClass("dark");

@@ -10,7 +10,7 @@ export default defineConfig({
   snapshotPathTemplate: "{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}{ext}",
   use: {
     baseURL: "http://localhost:4321",
-    trace: "on-first-retry",
+    trace: "retain-on-first-failure",
   },
   webServer: {
     command: "pnpm preview",
