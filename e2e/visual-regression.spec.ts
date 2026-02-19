@@ -22,7 +22,7 @@ test.describe("Visual regression", () => {
 
     await expect(page).toHaveScreenshot("index.png", {
       fullPage: true,
-      maxDiffPixelRatio: 0.04,
+      maxDiffPixelRatio: 0.02,
     });
   });
 
@@ -34,25 +34,13 @@ test.describe("Visual regression", () => {
 
       await expect(page).toHaveScreenshot(`${post.replace(/\//g, "-")}.png`, {
         fullPage: true,
-        maxDiffPixelRatio: 0.04,
+        maxDiffPixelRatio: 0.02,
       });
     }
   });
 });
 
 async function ensureFontsLoaded(page: Page) {
-  await page.addInitScript(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      * {
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-        text-rendering: geometricPrecision !important;
-      }
-    `;
-    document.head.appendChild(style);
-  });
-  
   await page.evaluate(() => {
     const link = document.createElement("link");
     link.href = "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap";
@@ -65,101 +53,15 @@ async function ensureFontsLoaded(page: Page) {
   await page.evaluate(async () => {
     await document.fonts.ready;
     
-    const fontsToLoad = [
-      '16px "Inter"',
-      '16px "Brygada 1918"',
-      'italic 16px "Brygada 1918"',
-      '16px "Fira Code"',
-    ];
+    await Promise.all([
+      document.fonts.load('16px "Inter"'),
+      document.fonts.load('16px "Brygada 1918"'),
+      document.fonts.load('italic 16px "Brygada 1918"'),
+      document.fonts.load('16px "Fira Code"'),
+    ].map(p => p.catch(() => null)));
     
-    await Promise.all(
-      fontsToLoad.map(fontSpec => document.fonts.load(fontSpec).catch(() => null))
-    );
-    
-    const waitForFontsReady = async () => {
-      for (let i = 0; i < 50; i++) {
-        const allLoaded = fontsToLoad.every(fontSpec => document.fonts.check(fontSpec));
-        if (allLoaded) {
-          break;
-        }
-        await new Promise(resolve => setTimeout(resolve, 50));
-      }
-    };
-    
-    await waitForFontsReady();
-    
-    const verifyFontsInUse = () => {
-      const testElements = Array.from(document.querySelectorAll('p, h1, h2, h3')).slice(0, 10);
-      if (testElements.length === 0) return true;
-      
-      let interFound = false;
-      let brygadaFound = false;
-      
-      for (const el of testElements) {
-        const style = window.getComputedStyle(el);
-        const fontFamily = style.fontFamily.toLowerCase();
-        
-        if (fontFamily.includes('inter') && !fontFamily.includes('ui-sans-serif')) {
-          interFound = true;
-        }
-        if (fontFamily.includes('brygada')) {
-          brygadaFound = true;
-        }
-        
-        if (interFound && brygadaFound) break;
-      }
-      
-      return interFound && brygadaFound;
-    };
-    
-    for (let i = 0; i < 30; i++) {
-      if (verifyFontsInUse()) {
-        break;
-      }
-      await new Promise(resolve => requestAnimationFrame(resolve));
-    }
-    
-    const waitForLayoutStable = async () => {
-      const getLayoutMetrics = () => {
-        const body = document.body;
-        const html = document.documentElement;
-        return {
-          bodyHeight: body.scrollHeight,
-          bodyWidth: body.scrollWidth,
-          htmlHeight: html.scrollHeight,
-          htmlWidth: html.scrollWidth,
-        };
-      };
-      
-      let lastMetrics = getLayoutMetrics();
-      let stableCount = 0;
-      
-      for (let i = 0; i < 30; i++) {
-        await new Promise(resolve => requestAnimationFrame(resolve));
-        
-        document.body.offsetHeight;
-        document.documentElement.offsetHeight;
-        
-        const currentMetrics = getLayoutMetrics();
-        
-        if (currentMetrics.bodyHeight === lastMetrics.bodyHeight &&
-            currentMetrics.bodyWidth === lastMetrics.bodyWidth &&
-            currentMetrics.htmlHeight === lastMetrics.htmlHeight &&
-            currentMetrics.htmlWidth === lastMetrics.htmlWidth) {
-          stableCount++;
-          if (stableCount >= 10) {
-            break;
-          }
-        } else {
-          stableCount = 0;
-          lastMetrics = currentMetrics;
-        }
-      }
-    };
-    
-    await waitForLayoutStable();
-    
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    await new Promise(resolve => requestAnimationFrame(resolve));
   });
   
   await page.waitForTimeout(200);
