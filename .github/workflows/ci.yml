@@ -5,7 +5,7 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  build_and_deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
       deployments: write
@@ -57,7 +57,15 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run tests
+        id: test
         run: pnpm test
+
+      - name: Upload Playwright artifacts
+        if: steps.test.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: playwright-report
 
       - name: Deploy Production to Vercel
         if: github.ref_name == 'main'
@@ -92,7 +100,7 @@ jobs:
       deployment: ${{ env.DEPLOYMENT_ALIAS || env.PRODUCTION_HOSTNAME }}
 
   lighthouse:
-    needs: build_and_deploy
+    needs: build-and-deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -100,9 +108,9 @@ jobs:
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
-            ${{ needs.build_and_deploy.outputs.deployment }}/
-            ${{ needs.build_and_deploy.outputs.deployment }}/features/asides/
-            ${{ needs.build_and_deploy.outputs.deployment }}/features/shiki-twoslash/
+            ${{ needs.build-and-deploy.outputs.deployment }}/
+            ${{ needs.build-and-deploy.outputs.deployment }}/features/asides/
+            ${{ needs.build-and-deploy.outputs.deployment }}/features/shiki-twoslash/
           budgetPath: ".github/lighthouse-budget.json"
           uploadArtifacts: true
           temporaryPublicStorage: true
