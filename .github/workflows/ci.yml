@@ -137,6 +137,8 @@ jobs:
       - name: Remove trusted label
         run: |
           gh api /repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels -X DELETE -F label=trusted
+        env:
+          GITHUB_TOKEN: "${{ github.token }}"
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
