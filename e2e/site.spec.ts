@@ -103,7 +103,7 @@ test("color scheme switches with command palette and responds to media preferenc
     await page.keyboard.press("Alt+T");
     await expect(page.getByText("Set Theme to Dark")).toBeVisible();
     await page.keyboard.press("2");
-    await expect(page.locator("html")).toHaveClass("dark");
+    await expect(page.locator("html")).toHaveClass(/dark/);
     await expect(page.getByRole("dialog")).not.toBeVisible();
 
     await page.keyboard.press("ControlOrMeta+K");
@@ -111,7 +111,7 @@ test("color scheme switches with command palette and responds to media preferenc
     await page.keyboard.press("Alt+T");
     await expect(page.getByText("Set Theme to Light")).toBeVisible();
     await page.keyboard.press("1");
-    await expect(page.locator("html")).not.toHaveClass("dark");
+    await expect(page.locator("html")).not.toHaveClass(/dark/);
     await expect(page.getByRole("dialog")).not.toBeVisible();
 
     await page.keyboard.press("ControlOrMeta+K");
@@ -119,14 +119,14 @@ test("color scheme switches with command palette and responds to media preferenc
     await page.keyboard.press("Alt+T");
     await expect(page.getByText("Set Theme to System")).toBeVisible();
     await page.keyboard.press("3");
-    await expect(page.locator("html")).not.toHaveClass("dark");
+    await expect(page.locator("html")).not.toHaveClass(/dark/);
     await expect(page.getByRole("dialog")).not.toBeVisible();    
   }
 
   await page.emulateMedia({ colorScheme: "dark" });
-  await expect(page.locator("html")).toHaveClass("dark");
+  await expect(page.locator("html")).toHaveClass(/dark/);
   await page.emulateMedia({ colorScheme: "light" });
-  await expect(page.locator("html")).not.toHaveClass("dark");
+  await expect(page.locator("html")).not.toHaveClass(/dark/);
 
   await page.emulateMedia({ colorScheme: null });
 });
