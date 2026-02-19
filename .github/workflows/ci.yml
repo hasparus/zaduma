@@ -78,7 +78,8 @@ jobs:
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Create GitHub Preview Deployment
-        if: github.ref_name != 'main'
+        if:
+          github.ref_name != 'main' && !github.event.pull_request.head.repo.fork
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
