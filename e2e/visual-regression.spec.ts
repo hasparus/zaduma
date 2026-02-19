@@ -60,14 +60,16 @@ async function ensureFontsLoaded(page: Page) {
       '16px "Fira Code"',
     ];
     
-    const loadPromises = fontsToLoad.map(fontSpec => 
-      document.fonts.load(fontSpec).catch(() => null)
+    await Promise.all(
+      fontsToLoad.map(fontSpec => document.fonts.load(fontSpec).catch(() => null))
     );
     
-    await Promise.all(loadPromises);
+    const waitForNextFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
+    await waitForNextFrame();
+    await waitForNextFrame();
     
-    await new Promise(resolve => setTimeout(resolve, 500));
+    document.body.offsetHeight;
   });
   
-  await page.waitForTimeout(200);
+  await page.waitForTimeout(300);
 }
