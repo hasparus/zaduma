@@ -53,6 +53,7 @@ export function CommandCenterTrigger(props: CommandCenterTriggerProps) {
   return (
     <button
       {...props}
+      aria-label="Open command palette"
       onClick={(event) => {
         ctx.open();
         props.onClick?.(event);

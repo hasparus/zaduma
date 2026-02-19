@@ -5,7 +5,8 @@ import { Link } from "../lib/Link";
 import { Paragraph } from "../lib/prose/Paragraph";
 import type { PostFrontmatter } from "../types";
 
-let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
+const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>("../../posts/**/*.mdx", { eager: true });
+let posts = Object.values(postModules);
 
 if (import.meta.env.PROD) {
   posts = posts.filter((post) => !post.frontmatter.draft);

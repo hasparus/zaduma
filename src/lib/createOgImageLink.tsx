@@ -2,22 +2,11 @@ import { createHmac } from "node:crypto";
 
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
-
-declare global {
-  interface ImportMetaEnv {
-    OG_IMAGE_SECRET?: string;
-  }
-}
-
-const OG_IMAGE_SECRET =
-  import.meta.env.OG_IMAGE_SECRET ||
-  (() => {
-    throw new Error("OG_IMAGE_SECRET is not set");
-  })();
+import { OG_IMAGE_SECRET } from "astro:env/server";
 
 export function createOgImageLink(frontmatter: PostFrontmatter) {
   let img = frontmatter.img;
-  if (typeof img === "object") img = img.og;
+  if (typeof img === "object") img = img.og || img.src;
 
   // prettier-ignore
   const stringifiedPost: StringifiedPost = `${

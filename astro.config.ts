@@ -1,7 +1,8 @@
 import mdx from "@astrojs/mdx";
 import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
-import { defineConfig } from "astro/config";
+import { transformerTwoslash } from "@shikijs/twoslash";
+import { defineConfig, envField } from "astro/config";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,9 +19,36 @@ const site = `https://${hostname}/`;
 // https://astro.build/config
 export default defineConfig({
   site,
+  env: {
+    schema: {
+      OG_IMAGE_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+    },
+  },
   markdown: {
-    // We'll highlight using Shiki Twoslash remark plugin
-    syntaxHighlight: false,
+    syntaxHighlight: "shiki",
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+      transformers: [
+        transformerTwoslash({
+          explicitTrigger: true,
+          twoslashOptions: {
+            compilerOptions: {
+              strict: true,
+              module: 199 /* NodeNext */,
+              moduleResolution: 99 /* NodeNext */,
+              target: 99 /* ESNext */,
+              types: ["node"],
+            },
+          },
+        }),
+      ],
+    },
     gfm: true,
   },
   integrations: [
