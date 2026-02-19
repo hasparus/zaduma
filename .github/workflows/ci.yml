@@ -1,13 +1,18 @@
 name: CI
 on:
   push:
-  workflow_dispatch:
+    branches: [main]
+  pull_request:
+  pull_request_target:
+    types: [labeled]
+
 jobs:
-  test-build-and-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
       deployments: write
       contents: write
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -16,7 +21,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 9
+          version: 10
 
       - uses: actions/setup-node@v3
         with:
@@ -26,13 +31,16 @@ jobs:
       - name: Install
         id: install
         run: |
-          pnpm install --no-optional --frozen-lockfile ${{ env.IS_DEPENDABOT == 0 }}
+          pnpm install --frozen-lockfile
 
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT == 1 }}
         uses: EndBug/add-and-commit@v9
         with:
           { add: "pnpm-lock.yaml", fetch: false, message: "Update lockfile" }
+
+      - name: Sync Astro types
+        run: pnpm astro sync
 
       - name: Run linter
         run: pnpm lint --quiet
@@ -43,7 +51,23 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          OG_IMAGE_SECRET: ${{ secrets.OG_IMAGE_SECRET }}
+          OG_IMAGE_SECRET:
+            ${{ case(github.event.pull_request.head.repo.fork,
+            'fork-og-image-secret', secrets.OG_IMAGE_SECRET) }}
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run tests
+        id: test
+        run: pnpm test
+
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: playwright-report
 
       - name: Deploy Production to Vercel
         if: github.ref_name == 'main'
@@ -56,8 +80,11 @@ jobs:
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Create GitHub Preview Deployment
-        if: github.ref_name != 'main'
         uses: chrnorm/deployment-action@v2
+        if:
+          ${{ !github.event.pull_request.head.repo.fork || (github.event_name ==
+          'pull_request_target' &&
+          contains(github.event.pull_request.labels.*.name, 'trusted')) }}
         with:
           token: "${{ github.token }}"
           environment-url: https://${{ env.DEPLOYMENT_ALIAS }} # <- set by deploy.mjs
@@ -70,12 +97,36 @@ jobs:
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
-          environment-url: https://zaduma.vercel.app
+          environment-url: https://${{ env.PRODUCTION_HOSTNAME }}
           environment: Production
           production-environment: true
           initial-status: success
+    outputs:
+      deployment: ${{ env.DEPLOYMENT_ALIAS || env.PRODUCTION_HOSTNAME }}
+
+  lighthouse:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    if:
+      ${{ !github.event.pull_request.head.repo.fork || (github.event_name ==
+      'pull_request_target' && contains(github.event.pull_request.labels.*.name,
+      'trusted')) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit Preview
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            ${{ needs.build-and-deploy.outputs.deployment }}/
+            ${{ needs.build-and-deploy.outputs.deployment }}/features/asides/
+            ${{ needs.build-and-deploy.outputs.deployment }}/features/shiki-twoslash/
+          budgetPath: ".github/lighthouse-budget.json"
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  REF_NAME: "${{ github.ref_name }}"
   IS_DEPENDABOT: ${{ secrets.IS_DEPENDABOT }}
+  REF_NAME: "${{ github.ref_name }}"
+  PRODUCTION_HOSTNAME: zaduma.vercel.app
