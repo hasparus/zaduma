@@ -79,6 +79,8 @@
     },
     "onlyBuiltDependencies": [
       "esbuild",
+      "core-js-pure",
+      "puppeteer",
       "sharp"
     ]
   }
