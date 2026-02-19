@@ -81,6 +81,14 @@ jobs:
         if: github.ref_name != 'main'
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
+      - name: Debug Conditions
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Is fork: ${{ github.event.pull_request.head.repo.fork }}"
+          echo "Ref name: ${{ github.ref_name }}"
+          echo "Has trusted: ${{ contains(github.event.pull_request.labels.*.name, 'trusted') }}"
+          echo "Condition eval: ${{ !github.event.pull_request.head.repo.fork || (github.event_name == 'pull_request_target' && contains(github.event.pull_request.labels.*.name, 'trusted')) }}"
+
       - name: Create GitHub Preview Deployment
         uses: chrnorm/deployment-action@v2
         if:
