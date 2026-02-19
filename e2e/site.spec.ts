@@ -96,11 +96,12 @@ test("color scheme switches with command palette and responds to media preferenc
     
     try {
       await page.keyboard.press("ControlOrMeta+K");
-      await expect(page.getByRole("dialog")).toBeVisible();
     } catch {
       await page.getByLabel("Open command palette").click();
-      await expect(page.getByRole("dialog")).toBeVisible();
     }
+
+    await expect(page.getByRole("dialog")).toBeVisible();
+
     await page.keyboard.press("Alt+T");
     await expect(page.getByText("Set Theme to Dark")).toBeVisible();
     await page.keyboard.press("2");
