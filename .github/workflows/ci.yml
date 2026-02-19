@@ -127,6 +127,7 @@ jobs:
       - name: Audit Preview
         uses: treosh/lighthouse-ci-action@v12
         # todo: we should post a link to report to the PR in a sticky comment
+        # this prints "  No GitHub token set, skipping GitHub status check.""
         with:
           urls: |
             https://${{ needs.build-and-deploy.outputs.deployment }}/
