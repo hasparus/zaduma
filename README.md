@@ -28,6 +28,8 @@ _an [Astro] starter template for understated personal websites_
 2. Set [`VERCEL_TOKEN`], `VERCEL_PROJECT_ID`, and [`VERCEL_ORG_ID`] secrets to
    deploy to Vercel from GHA (enables access to git history).
 3. Add `OG_IMAGE_SECRET` to secure your OG image endpoint.
+4. Remove `e2e` directory and `playwright.config.ts` or adapt tests to your
+   usecase.
 
 _[See full usage instructions.](#-usage)_
 
@@ -95,3 +97,6 @@ All commands are run from the root of the project, from a terminal:
 
 [`vercel_token`]: https://vercel.com/account/tokens
 [`vercel_org_id`]: https://vercel.com/account#your-id
+
+6. Remove `e2e` directory and `playwright.config.ts` or adapt tests to your
+   usecase.
