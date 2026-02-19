@@ -93,6 +93,7 @@ jobs:
           environment: Preview
           production-environment: false
           initial-status: success
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
 
       - name: Create GitHub Production Deployment
         if: github.ref_name == 'main'
