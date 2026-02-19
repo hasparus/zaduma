@@ -76,6 +76,10 @@
         "@babel/core",
         "rollup"
       ]
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }
