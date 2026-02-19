@@ -89,13 +89,12 @@ jobs:
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
-          environment-url: https://zaduma.vercel.app
+          environment-url: https://${{ env.PRODUCTION_HOSTNAME }}
           environment: Production
           production-environment: true
           initial-status: success
-
-      outputs:
-        deployment: ${{ env.DEPLOYMENT_ALIAS || }}
+    outputs:
+      deployment: ${{ env.DEPLOYMENT_ALIAS || env.PRODUCTION_HOSTNAME }}
 
   lighthouse:
     needs: build_and_deploy
@@ -109,12 +108,13 @@ jobs:
             ${{ needs.build_and_deploy.outputs.deployment }}/
             ${{ needs.build_and_deploy.outputs.deployment }}/features/asides/
             ${{ needs.build_and_deploy.outputs.deployment }}/features/shiki-twoslash/
-          budgetPath: '.github/lighthouse-budget.json'
+          budgetPath: ".github/lighthouse-budget.json"
           uploadArtifacts: true
           temporaryPublicStorage: true
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  REF_NAME: "${{ github.ref_name }}"
   IS_DEPENDABOT: ${{ secrets.IS_DEPENDABOT }}
+  REF_NAME: "${{ github.ref_name }}"
+  PRODUCTION_HOSTNAME: zaduma.vercel.app
