@@ -151,6 +151,5 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   IS_DEPENDABOT: ${{ secrets.IS_DEPENDABOT }}
   REF_NAME:
-    "${{ case( github.event_name == 'push', github.ref_name,
-    github.event.pull_request.head.ref) }}"
+    "${{ case( github.event_name == 'push', github.ref_name, github.head_ref) }}"
   PRODUCTION_HOSTNAME: zaduma.vercel.app
