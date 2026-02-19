@@ -18,7 +18,7 @@ test.beforeAll(async () => {
 test.describe("Visual regression", () => {
   test("index page matches screenshot", async ({ page }) => {
     await page.goto("/");
-    await loadOptionalFonts(page);
+    await ensureFontsLoaded(page);
 
     await expect(page).toHaveScreenshot("index.png", {
       fullPage: true,
@@ -30,7 +30,7 @@ test.describe("Visual regression", () => {
     test.setTimeout(60_000);
     for (const post of postsInFS) {
       await page.goto(`/${post}`);
-      await loadOptionalFonts(page);
+      await ensureFontsLoaded(page);
 
       await expect(page).toHaveScreenshot(`${post.replace(/\//g, "-")}.png`, {
         fullPage: true,
@@ -40,16 +40,34 @@ test.describe("Visual regression", () => {
   });
 });
 
-/**
- * We're not loading Fira Code because it doesn't really matter,
- * and we expect most readers to have it installed on their system.
- */
-async function loadOptionalFonts(page: Page) {
+async function ensureFontsLoaded(page: Page) {
   await page.evaluate(() => {
     const link = document.createElement("link");
     link.href = "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
   });
-  await page.waitForFunction(() => document.fonts.ready);
+  
+  await page.waitForLoadState("networkidle");
+  
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    
+    const fontsToLoad = [
+      '16px "Inter"',
+      '16px "Brygada 1918"',
+      'italic 16px "Brygada 1918"',
+      '16px "Fira Code"',
+    ];
+    
+    const loadPromises = fontsToLoad.map(fontSpec => 
+      document.fonts.load(fontSpec).catch(() => null)
+    );
+    
+    await Promise.all(loadPromises);
+    
+    await new Promise(resolve => setTimeout(resolve, 500));
+  });
+  
+  await page.waitForTimeout(200);
 }
