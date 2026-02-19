@@ -51,7 +51,7 @@ jobs:
         env:
           OG_IMAGE_SECRET:
             ${{ case(github.event.pull_request.head.repo.fork,
-            secrets.OG_IMAGE_SECRET, 'fork-og-image-secret') }}
+            'fork-og-image-secret', secrets.OG_IMAGE_SECRET) }}
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
