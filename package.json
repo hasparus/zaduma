@@ -80,6 +80,12 @@
         "@babel/core",
         "rollup"
       ]
-    }
+    },
+    "onlyBuiltDependencies": [
+      "core-js-pure",
+      "esbuild",
+      "puppeteer",
+      "sharp"
+    ]
   }
 }
