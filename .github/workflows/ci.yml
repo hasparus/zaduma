@@ -130,7 +130,7 @@ jobs:
   remove-trusted-label:
     needs: lighthouse
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'trusted')
+    if: always() && contains(github.event.pull_request.labels.*.name, 'trusted')
     steps:
       - name: Remove trusted label
         run: |
