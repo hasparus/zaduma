@@ -44,7 +44,7 @@ export function titleCase(str: string) {
 
       /* Capitalize the first letter */
       return current.replace(alphanumericPattern, (match) =>
-        match.toUpperCase()
+        match.toUpperCase(),
       );
     })
     .join("");

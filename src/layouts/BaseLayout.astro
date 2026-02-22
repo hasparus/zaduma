@@ -25,7 +25,10 @@ interface Props {
 
 const { title, description, ogImage } = Astro.props;
 
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>("../../posts/**/*.mdx", { eager: true });
+const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
+  "../../posts/**/*.mdx",
+  { eager: true },
+);
 const posts = Object.values(postModules)
   .filter((p) => (import.meta.env.PROD ? !p.frontmatter.draft : true))
   .map((p) => ({
@@ -64,9 +67,9 @@ posts.sort((a, b) => {
     <InitColorScheme />
   </head>
   <body>
-    <div class="max-w-container mx-auto px-4">
+    <div class="mx-auto max-w-container px-4">
       <header
-        class="flex justify-between items-center -mt-2"
+        class="-mt-2 flex items-center justify-between"
         style={{ height: "37.5px" }}
       >
         <slot name="header-content">

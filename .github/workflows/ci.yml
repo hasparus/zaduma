@@ -78,7 +78,10 @@ jobs:
           --prod
 
       - name: Deploy Preview to Vercel
-        if: github.ref_name != 'main'
+        if:
+          ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
+          (github.event_name == 'pull_request_target' &&
+          contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Debug Conditions

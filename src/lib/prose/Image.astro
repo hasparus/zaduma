@@ -36,9 +36,11 @@ const WIDE_CONTAINER_WIDTH = 774;
 
 type LocalProps = LocalImageProps & {
   aspectRatio?: number | string;
+  height?: number | string;
 };
 type RemoteProps = RemoteImageProps & {
   aspectRatio?: number | string;
+  height?: number | string;
 };
 export type Props = LocalProps | RemoteProps;
 

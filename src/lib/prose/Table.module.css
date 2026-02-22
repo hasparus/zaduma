@@ -12,7 +12,7 @@
 
   & th,
   & td {
-    @apply py-1 px-2 md:px-4;
+    @apply px-2 py-1 md:px-4;
   }
 }
 

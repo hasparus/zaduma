@@ -23,7 +23,7 @@
 
   &:after,
   &:before {
-    @apply text-4xl leading-none text-gray-300 font-black;
+    @apply text-4xl font-black leading-none text-gray-300;
     position: absolute;
 
     :global(.dark) & {

@@ -14,7 +14,11 @@ import { Ul } from "../lib/prose/Ul";
 import type { PostFrontmatter } from "../types";
 
 export const getStaticPaths = async () => {
-  const postModules = import.meta.glob<{ frontmatter: PostFrontmatter; Content: any; getHeadings: any }>("../../posts/**/*.mdx", { eager: true });
+  const postModules = import.meta.glob<{
+    frontmatter: PostFrontmatter;
+    Content: any;
+    getHeadings: any;
+  }>("../../posts/**/*.mdx", { eager: true });
   let posts = Object.values(postModules);
 
   if (import.meta.env.PROD) {

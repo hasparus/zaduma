@@ -7,7 +7,7 @@
 
   &::before,
   &::after {
-    @apply text-gray-400 font-black;
+    @apply font-black text-gray-400;
     content: "`";
 
     :global(.dark) & {
@@ -17,7 +17,7 @@
 }
 
 .Pre {
-  @apply md:rounded-md text-sm -mx-4 p-4 overflow-x-auto;
+  @apply -mx-4 overflow-x-auto p-4 text-sm md:rounded-md;
 
   /* Needed to fit 80 monospaced characters with Fira Code in 43rem space. */
   padding-right: calc(1rem - 1px);
