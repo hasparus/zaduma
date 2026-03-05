@@ -56,16 +56,28 @@ pre.twoslash:hover .twoslash-hover {
   border-color: #747474;
 }
 
+.twoslash-hover:hover {
+  anchor-name: --twoslash-hover;
+}
+
 .twoslash-popup-container {
   display: none;
-  position: absolute;
-  transform: translate(0, 1rem);
+  position: fixed;
+  position-anchor: --twoslash-hover;
+  position-area: bottom;
+  position-try-fallbacks: --above;
   z-index: 100;
+  width: max-content;
+  max-width: 80vw;
 
   @apply rounded-sm border border-gray-200 bg-white p-2 px-3 text-gray-900 shadow-sm dark:border-gray-700 dark:bg-black dark:text-gray-50 dark:shadow-md;
 
   text-align: left;
   white-space: pre-wrap;
+}
+
+@position-try --above {
+  position-area: top;
 }
 
 .twoslash-hover:hover > .twoslash-popup-container {
