@@ -46,17 +46,6 @@ pre.twoslash {
 
 /* --- Twoslash hover --- */
 
-@keyframes pop-up {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 .twoslash-hover {
   border-bottom: 1px dotted transparent;
   transition-timing-function: ease;
@@ -67,34 +56,10 @@ pre.twoslash:hover .twoslash-hover {
   border-color: #747474;
 }
 
-:root {
-  --ease-overshoot-far: linear(
-    0 0%,
-    0.5007 7.21%,
-    0.7803 12.29%,
-    0.8883 14.93%,
-    0.9724 17.63%,
-    1.0343 20.44%,
-    1.0754 23.44%,
-    1.0898 25.22%,
-    1.0984 27.11%,
-    1.101 29.15%,
-    1.098 31.4%,
-    1.085 35.23%,
-    1.019 48.86%,
-    1.004 54.06%,
-    0.9956 59.6%,
-    0.9925 68.11%,
-    1 100%
-  );
-}
-
 .twoslash-popup-container {
-  opacity: 0;
-  scale: 0.95;
-  pointer-events: none;
+  display: none;
   position: absolute;
-  margin-top: 1rem;
+  transform: translate(0, 1rem);
   z-index: 100;
 
   @apply rounded-sm border border-gray-200 bg-white p-2 px-3 text-gray-900 shadow-sm dark:border-gray-700 dark:bg-black dark:text-gray-50 dark:shadow-md;
@@ -104,7 +69,7 @@ pre.twoslash:hover .twoslash-hover {
 }
 
 .twoslash-hover:hover > .twoslash-popup-container {
-  animation: pop-up 300ms var(--ease-overshoot-far) forwards 250ms;
+  display: block;
 }
 
 .twoslash-popup-code {
@@ -113,13 +78,7 @@ pre.twoslash:hover .twoslash-hover {
 
 @media (prefers-reduced-motion: reduce) {
   .twoslash-hover {
-    opacity: 1;
-    scale: 1;
     transition: none;
-  }
-
-  .twoslash-hover:hover > .twoslash-popup-container {
-    animation: none;
   }
 }
 
