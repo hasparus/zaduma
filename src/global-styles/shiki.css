@@ -8,7 +8,7 @@
 
 html.dark .astro-code-themes {
   color: var(--shiki-dark) !important;
-  background-color: var(--shiki-dark-bg) !important;
+  background-color: transparent !important;
 }
 
 html.dark .astro-code-themes span {
@@ -61,12 +61,31 @@ pre.twoslash:hover .twoslash-hover {
   position: absolute;
   transform: translate(0, 1rem);
   z-index: 100;
+  width: max-content;
+  max-width: 80vw;
 
-  @apply bg-white text-gray-900 border border-gray-200 shadow-sm px-3 p-2 rounded-sm
-         dark:bg-black dark:text-gray-50 dark:border-gray-700 dark:shadow-md;
+  @apply rounded-sm border border-gray-200 bg-white p-2 px-3 text-gray-900 shadow-sm dark:border-gray-700 dark:bg-black dark:text-gray-50 dark:shadow-md;
 
   text-align: left;
   white-space: pre-wrap;
+}
+
+@supports (anchor-name: --x) {
+  .twoslash-hover:hover {
+    anchor-name: --twoslash-hover;
+  }
+
+  .twoslash-popup-container {
+    position: fixed;
+    transform: none;
+    position-anchor: --twoslash-hover;
+    position-area: bottom;
+    position-try-fallbacks: --above;
+  }
+
+  @position-try --above {
+    position-area: top;
+  }
 }
 
 .twoslash-hover:hover > .twoslash-popup-container {
@@ -102,150 +121,10 @@ pre .twoslash-error-line {
   @apply bg-gray-100 dark:bg-gray-800 dark:text-white;
 }
 
-/* --- Code container --- */
-
-pre .code-container {
-  overflow: auto;
-}
-
 pre code {
   white-space: pre;
   -webkit-overflow-scrolling: touch;
 }
 pre code a {
   text-decoration: none;
-}
-
-/* --- Query/Error blocks --- */
-
-pre .query {
-  margin-bottom: 10px;
-  color: #137998;
-  display: inline-block;
-}
-
-pre .error,
-pre .error-behind {
-  margin-top: 0.5em;
-  padding: 0.5em 1em;
-  width: var(--container-width);
-  white-space: pre-wrap;
-  display: block;
-}
-pre .error {
-  @apply bg-gray-100 dark:bg-gray-800 dark:text-white;
-  position: absolute;
-  border-left: 2px solid #bf1818;
-  display: flex;
-  align-items: center;
-}
-pre .error .code {
-  display: none;
-}
-pre .error-behind {
-  user-select: none;
-  visibility: transparent;
-  color: #fee;
-}
-
-/* --- Annotations --- */
-
-.tag-container {
-  position: relative;
-}
-.tag-container .twoslash-annotation {
-  position: absolute;
-  font-family: "JetBrains Mono", Menlo, Monaco, Consolas, Courier New, monospace;
-  right: -10px;
-  width: 200px;
-  color: #187abf;
-  background-color: #fcf3d9bb;
-}
-.tag-container .twoslash-annotation p {
-  text-align: left;
-  font-size: 0.8rem;
-  line-height: 0.9rem;
-}
-.tag-container .twoslash-annotation svg {
-  float: left;
-  margin-left: -44px;
-}
-.tag-container .twoslash-annotation.left {
-  right: auto;
-  left: -200px;
-}
-.tag-container .twoslash-annotation.left svg {
-  float: right;
-  margin-right: -5px;
-}
-
-/* --- Console log/warn/error --- */
-
-pre .logger {
-  display: flex;
-  align-items: center;
-  color: black;
-  padding: 6px;
-  padding-left: 8px;
-  width: calc(100% - 19px);
-  white-space: pre-wrap;
-}
-pre .logger svg {
-  margin-right: 9px;
-}
-pre .logger.error-log {
-  background-color: #fee;
-  border-left: 2px solid #bf1818;
-}
-pre .logger.warn-log {
-  background-color: #ffe;
-  border-left: 2px solid #eae662;
-}
-pre .logger.log-log {
-  background-color: #e9e9e9;
-  border-left: 2px solid #ababab;
-}
-pre .logger.log-log svg {
-  margin-left: 6px;
-  margin-right: 9px;
-}
-
-/* --- Completions --- */
-
-pre .inline-completions ul.dropdown {
-  display: inline-block;
-  position: absolute;
-  width: 240px;
-  background-color: gainsboro;
-  color: grey;
-  padding-top: 4px;
-  font-family: var(--code-font);
-  font-size: 0.8rem;
-  margin: 0;
-  padding: 0;
-  border-left: 4px solid #4b9edd;
-}
-pre .inline-completions ul.dropdown::before {
-  background-color: #4b9edd;
-  width: 2px;
-  position: absolute;
-  top: -1.2rem;
-  left: -3px;
-  content: " ";
-}
-pre .inline-completions ul.dropdown li {
-  overflow-x: hidden;
-  padding-left: 4px;
-  margin-bottom: 4px;
-}
-pre .inline-completions ul.dropdown li.deprecated {
-  text-decoration: line-through;
-}
-pre .inline-completions ul.dropdown li span.result-found {
-  color: #4b9edd;
-}
-pre .inline-completions ul.dropdown li span.result {
-  width: 100px;
-  color: black;
-  display: inline-block;
 }

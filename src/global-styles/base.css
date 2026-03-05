@@ -18,13 +18,11 @@ html {
 }
 
 * {
-  @apply outline-black dark:outline-white
-  selection:bg-gray-200 selection:text-black
-  dark:selection:bg-gray-700 dark:selection:text-white;
+  @apply outline-black selection:bg-gray-200 selection:text-black dark:outline-white dark:selection:bg-gray-700 dark:selection:text-white;
 }
 
 body {
-  @apply text-gray-800 dark:text-gray-300 bg-white dark:bg-gray-900 px-0 md:px-4 pt-4 pb-20 md:pt-8 md:pb-48 relative min-h-screen;
+  @apply relative min-h-screen bg-white px-0 pb-20 pt-4 text-gray-800 dark:bg-gray-900 dark:text-gray-300 md:px-4 md:pb-48 md:pt-8;
 }
 
 body,

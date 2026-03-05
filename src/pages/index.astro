@@ -5,7 +5,10 @@ import { Link } from "../lib/Link";
 import { Paragraph } from "../lib/prose/Paragraph";
 import type { PostFrontmatter } from "../types";
 
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>("../../posts/**/*.mdx", { eager: true });
+const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
+  "../../posts/**/*.mdx",
+  { eager: true },
+);
 let posts = Object.values(postModules);
 
 if (import.meta.env.PROD) {
@@ -25,13 +28,13 @@ posts.sort((a, b) => {
   description="Astro starter template for understated personal websites using Solid.js, Tailwind CSS, and MDX."
 >
   <h1 slot="header-content" class="text-gray-600 dark:text-gray-500">zaduma</h1>
-  <main class="py-10 zaduma-prose">
+  <main class="zaduma-prose py-10">
     <Paragraph>
       <small class="text-gray-600 dark:text-gray-500"
         >IPA /zaˈdu.ma/ — reverie, musing</small
       >
       <br />
-       is an Astro starter template for understated personal websites
+      is an Astro starter template for understated personal websites
     </Paragraph>
     <Paragraph class="mt-6">
       Learn about it by reading the articles below, take a look at the
@@ -50,15 +53,15 @@ posts.sort((a, b) => {
           <li>
             <Link
               href={frontmatter.path}
-              class="flex flex-row gap-2 justify-between"
+              class="flex flex-row justify-between gap-2"
               noUnderline
             >
-              <h2 class="text-gray-800 dark:text-gray-300 font-sans">
+              <h2 class="font-sans text-gray-800 dark:text-gray-300">
                 {frontmatter.title}
               </h2>
               <time
                 datetime={date.toISOString()}
-                class="text-gray-600 dark:text-gray-400 tabular-nums tracking-tighter shrink-0"
+                class="shrink-0 tabular-nums tracking-tighter text-gray-600 dark:text-gray-400"
               >
                 {formatDate(date)}
               </time>
