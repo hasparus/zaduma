@@ -109,7 +109,9 @@ if (isRaw) {
     }
     props.width ??= importedImage.width;
     props.height ??= importedImage.height;
-    if ((importedImage.format = "jpg")) importedImage.format = "webp";
+    if (importedImage.format === "jpg") {
+      importedImage.format = "webp";
+    }
   }
 
   const imageForPlaceholder = await (pathToImage.startsWith("http")
