@@ -39,6 +39,11 @@ jobs:
         with:
           { add: "pnpm-lock.yaml", fetch: false, message: "Update lockfile" }
 
+      - name: Generate types
+        run: pnpm astro sync
+        env:
+          OG_IMAGE_SECRET: placeholder
+
       - name: Run linter
         run: pnpm lint --quiet
 
@@ -69,21 +74,23 @@ jobs:
           retention-days: 30
 
       - name: Deploy Production to Vercel
-        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+        if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main' }}
         run:
           node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
           --prod
 
       - name: Deploy Preview to Vercel
         if:
-          ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
+          ${{ github.event_name != 'push' && github.event_name != 'workflow_dispatch' &&
+          (!github.event.pull_request.head.repo.fork ||
           (github.event_name == 'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Create GitHub Preview Deployment
         if:
-          ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
+          ${{ github.event_name != 'push' && github.event_name != 'workflow_dispatch' &&
+          (!github.event.pull_request.head.repo.fork ||
           (github.event_name == 'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         uses: chrnorm/deployment-action@v2
@@ -96,7 +103,7 @@ jobs:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
 
       - name: Create GitHub Production Deployment
-        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+        if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main' }}
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
@@ -111,9 +118,9 @@ jobs:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     if:
-      ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
+      ${{ !github.event.pull_request.head.repo.fork ||
       (github.event_name == 'pull_request_target' &&
-      contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
+      contains(github.event.pull_request.labels.*.name, 'trusted')) }}
     steps:
       - uses: actions/checkout@v4
       - name: Audit URLs
