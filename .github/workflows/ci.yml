@@ -144,7 +144,7 @@ jobs:
     steps:
       - name: Remove trusted label
         run: |
-          gh api /repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels -X DELETE -F label=trusted
+          gh api /repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels/trusted -X DELETE
         env:
           GITHUB_TOKEN: "${{ github.token }}"
 
