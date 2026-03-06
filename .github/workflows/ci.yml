@@ -5,9 +5,13 @@ on:
   pull_request:
   pull_request_target:
     types: [labeled]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
+    if: >-
+      github.event_name != 'pull_request_target'
+      || contains(github.event.pull_request.labels.*.name, 'trusted')
     runs-on: ubuntu-latest
     permissions:
       deployments: write
@@ -18,15 +22,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Empty on push/workflow_dispatch — falls back to default ref
           ref: "${{ github.event.pull_request.merge_commit_sha }}"
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 10
+      - uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
           cache: "pnpm"
 
       - name: Install
@@ -40,8 +43,10 @@ jobs:
         with:
           { add: "pnpm-lock.yaml", fetch: false, message: "Update lockfile" }
 
-      - name: Sync Astro types
+      - name: Generate types
         run: pnpm astro sync
+        env:
+          OG_IMAGE_SECRET: placeholder
 
       - name: Run linter
         run: pnpm lint --quiet
@@ -63,50 +68,45 @@ jobs:
         id: test
         run: pnpm test
 
-      - name: Upload Playwright artifacts
-        if: failure()
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-artifacts
-          path: playwright-report
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
 
       - name: Deploy Production to Vercel
-        if: github.ref_name == 'main'
+        if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main' }}
         run:
           node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
           --prod
 
       - name: Deploy Preview to Vercel
         if:
-          ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
+          ${{ github.event_name != 'push' && github.event_name != 'workflow_dispatch' &&
+          (!github.event.pull_request.head.repo.fork ||
           (github.event_name == 'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Debug Conditions
-        run: |
-          echo "Event: ${{ github.event_name }}"
-          echo "Is fork: ${{ github.event.pull_request.head.repo.fork }}"
-          echo "Ref name: ${{ github.ref_name }}"
-          echo "Has trusted: ${{ contains(github.event.pull_request.labels.*.name, 'trusted') }}"
-          echo "Condition eval: ${{ !github.event.pull_request.head.repo.fork || (github.event_name == 'pull_request_target' && contains(github.event.pull_request.labels.*.name, 'trusted')) }}"
-
       - name: Create GitHub Preview Deployment
-        uses: chrnorm/deployment-action@v2
         if:
-          ${{ !github.event.pull_request.head.repo.fork || (github.event_name ==
-          'pull_request_target' &&
-          contains(github.event.pull_request.labels.*.name, 'trusted')) }}
+          ${{ github.event_name != 'push' && github.event_name != 'workflow_dispatch' &&
+          (!github.event.pull_request.head.repo.fork ||
+          (github.event_name == 'pull_request_target' &&
+          contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
+        uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
-          environment-url: https://${{ env.DEPLOYMENT_ALIAS }} # <- set by deploy.mjs
+          environment-url: https://${{ env.DEPLOYMENT_ALIAS }}
           environment: Preview
           production-environment: false
           initial-status: success
           ref: ${{ github.event.pull_request.merge_commit_sha }}
 
       - name: Create GitHub Production Deployment
-        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+        if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main' }}
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
@@ -121,15 +121,13 @@ jobs:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     if:
-      ${{ !github.event.pull_request.head.repo.fork || (github.event_name ==
-      'pull_request_target' && contains(github.event.pull_request.labels.*.name,
-      'trusted')) }}
+      ${{ !github.event.pull_request.head.repo.fork ||
+      (github.event_name == 'pull_request_target' &&
+      contains(github.event.pull_request.labels.*.name, 'trusted')) }}
     steps:
       - uses: actions/checkout@v4
-      - name: Audit Preview
+      - name: Audit URLs
         uses: treosh/lighthouse-ci-action@v12
-        # todo: we should post a link to report to the PR in a sticky comment
-        # this prints "  No GitHub token set, skipping GitHub status check.""
         with:
           urls: |
             https://${{ needs.build-and-deploy.outputs.deployment }}/
@@ -146,7 +144,7 @@ jobs:
     steps:
       - name: Remove trusted label
         run: |
-          gh api /repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels -X DELETE -F label=trusted
+          gh api /repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels/trusted -X DELETE
         env:
           GITHUB_TOKEN: "${{ github.token }}"
 
