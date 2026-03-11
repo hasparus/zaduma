@@ -2,6 +2,7 @@ import { type JSX, splitProps } from "solid-js";
 
 export interface LinkProps extends JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
   noUnderline?: boolean;
+  noHoverBackground?: boolean;
 }
 
 export function Link(props: LinkProps) {
@@ -18,7 +19,7 @@ export function Link(props: LinkProps) {
           !own.noUnderline,
         "p-2 -mx-2 rounded-sm before:rounded-sm transition-colors relative":
           true,
-        "zaduma-hover-before": true,
+        "zaduma-hover-before": !props.noHoverBackground,
         "zaduma-image-box": childIsImg,
       }}
       {...rest}
