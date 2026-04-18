@@ -24,3 +24,4 @@ screenshots
 test-results
 playwright-report
 .pnpm-store
+.env.agent-ci
