@@ -58,7 +58,7 @@ jobs:
         run: pnpm build
         env:
           OG_IMAGE_SECRET:
-            ${{ case(github.event.pull_request.head.repo.fork,
+            ${{ case(github.event.pull_request.head.repo.fork == true,
             'fork-og-image-secret', secrets.OG_IMAGE_SECRET) }}
 
       - name: Install Playwright browsers
