@@ -1,4 +1,5 @@
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
 import { transformerTwoslash } from "@shikijs/twoslash";
@@ -62,6 +63,7 @@ export default defineConfig({
       rehypePlugins: rehypePlugins,
     }),
     solidJs(),
+    sitemap(),
   ],
   vite: {
     ssr: {
