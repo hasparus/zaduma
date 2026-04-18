@@ -7,6 +7,8 @@ import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
 import { Link } from "../lib/Link";
 import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
+import { websiteSchema } from "../lib/seo/jsonLd";
+import JsonLd from "../lib/seo/JsonLd.astro";
 import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
 import type { PostFrontmatter } from "../types";
 
@@ -29,16 +31,35 @@ const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
   "../../posts/**/*.mdx",
   { eager: true },
 );
-const posts = Object.values(postModules)
-  .filter((p) => (import.meta.env.PROD ? !p.frontmatter.draft : true))
+const postEntries = Object.values(postModules).filter((p) =>
+  import.meta.env.PROD ? !p.frontmatter.draft : true,
+);
+const posts = postEntries
   .map((p) => ({
     href: p.frontmatter.path,
     title: p.frontmatter.title,
     date: p.frontmatter.date,
-  }));
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-posts.sort((a, b) => {
-  return new Date(b.date).getTime() - new Date(a.date).getTime();
+const postPaths = new Set(posts.map((p) => p.href));
+
+// Normalize trailing slash before lookup
+const rawPathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isPostRoute = postPaths.has(rawPathname);
+
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.pathname;
+
+const markdownAlt = Astro.site
+  ? new URL(rawPathname + ".md", Astro.site).href
+  : rawPathname + ".md";
+
+// TODO(downstream): override with real site name + author.
+const websiteData = websiteSchema({
+  name: "Zaduma",
+  url: Astro.site ? Astro.site.href : Astro.url.origin + "/",
 });
 ---
 
@@ -61,9 +82,18 @@ posts.sort((a, b) => {
 
     <SocialCardMetaTags ogImage={ogImage} />
 
+    <link rel="canonical" href={canonical} />
+    {
+      isPostRoute && (
+        <link rel="alternate" type="text/markdown" href={markdownAlt} />
+      )
+    }
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <title>{title}</title>
+    <JsonLd data={websiteData} />
+    <slot name="head" />
     <InitColorScheme />
   </head>
   <body>
