@@ -5,6 +5,7 @@ import interPath from "@fontsource-variable/inter/files/inter-latin-wght-normal.
 import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
+import { isPostVisible } from "../lib/isPostVisible";
 import { Link } from "../lib/Link";
 import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
 import { websiteSchema } from "../lib/seo/jsonLd";
@@ -31,10 +32,8 @@ const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
   "../../posts/**/*.mdx",
   { eager: true },
 );
-const postEntries = Object.values(postModules).filter((p) =>
-  import.meta.env.PROD ? !p.frontmatter.draft : true,
-);
-const posts = postEntries
+const posts = Object.values(postModules)
+  .filter((p) => isPostVisible(p.frontmatter))
   .map((p) => ({
     href: p.frontmatter.path,
     title: p.frontmatter.title,

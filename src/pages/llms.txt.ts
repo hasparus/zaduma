@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 
+import { isPostVisible } from "../lib/isPostVisible";
 import type { PostFrontmatter } from "../types";
 
 // TODO(downstream): override site name + blurb per site.
@@ -17,7 +18,7 @@ export const GET: APIRoute = ({ site }) => {
   }
 
   const posts = Object.values(postModules)
-    .filter((p) => !p.frontmatter.draft)
+    .filter((p) => isPostVisible(p.frontmatter))
     .sort(
       (a, b) =>
         new Date(b.frontmatter.date).getTime() -
