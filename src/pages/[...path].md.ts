@@ -1,5 +1,6 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 
+import { isPostVisible } from "../lib/isPostVisible";
 import type { PostFrontmatter } from "../types";
 
 const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
@@ -21,11 +22,9 @@ function stripFrontmatter(source: string): string {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  let entries = Object.entries(postModules);
-
-  if (import.meta.env.PROD) {
-    entries = entries.filter(([, m]) => !m.frontmatter.draft);
-  }
+  const entries = Object.entries(postModules).filter(([, m]) =>
+    isPostVisible(m.frontmatter),
+  );
 
   return entries.map(([key, mod]) => ({
     params: { path: mod.frontmatter.path.replace(/^\//, "") },

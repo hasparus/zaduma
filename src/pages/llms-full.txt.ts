@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 
+import { isPostVisible } from "../lib/isPostVisible";
 import type { PostFrontmatter } from "../types";
 
 const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
@@ -22,7 +23,7 @@ function stripFrontmatter(source: string): string {
 
 export const GET: APIRoute = () => {
   const entries = Object.entries(postModules)
-    .filter(([, m]) => !m.frontmatter.draft)
+    .filter(([, m]) => isPostVisible(m.frontmatter))
     .sort(
       ([, a], [, b]) =>
         new Date(b.frontmatter.date).getTime() -

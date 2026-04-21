@@ -5,10 +5,12 @@ import interPath from "@fontsource-variable/inter/files/inter-latin-wght-normal.
 import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
+import { isPostVisible } from "../lib/isPostVisible";
 import { Link } from "../lib/Link";
 import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
 import { websiteSchema } from "../lib/seo/jsonLd";
 import JsonLd from "../lib/seo/JsonLd.astro";
+import { SITE_NAME } from "../lib/siteMeta";
 import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
 import type { PostFrontmatter } from "../types";
 
@@ -31,10 +33,8 @@ const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
   "../../posts/**/*.mdx",
   { eager: true },
 );
-const postEntries = Object.values(postModules).filter((p) =>
-  import.meta.env.PROD ? !p.frontmatter.draft : true,
-);
-const posts = postEntries
+const posts = Object.values(postModules)
+  .filter((p) => isPostVisible(p.frontmatter))
   .map((p) => ({
     href: p.frontmatter.path,
     title: p.frontmatter.title,
@@ -56,9 +56,8 @@ const markdownAlt = Astro.site
   ? new URL(rawPathname + ".md", Astro.site).href
   : rawPathname + ".md";
 
-// TODO(downstream): override with real site name + author.
 const websiteData = websiteSchema({
-  name: "Zaduma",
+  name: SITE_NAME,
   url: Astro.site ? Astro.site.href : Astro.url.origin + "/",
 });
 ---

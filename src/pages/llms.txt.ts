@@ -1,10 +1,8 @@
 import type { APIRoute } from "astro";
 
+import { isPostVisible } from "../lib/isPostVisible";
+import { SITE_BLURB, SITE_NAME } from "../lib/siteMeta";
 import type { PostFrontmatter } from "../types";
-
-// TODO(downstream): override site name + blurb per site.
-const SITE_NAME = "Zaduma";
-const BLURB = "A blog.";
 
 const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
   "../../posts/**/*.mdx",
@@ -17,7 +15,7 @@ export const GET: APIRoute = ({ site }) => {
   }
 
   const posts = Object.values(postModules)
-    .filter((p) => !p.frontmatter.draft)
+    .filter((p) => isPostVisible(p.frontmatter))
     .sort(
       (a, b) =>
         new Date(b.frontmatter.date).getTime() -
@@ -27,7 +25,7 @@ export const GET: APIRoute = ({ site }) => {
   const lines: string[] = [];
   lines.push(`# ${SITE_NAME}`);
   lines.push("");
-  lines.push(`> ${BLURB}`);
+  lines.push(`> ${SITE_BLURB}`);
   lines.push("");
   lines.push("## Posts");
   lines.push("");
