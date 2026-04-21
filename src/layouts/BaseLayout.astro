@@ -10,6 +10,7 @@ import { Link } from "../lib/Link";
 import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
 import { websiteSchema } from "../lib/seo/jsonLd";
 import JsonLd from "../lib/seo/JsonLd.astro";
+import { SITE_NAME } from "../lib/siteMeta";
 import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
 import type { PostFrontmatter } from "../types";
 
@@ -55,9 +56,8 @@ const markdownAlt = Astro.site
   ? new URL(rawPathname + ".md", Astro.site).href
   : rawPathname + ".md";
 
-// TODO(downstream): override with real site name + author.
 const websiteData = websiteSchema({
-  name: "Zaduma",
+  name: SITE_NAME,
   url: Astro.site ? Astro.site.href : Astro.url.origin + "/",
 });
 ---
