@@ -27,7 +27,7 @@
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/solid-js": "^5.1.3",
     "@astrojs/tailwind": "^6.0.2",
-    "@fontsource-variable/brygada-1918": "^5.0.19",
+    "@fontsource-variable/brygada-1918": "^5.2.8",
     "@fontsource-variable/inter": "^5.0.18",
     "@mdx-js/mdx": "3.1.1",
     "@shikijs/twoslash": "^3.22.0",
