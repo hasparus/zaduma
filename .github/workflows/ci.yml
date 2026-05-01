@@ -19,7 +19,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           # Empty on push/workflow_dispatch — falls back to default ref
@@ -125,7 +125,7 @@ jobs:
       (github.event_name == 'pull_request_target' &&
       contains(github.event.pull_request.labels.*.name, 'trusted')) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Audit URLs
         uses: treosh/lighthouse-ci-action@v12
         with:
