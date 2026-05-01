@@ -39,7 +39,7 @@ jobs:
 
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT == 1 }}
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         with:
           { add: "pnpm-lock.yaml", fetch: false, message: "Update lockfile" }
 
