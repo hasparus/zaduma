@@ -25,7 +25,7 @@ jobs:
           # Empty on push/workflow_dispatch — falls back to default ref
           ref: "${{ github.event.pull_request.merge_commit_sha }}"
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v4
         with:
