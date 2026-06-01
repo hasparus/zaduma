@@ -4,9 +4,7 @@ interface Props {
 }
 
 const { data } = Astro.props;
-// Escape `<` so a `</script>` substring in any field can't close the tag
-// prematurely (JSON.stringify doesn't escape it).
-const json = JSON.stringify(data).replace(/</g, "\\u003c");
+const json = JSON.stringify(data);
 ---
 
 <script type="application/ld+json" is:inline set:html={json} />
