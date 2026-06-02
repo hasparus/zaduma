@@ -20,7 +20,9 @@ const site = `https://${hostname}/`;
 const stripTrailingSlash = (path: string) => path.replace(/\/+$/, "") || "/";
 
 const isProd = process.env.NODE_ENV === "production";
-const hiddenPaths = getHiddenPostPaths(resolve(__dirname, "./posts"), { isProd });
+const hiddenPaths = getHiddenPostPaths(resolve(__dirname, "./posts"), {
+  isProd,
+});
 
 export default defineConfig({
   site,

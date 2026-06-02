@@ -15,7 +15,9 @@ export const GET: APIRoute = ({ site }) => {
   }
 
   const posts = Object.values(postModules)
-    .filter((p) => isPostVisible(p.frontmatter, { isProd: import.meta.env.PROD }))
+    .filter((p) =>
+      isPostVisible(p.frontmatter, { isProd: import.meta.env.PROD }),
+    )
     .sort(
       (a, b) =>
         new Date(b.frontmatter.date).getTime() -
