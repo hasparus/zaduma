@@ -14,13 +14,6 @@ function walk(dir: string, out: string[]): void {
   }
 }
 
-/**
- * Canonical post paths (no trailing slash) that must be excluded from the
- * sitemap. Mirrors the runtime `isPostVisible` policy exactly — same path
- * normalization (`postPath`) and same draft/hidden semantics — so the sitemap
- * never drifts from the rest of the site. `isProd` selects the draft policy:
- * drafts are hidden only in production builds.
- */
 export function getHiddenPostPaths(
   postsDir: string,
   { isProd }: { isProd: boolean },

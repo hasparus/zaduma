@@ -90,13 +90,20 @@ function makePublicURL() {
   const VERCEL_URL = process.env.VERCEL_URL;
   const DEPLOYMENT_ALIAS = process.env.DEPLOYMENT_ALIAS;
 
+  // If the site is built on vercel, we can just use VERCEL_URL.
   if (VERCEL_URL) return VERCEL_URL;
 
   if (!DEPLOYMENT_ALIAS) {
+    // If there's no DEPLOYMENT_ALIAS nor VERCEL_URL, we assume we're building locally.
     return "http://localhost:3000/";
   }
 
+  // Otherwise, we build on GitHub Actions (and get access to Git History).
+  // If DEPLOYMENT_ALIAS is set to `main--${hostname}`, we're on the main branch,
+  // and we return the canonical URL.
   if (DEPLOYMENT_ALIAS === `main--${hostname}`) return site;
 
+  // Otherwise, we're building a preview deployment, and set the deployment alias
+  // in `import.meta.env.PUBLIC_URL`.
   return `https://${DEPLOYMENT_ALIAS}`;
 }
