@@ -1,3 +1,4 @@
+import matter from "gray-matter";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -5,15 +6,11 @@ import { isPostVisible } from "../lib/isPostVisible";
 
 import { postPath } from "./postPath";
 
-const FRONTMATTER = /^---\r?\n([\s\S]*?)\r?\n---/;
-const HIDDEN = /^\s*hidden:\s*true\s*$/m;
-const DRAFT = /^\s*draft:\s*true\s*$/m;
-
 function walk(dir: string, out: string[]): void {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const abs = join(dir, entry.name);
     if (entry.isDirectory()) walk(abs, out);
-    else if (entry.name.endsWith(".mdx")) out.push(abs);
+    else if (/\.(md|mdx)$/.test(entry.name)) out.push(abs);
   }
 }
 
@@ -32,9 +29,12 @@ export function getHiddenPostPaths(
   walk(postsDir, files);
   const hidden = new Set<string>();
   for (const abs of files) {
-    const fm = readFileSync(abs, "utf8").match(FRONTMATTER)?.[1];
-    if (!fm) continue;
-    const frontmatter = { hidden: HIDDEN.test(fm), draft: DRAFT.test(fm) };
+    const source = readFileSync(abs, "utf8");
+    const { data } = matter(source);
+    const frontmatter = {
+      hidden: data.hidden === true,
+      draft: data.draft === true,
+    };
     if (!isPostVisible(frontmatter, { isProd })) {
       hidden.add(postPath(postsDir, abs));
     }

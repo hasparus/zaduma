@@ -11,7 +11,7 @@ const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
   { eager: true },
 );
 const posts = Object.values(postModules).filter((post) =>
-  isPostVisible(post.frontmatter),
+  isPostVisible(post.frontmatter, { isProd: import.meta.env.PROD }),
 );
 
 posts.sort((a, b) => {

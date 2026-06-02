@@ -23,7 +23,9 @@ function stripFrontmatter(source: string): string {
 
 export const GET: APIRoute = () => {
   const entries = Object.entries(postModules)
-    .filter(([, m]) => isPostVisible(m.frontmatter))
+    .filter(([, m]) =>
+      isPostVisible(m.frontmatter, { isProd: import.meta.env.PROD }),
+    )
     .sort(
       ([, a], [, b]) =>
         new Date(b.frontmatter.date).getTime() -

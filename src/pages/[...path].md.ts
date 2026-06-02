@@ -23,7 +23,7 @@ function stripFrontmatter(source: string): string {
 
 export const getStaticPaths: GetStaticPaths = () => {
   const entries = Object.entries(postModules).filter(([, m]) =>
-    isPostVisible(m.frontmatter),
+    isPostVisible(m.frontmatter, { isProd: import.meta.env.PROD }),
   );
 
   return entries.map(([key, mod]) => ({

@@ -21,7 +21,7 @@ export const getStaticPaths = async () => {
     getHeadings: any;
   }>("../../posts/**/*.mdx", { eager: true });
   const posts = Object.values(postModules).filter((post) =>
-    isPostVisible(post.frontmatter),
+    isPostVisible(post.frontmatter, { isProd: import.meta.env.PROD }),
   );
 
   return posts.map((post) => {
