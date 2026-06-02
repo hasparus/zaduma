@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate } from "../lib/formatDate";
+import { isPostVisible } from "../lib/isPostVisible";
 import { Link } from "../lib/Link";
 import { Paragraph } from "../lib/prose/Paragraph";
 import type { PostFrontmatter } from "../types";
@@ -9,11 +10,9 @@ const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
   "../../posts/**/*.mdx",
   { eager: true },
 );
-let posts = Object.values(postModules);
-
-if (import.meta.env.PROD) {
-  posts = posts.filter((post) => !post.frontmatter.draft);
-}
+const posts = Object.values(postModules).filter((post) =>
+  isPostVisible(post.frontmatter, { isProd: import.meta.env.PROD }),
+);
 
 posts.sort((a, b) => {
   return (

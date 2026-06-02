@@ -61,8 +61,16 @@ jobs:
             ${{ case(github.event.pull_request.head.repo.fork == true,
             'fork-og-image-secret', secrets.OG_IMAGE_SECRET) }}
 
+      - name: Install Playwright system deps
+        run: pnpm exec playwright install-deps chromium
+        timeout-minutes: 5
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          NEEDRESTART_MODE: a
+
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
+        timeout-minutes: 5
 
       - name: Run tests
         id: test

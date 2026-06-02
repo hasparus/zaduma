@@ -2,6 +2,7 @@
 import type { MarkdownInstance } from "astro";
 
 import PostLayout from "../layouts/PostLayout.astro";
+import { isPostVisible } from "../lib/isPostVisible";
 import { Link } from "../lib/Link";
 import { Blockquote } from "../lib/prose/Blockquote";
 import { Code, Pre } from "../lib/prose/code-and-pre";
@@ -19,11 +20,9 @@ export const getStaticPaths = async () => {
     Content: any;
     getHeadings: any;
   }>("../../posts/**/*.mdx", { eager: true });
-  let posts = Object.values(postModules);
-
-  if (import.meta.env.PROD) {
-    posts = posts.filter((post) => !post.frontmatter.draft);
-  }
+  const posts = Object.values(postModules).filter((post) =>
+    isPostVisible(post.frontmatter, { isProd: import.meta.env.PROD }),
+  );
 
   return posts.map((post) => {
     return {

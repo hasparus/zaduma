@@ -4,20 +4,26 @@ import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
 import { transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig, envField } from "astro/config";
-import { dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
+import { getHiddenPostPaths } from "./src/build-time/hiddenPostPaths";
 
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = dirname(__filename);
 
-// Production URL
 const hostname = "zaduma.vercel.app";
 const site = `https://${hostname}/`;
 
-// https://astro.build/config
+const stripTrailingSlash = (path: string) => path.replace(/\/+$/, "") || "/";
+
+const isProd = process.env.NODE_ENV === "production";
+const hiddenPaths = getHiddenPostPaths(resolve(__dirname, "./posts"), {
+  isProd,
+});
+
 export default defineConfig({
   site,
   env: {
@@ -41,9 +47,9 @@ export default defineConfig({
           twoslashOptions: {
             compilerOptions: {
               strict: true,
-              module: 199 /* NodeNext */,
-              moduleResolution: 99 /* NodeNext */,
-              target: 99 /* ESNext */,
+              module: 199,
+              moduleResolution: 99,
+              target: 99,
               types: ["node"],
             },
           },
@@ -58,12 +64,14 @@ export default defineConfig({
     }),
     mdx({
       extendMarkdownConfig: true,
-      // MDX integration inherits all remark plugins from markdown.remarkPlugins
       remarkPlugins: remarkPlugins(__dirname),
       rehypePlugins: rehypePlugins,
     }),
     solidJs(),
-    sitemap(),
+    sitemap({
+      filter: (page) =>
+        !hiddenPaths.has(stripTrailingSlash(new URL(page).pathname)),
+    }),
   ],
   vite: {
     ssr: {
