@@ -1,7 +1,8 @@
-import { relative } from "node:path";
 import type { Plugin } from "unified";
 
 import type { PostProps } from "../types";
+
+import { postPath } from "./postPath";
 
 export const urlOutsideOfPagesDirPlugin: Plugin<
   [{ absoluteDirPath: string }]
@@ -10,11 +11,6 @@ export const urlOutsideOfPagesDirPlugin: Plugin<
     const props = (file.data as { astro: PostProps }).astro;
 
     // We can't assign to `props.url` so we take `frontmatter.path`
-    props.frontmatter.path =
-      "/" +
-      relative(absoluteDirPath, file.path)
-        .replace(/\\/g, "/")
-        .replace(file.extname || "", "")
-        .replace(/ /g, "-");
+    props.frontmatter.path = postPath(absoluteDirPath, file.path);
   };
 };

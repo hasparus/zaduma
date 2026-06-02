@@ -8,7 +8,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
-import { getHiddenPostUrls } from "./src/build-time/hiddenPostUrls";
+import { getHiddenPostPaths } from "./src/build-time/hiddenPostPaths";
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -18,7 +18,13 @@ const __dirname = dirname(__filename);
 const hostname = "zaduma.vercel.app";
 const site = `https://${hostname}/`;
 
-const hiddenPaths = getHiddenPostUrls(resolve(__dirname, "./posts"));
+const isProd = process.argv.includes("build");
+
+const hiddenPaths = getHiddenPostPaths(resolve(__dirname, "./posts"), {
+  isProd,
+});
+
+const stripTrailingSlash = (path: string) => path.replace(/\/+$/, "") || "/";
 
 // https://astro.build/config
 export default defineConfig({
@@ -67,7 +73,8 @@ export default defineConfig({
     }),
     solidJs(),
     sitemap({
-      filter: (page) => !hiddenPaths.has(new URL(page).pathname),
+      filter: (page) =>
+        !hiddenPaths.has(stripTrailingSlash(new URL(page).pathname)),
     }),
   ],
   vite: {
