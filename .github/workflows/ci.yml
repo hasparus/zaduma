@@ -42,12 +42,10 @@ jobs:
         if: ${{ env.IS_DEPENDABOT == 1 }}
         uses: EndBug/add-and-commit@290ea2c423ad77ca9c62ae0f5b224379612c0321
         with:
-          {
-            add: "pnpm-lock.yaml",
-            fetch: false,
-            github_token: "${{ github.token }}",
-            message: "Update lockfile",
-          }
+          add: "pnpm-lock.yaml"
+          fetch: false
+          github_token: "${{ github.token }}"
+          message: "Update lockfile"
 
       - name: Generate types
         run: pnpm astro sync

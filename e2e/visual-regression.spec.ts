@@ -43,10 +43,10 @@ test.describe("Visual regression", () => {
 /**
  * Settle the page so a fullPage screenshot has a stable height across runs:
  * scroll the full height to trigger lazy images, then wait for every image to
- * decode and the self-hosted fonts to load. Deliberately no remote webfont —
- * the site ships Inter + Brygada and falls back to system mono for code, so a
- * network font request would only add non-determinism (and per-platform
- * snapshots already cover the system-mono difference).
+ * decode and the fonts to load. We force-load the specific faces the
+ * screenshots depend on (fonts.ready alone only covers faces something has
+ * already started loading), but inject no remote stylesheet — a network font
+ * request would only add non-determinism.
  */
 async function ensurePageStable(page: Page) {
   await page.evaluate(async () => {
@@ -70,6 +70,14 @@ async function ensurePageStable(page: Page) {
 
   await page.evaluate(async () => {
     await document.fonts.ready;
+    await Promise.all(
+      [
+        document.fonts.load('16px "Inter"'),
+        document.fonts.load('16px "Brygada 1918"'),
+        document.fonts.load('italic 16px "Brygada 1918"'),
+        document.fonts.load('16px "Fira Code"'),
+      ].map((p) => p.catch(() => null)),
+    );
     await Promise.all(
       Array.from(document.images).map((img) =>
         img.complete && img.naturalWidth > 0
