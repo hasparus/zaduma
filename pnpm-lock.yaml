@@ -13,16 +13,16 @@ importers:
         version: 6.3.10
       '@astrojs/mdx':
         specifier: ^4.3.13
-        version: 4.3.13(astro@5.17.2(@types/node@25.6.0)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2))
+        version: 4.3.13(astro@5.17.2(@types/node@22.19.21)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2))
       '@astrojs/sitemap':
         specifier: ^3.7.2
         version: 3.7.2
       '@astrojs/solid-js':
         specifier: ^5.1.3
-        version: 5.1.3(@types/node@25.6.0)(jiti@1.21.0)(solid-js@1.8.17)(tsx@4.21.0)(yaml@2.4.2)
+        version: 5.1.3(@types/node@22.19.21)(jiti@1.21.0)(solid-js@1.8.17)(tsx@4.21.0)(yaml@2.4.2)
       '@astrojs/tailwind':
         specifier: ^6.0.2
-        version: 6.0.2(astro@5.17.2(@types/node@25.6.0)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2))(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3)))(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3))
+        version: 6.0.2(astro@5.17.2(@types/node@22.19.21)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2))(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3)))(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3))
       '@fontsource-variable/brygada-1918':
         specifier: ^5.2.8
         version: 5.2.8
@@ -46,7 +46,7 @@ importers:
         version: 0.6.2
       astro:
         specifier: ^5.17.2
-        version: 5.17.2(@types/node@25.6.0)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2)
+        version: 5.17.2(@types/node@22.19.21)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2)
       astro-eslint-parser:
         specifier: ^1.4.0
         version: 1.4.0
@@ -82,7 +82,7 @@ importers:
         version: 1.8.17
       tailwindcss:
         specifier: ^3.4.3
-        version: 3.4.3(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3))
+        version: 3.4.3(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3))
       twoslash:
         specifier: ^0.3.8
         version: 0.3.8(typescript@5.8.3)
@@ -112,8 +112,8 @@ importers:
         specifier: 3.0.4
         version: 3.0.4
       '@types/node':
-        specifier: 25.6.0
-        version: 25.6.0
+        specifier: ^22.0.0
+        version: 22.19.21
       autoprefixer:
         specifier: ^10.5.0
         version: 10.5.0(postcss@8.5.10)
@@ -140,7 +140,7 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^5.2.12
-        version: 5.2.12(@types/node@25.6.0)
+        version: 5.2.12(@types/node@22.19.21)
     optionalDependencies:
       '@rollup/rollup-linux-x64-gnu':
         specifier: 4.9.5
@@ -1926,11 +1926,11 @@ packages:
   '@types/node@20.11.0':
     resolution: {integrity: sha512-o9bjXmDNcF7GbM4CNQpmi+TutCgap/K3w1JyKgxAjqx41zp9qlIAVFi0IhCNsJcXolEqLWhbFbEeL0PvYm4pcQ==}
 
+  '@types/node@22.19.21':
+    resolution: {integrity: sha512-VMeFBSCKQKmm2swI2kW51SFusDqekC6q9trBCvJ/JliDchFSuoYYKN7yVNjPthP1HKZcx3U1gI/wTcEBjEFKTA==}
+
   '@types/node@24.12.2':
     resolution: {integrity: sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g==}
-
-  '@types/node@25.6.0':
-    resolution: {integrity: sha512-+qIYRKdNYJwY3vRCZMdJbPLJAtGjQBudzZzdzwQYkEPQd+PJGixUL5QfvCLDaULoLv+RhT3LDkwEfKaAkgSmNQ==}
 
   '@types/prop-types@15.7.12':
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
@@ -5578,11 +5578,11 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
-
-  undici-types@7.19.2:
-    resolution: {integrity: sha512-qYVnV5OEm2AW8cJMCpdV20CDyaN3g0AjDlOGf1OW4iaDEx8MwdtChUp4zu4H0VP3nDRF/8RKWH+IPp9uW0YGZg==}
 
   undici@5.28.4:
     resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
@@ -6033,12 +6033,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.3.13(astro@5.17.2(@types/node@25.6.0)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2))':
+  '@astrojs/mdx@4.3.13(astro@5.17.2(@types/node@22.19.21)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.10
       '@mdx-js/mdx': 3.1.1
       acorn: 8.15.0
-      astro: 5.17.2(@types/node@25.6.0)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2)
+      astro: 5.17.2(@types/node@22.19.21)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2)
       es-module-lexer: 1.7.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
@@ -6068,11 +6068,11 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 4.3.6
 
-  '@astrojs/solid-js@5.1.3(@types/node@25.6.0)(jiti@1.21.0)(solid-js@1.8.17)(tsx@4.21.0)(yaml@2.4.2)':
+  '@astrojs/solid-js@5.1.3(@types/node@22.19.21)(jiti@1.21.0)(solid-js@1.8.17)(tsx@4.21.0)(yaml@2.4.2)':
     dependencies:
       solid-js: 1.8.17
-      vite: 6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)
-      vite-plugin-solid: 2.11.10(solid-js@1.8.17)(vite@6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2))
+      vite: 6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)
+      vite-plugin-solid: 2.11.10(solid-js@1.8.17)(vite@6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2))
     transitivePeerDependencies:
       - '@testing-library/jest-dom'
       - '@types/node'
@@ -6088,13 +6088,13 @@ snapshots:
       - tsx
       - yaml
 
-  '@astrojs/tailwind@6.0.2(astro@5.17.2(@types/node@25.6.0)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2))(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3)))(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3))':
+  '@astrojs/tailwind@6.0.2(astro@5.17.2(@types/node@22.19.21)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2))(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3)))(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3))':
     dependencies:
-      astro: 5.17.2(@types/node@25.6.0)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2)
+      astro: 5.17.2(@types/node@22.19.21)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2)
       autoprefixer: 10.5.0(postcss@8.5.10)
       postcss: 8.5.10
-      postcss-load-config: 4.0.2(postcss@8.5.10)(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3))
-      tailwindcss: 3.4.3(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3))
+      postcss-load-config: 4.0.2(postcss@8.5.10)(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3))
+      tailwindcss: 3.4.3(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3))
     transitivePeerDependencies:
       - ts-node
 
@@ -7326,13 +7326,13 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
+  '@types/node@22.19.21':
+    dependencies:
+      undici-types: 6.21.0
+
   '@types/node@24.12.2':
     dependencies:
       undici-types: 7.16.0
-
-  '@types/node@25.6.0':
-    dependencies:
-      undici-types: 7.19.2
 
   '@types/prop-types@15.7.12': {}
 
@@ -7343,7 +7343,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 25.6.0
+      '@types/node': 22.19.21
 
   '@types/semver@7.5.8': {}
 
@@ -7959,7 +7959,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  astro@5.17.2(@types/node@25.6.0)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2):
+  astro@5.17.2(@types/node@22.19.21)(@vercel/blob@2.3.0)(jiti@1.21.0)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.8.3)(yaml@2.4.2):
     dependencies:
       '@astrojs/compiler': 2.13.1
       '@astrojs/internal-helpers': 0.7.5
@@ -8016,8 +8016,8 @@ snapshots:
       unist-util-visit: 5.1.0
       unstorage: 1.17.4(@vercel/blob@2.3.0)
       vfile: 6.0.3
-      vite: 6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)
-      vitefu: 1.1.1(vite@6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2))
+      vite: 6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)
+      vitefu: 1.1.1(vite@6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2))
       xxhash-wasm: 1.1.0
       yargs-parser: 21.1.1
       yocto-spinner: 0.2.3
@@ -10987,13 +10987,13 @@ snapshots:
       camelcase-css: 2.0.1
       postcss: 8.5.10
 
-  postcss-load-config@4.0.2(postcss@8.5.10)(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3)):
+  postcss-load-config@4.0.2(postcss@8.5.10)(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3)):
     dependencies:
       lilconfig: 3.1.1
       yaml: 2.4.2
     optionalDependencies:
       postcss: 8.5.10
-      ts-node: 10.9.1(@types/node@25.6.0)(typescript@5.8.3)
+      ts-node: 10.9.1(@types/node@22.19.21)(typescript@5.8.3)
 
   postcss-merge-longhand@7.0.5(postcss@8.5.10):
     dependencies:
@@ -11910,7 +11910,7 @@ snapshots:
     dependencies:
       '@pkgr/core': 0.2.9
 
-  tailwindcss@3.4.3(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3)):
+  tailwindcss@3.4.3(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3)):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -11929,7 +11929,7 @@ snapshots:
       postcss: 8.5.10
       postcss-import: 15.1.0(postcss@8.5.10)
       postcss-js: 4.0.1(postcss@8.5.10)
-      postcss-load-config: 4.0.2(postcss@8.5.10)(ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3))
+      postcss-load-config: 4.0.2(postcss@8.5.10)(ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3))
       postcss-nested: 6.0.1(postcss@8.5.10)
       postcss-selector-parser: 6.0.16
       resolve: 1.22.8
@@ -12043,14 +12043,14 @@ snapshots:
       '@ts-morph/common': 0.11.1
       code-block-writer: 10.1.1
 
-  ts-node@10.9.1(@types/node@25.6.0)(typescript@5.8.3):
+  ts-node@10.9.1(@types/node@22.19.21)(typescript@5.8.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.12
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 25.6.0
+      '@types/node': 22.19.21
       acorn: 8.16.0
       acorn-walk: 8.3.5
       arg: 4.1.3
@@ -12162,9 +12162,9 @@ snapshots:
 
   undici-types@5.26.5: {}
 
-  undici-types@7.16.0: {}
+  undici-types@6.21.0: {}
 
-  undici-types@7.19.2: {}
+  undici-types@7.16.0: {}
 
   undici@5.28.4:
     dependencies:
@@ -12361,7 +12361,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite-plugin-solid@2.11.10(solid-js@1.8.17)(vite@6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)):
+  vite-plugin-solid@2.11.10(solid-js@1.8.17)(vite@6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)):
     dependencies:
       '@babel/core': 7.24.6
       '@types/babel__core': 7.20.5
@@ -12369,21 +12369,21 @@ snapshots:
       merge-anything: 5.1.7
       solid-js: 1.8.17
       solid-refresh: 0.6.3(solid-js@1.8.17)
-      vite: 6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)
-      vitefu: 1.1.1(vite@6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2))
+      vite: 6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)
+      vitefu: 1.1.1(vite@6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
-  vite@5.2.12(@types/node@25.6.0):
+  vite@5.2.12(@types/node@22.19.21):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.5.10
       rollup: '@rollup/wasm-node@4.18.0'
     optionalDependencies:
-      '@types/node': 25.6.0
+      '@types/node': 22.19.21
       fsevents: 2.3.3
 
-  vite@6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2):
+  vite@6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.2)
@@ -12392,15 +12392,15 @@ snapshots:
       rollup: 4.57.1
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 25.6.0
+      '@types/node': 22.19.21
       fsevents: 2.3.3
       jiti: 1.21.0
       tsx: 4.21.0
       yaml: 2.4.2
 
-  vitefu@1.1.1(vite@6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)):
+  vitefu@1.1.1(vite@6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)):
     optionalDependencies:
-      vite: 6.4.1(@types/node@25.6.0)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)
+      vite: 6.4.1(@types/node@22.19.21)(jiti@1.21.0)(tsx@4.21.0)(yaml@2.4.2)
 
   web-namespaces@2.0.1: {}
 
