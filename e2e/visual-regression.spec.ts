@@ -18,7 +18,7 @@ test.beforeAll(async () => {
 test.describe("Visual regression", () => {
   test("index page matches screenshot", async ({ page }) => {
     await page.goto("/");
-    await ensureFontsLoaded(page);
+    await ensurePageStable(page);
 
     await expect(page).toHaveScreenshot("index.png", {
       fullPage: true,
@@ -30,7 +30,7 @@ test.describe("Visual regression", () => {
     test.setTimeout(60_000);
     for (const post of postsInFS) {
       await page.goto(`/${post}`);
-      await ensureFontsLoaded(page);
+      await ensurePageStable(page);
 
       await expect(page).toHaveScreenshot(`${post.replace(/\//g, "-")}.png`, {
         fullPage: true,
@@ -40,29 +40,46 @@ test.describe("Visual regression", () => {
   });
 });
 
-async function ensureFontsLoaded(page: Page) {
-  await page.evaluate(() => {
-    const link = document.createElement("link");
-    link.href = "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
+/**
+ * Settle the page so a fullPage screenshot has a stable height across runs:
+ * scroll the full height to trigger lazy images, then wait for every image to
+ * decode and the self-hosted fonts to load. Deliberately no remote webfont —
+ * the site ships Inter + Brygada and falls back to system mono for code, so a
+ * network font request would only add non-determinism (and per-platform
+ * snapshots already cover the system-mono difference).
+ */
+async function ensurePageStable(page: Page) {
+  await page.evaluate(async () => {
+    await new Promise<void>((resolve) => {
+      let y = 0;
+      const step = () => {
+        window.scrollTo(0, y);
+        y += window.innerHeight;
+        if (y < document.body.scrollHeight) {
+          requestAnimationFrame(step);
+        } else {
+          window.scrollTo(0, 0);
+          requestAnimationFrame(() => resolve());
+        }
+      };
+      step();
+    });
   });
-  
+
   await page.waitForLoadState("networkidle");
-  
+
   await page.evaluate(async () => {
     await document.fonts.ready;
-    
-    await Promise.all([
-      document.fonts.load('16px "Inter"'),
-      document.fonts.load('16px "Brygada 1918"'),
-      document.fonts.load('italic 16px "Brygada 1918"'),
-      document.fonts.load('16px "Fira Code"'),
-    ].map(p => p.catch(() => null)));
-    
-    await new Promise(resolve => requestAnimationFrame(resolve));
-    await new Promise(resolve => requestAnimationFrame(resolve));
+    await Promise.all(
+      Array.from(document.images).map((img) =>
+        img.complete && img.naturalWidth > 0
+          ? Promise.resolve()
+          : img.decode().catch(() => undefined),
+      ),
+    );
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
   });
-  
-  await page.waitForTimeout(200);
+
+  await page.waitForTimeout(150);
 }
