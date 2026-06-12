@@ -77,13 +77,7 @@ jobs:
 
       - name: Run tests
         id: test
-        run: pnpm exec playwright test visual-regression --update-snapshots
-
-      - name: Upload regenerated snapshots
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: regenerated-snapshots
-          path: e2e/visual-regression.spec.ts-snapshots/
+        run: pnpm test
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
