@@ -31,7 +31,7 @@
     "@fontsource-variable/inter": "^5.2.8",
     "@mdx-js/mdx": "3.1.1",
     "@shikijs/twoslash": "^3.22.0",
-    "@types/react": "^18.3.3",
+    "@types/react": "^19.2.17",
     "@types/unist": "^3.0.3",
     "@vercel/og": "^0.6.2",
     "astro": "^5.17.2",
