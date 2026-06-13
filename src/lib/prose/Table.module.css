@@ -1,3 +1,5 @@
+@reference "../../global-styles/base.css";
+
 .Table {
   border-collapse: collapse;
   table-layout: fixed;

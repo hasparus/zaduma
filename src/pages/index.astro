@@ -71,6 +71,7 @@ posts.sort((a, b) => {
     }
   </ul>
   <style>
+    @reference "../global-styles/base.css";
     ul:hover li:not(:hover) :where(h2, time) {
       @apply text-gray-600 transition-colors;
       :global(.dark) & {

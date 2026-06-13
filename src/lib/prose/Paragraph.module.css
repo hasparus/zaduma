@@ -1,3 +1,5 @@
+@reference "../../global-styles/base.css";
+
 .Paragraph {
   @apply -m-2 max-w-prose p-2;
 

@@ -166,12 +166,12 @@ if (!isRaw) {
   class:list={[
     "zaduma-image-box relative block overflow-hidden",
     !placeholder &&
-      "bg-current/10 !inline-flex w-[var(--wide-content-width)] justify-center [&>img]:h-full [&>img]:object-contain",
+      "bg-current/10 inline-flex! w-(--wide-content-width) justify-center [&>img]:h-full [&>img]:object-contain",
   ]}
 >
   <img
     {...attrs}
-    class:list={["rounded-sm dark:opacity-80", attrs.class]}
+    class:list={["rounded-xs dark:opacity-80", attrs.class]}
     loading={loading}
     decoding={decoding}
   />

@@ -1,3 +1,5 @@
+@reference "./base.css";
+
 /* Dual-theme: Astro 5 renders a single <pre> with both theme classes and CSS
    variables. Light colors are in the default properties, dark colors use
    --shiki-dark-* variables. We swap them via html.dark. */

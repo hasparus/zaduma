@@ -21,8 +21,8 @@ export function Kbd(props: KbdProps) {
         "rounded-md border border-b-2 bg-gray-50 p-1" +
         " dark:border-gray-700 dark:bg-gray-800" +
         " text-xs leading-none tracking-tighter" +
-        " group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline" +
-        " [&[data-pressed]] [&[data-pressed]]:border-b" +
+        " group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline-solid" +
+        " [&[data-pressed]] data-pressed:border-b" +
         (props.class ? ` ${props.class}` : "")
       }
     />
