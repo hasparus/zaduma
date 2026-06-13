@@ -22,7 +22,7 @@ export function Kbd(props: KbdProps) {
         " dark:border-gray-700 dark:bg-gray-800" +
         " text-xs leading-none tracking-tighter" +
         " group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline-solid" +
-        " [&[data-pressed]] data-pressed:border-b" +
+        " data-pressed:border-b" +
         (props.class ? ` ${props.class}` : "")
       }
     />
