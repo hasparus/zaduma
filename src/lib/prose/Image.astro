@@ -20,6 +20,7 @@ import {
   type RemoteImageProps,
 } from "astro:assets";
 import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { getPlaiceholder } from "plaiceholder";
 
 import "./Image.css";
@@ -118,13 +119,11 @@ if (isRaw) {
     ? fetch(pathToImage).then(async (res) =>
         Buffer.from(await res.arrayBuffer()),
       )
-    : readFile(
-        new URL(
-          pathToImage.replace("../", ""),
-          // this normalizes the path between prod and dev
-          import.meta.url.replace("/src/", "/"),
-        ),
-      ));
+    : // Resolve the source image from the project root. `pathToImage` is
+      // relative to this component (`../../../src/images/...`); strip the
+      // leading `../` segments and join onto cwd so the lookup is independent
+      // of Astro's emitted chunk layout (which changed in Astro 6).
+      readFile(join(process.cwd(), pathToImage.replace(/^(?:\.\.\/)+/, ""))));
 
   const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
     size: 10,
@@ -166,12 +165,12 @@ if (!isRaw) {
   class:list={[
     "zaduma-image-box relative block overflow-hidden",
     !placeholder &&
-      "bg-current/10 !inline-flex w-[var(--wide-content-width)] justify-center [&>img]:h-full [&>img]:object-contain",
+      "bg-current/10 inline-flex! w-(--wide-content-width) justify-center [&>img]:h-full [&>img]:object-contain",
   ]}
 >
   <img
     {...attrs}
-    class:list={["rounded-sm dark:opacity-80", attrs.class]}
+    class:list={["rounded-xs dark:opacity-80", attrs.class]}
     loading={loading}
     decoding={decoding}
   />

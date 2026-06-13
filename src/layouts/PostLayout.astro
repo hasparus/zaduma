@@ -45,7 +45,7 @@ const postSchema = blogPostingSchema({
     <header
       class="flex justify-between items-start sm:items-center flex-col sm:flex-row"
     >
-      <h1 class="!my-0">{frontmatter.title}</h1>
+      <h1 class="my-0!">{frontmatter.title}</h1>
       <div class="text-gray-600 dark:text-gray-400 text-right">
         {
           readingTime.minutes > 1 && (

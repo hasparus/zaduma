@@ -40,7 +40,7 @@ export function Commands({
 
   return (
     <CommandCenter inputId={INPUT_ID}>
-      <CommandCenterTrigger class="zaduma-hover-before -mx-4 h-12 w-12 rounded-sm dark:text-gray-400 dark:hover:text-gray-300" />
+      <CommandCenterTrigger class="zaduma-hover-before -mx-4 h-12 w-12 rounded-xs dark:text-gray-400 dark:hover:text-gray-300" />
       <Show when={clientside()} keyed>
         <CommandsPalette posts={posts} />
       </Show>
@@ -155,18 +155,18 @@ export function CommandsPalette({
       onClose={() => setPage(undefined)}
       ref={(ref) => (dialog = ref)}
       class={
-        "relative mx-auto w-96 max-w-full transform flex-col overflow-hidden rounded-xl bg-white p-0 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all backdrop:bg-white backdrop:bg-opacity-30 dark:bg-gray-900 dark:backdrop:bg-black dark:backdrop:bg-opacity-30 [&[open]]:flex"
+        "relative mx-auto w-96 max-w-full transform flex-col overflow-hidden rounded-xl bg-white p-0 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all backdrop:bg-white backdrop:bg-opacity-30 dark:bg-gray-900 dark:backdrop:bg-black dark:backdrop:bg-opacity-30 open:flex"
       }
     >
       <div class="flex justify-end">
-        <DialogCloseButton class="group cursor-pointer p-2 focus:outline-none">
+        <DialogCloseButton class="group cursor-pointer p-2 focus:outline-hidden">
           <Kbd aria-hidden>esc</Kbd>
           <span class="sr-only">Close</span>
         </DialogCloseButton>
       </div>
       <CommandInput
         aria-label="Commands"
-        class="relative w-full bg-transparent p-2 indent-2 focus:outline-none"
+        class="relative w-full bg-transparent p-2 indent-2 focus:outline-hidden"
         placeholder="What do you need?"
         autofocus
       />

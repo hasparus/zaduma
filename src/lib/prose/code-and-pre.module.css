@@ -1,3 +1,5 @@
+@reference "../../global-styles/base.css";
+
 .Code {
   @apply font-mono;
   /* We decrease letter spacing to make inline code stand out less from the

@@ -1,3 +1,5 @@
+@reference "../../global-styles/base.css";
+
 /*
   - .zaduma-image-box class is also used in Link, so this is a global class
   - we use it twice here to bump the specificity over `.zaduma-prose p a`

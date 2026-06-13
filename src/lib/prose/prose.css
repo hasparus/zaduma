@@ -1,3 +1,5 @@
+@reference "../../global-styles/base.css";
+
 :root {
   --container-width: 43rem;
   --wide-content-width: min(var(--container-width), 100vw);
