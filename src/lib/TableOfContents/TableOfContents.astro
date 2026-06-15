@@ -48,7 +48,7 @@ const tocShown = headings.length > 2;
   />
   <style>
     @reference "../../global-styles/base.css";
-    #table-of-contents:hover {
+    #table-of-contents:has(a:hover) {
       & a:not(:hover) {
         @apply text-gray-600 transition-colors;
         :global(.dark) & {
