@@ -1,7 +1,7 @@
 @reference "./base.css";
 
 .zaduma-hover-before {
-  @apply relative before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-transparent before:transition-colors before:content-[''] focus:before:bg-gray-100 selected:before:bg-gray-100 dark:hover:before:bg-gray-800/60 dark:focus:before:bg-gray-800/60 dark:selected:before:bg-gray-800/60;
+  @apply selected:before:bg-gray-100 dark:selected:before:bg-gray-800/60 relative before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-transparent before:transition-colors before:content-[''] focus:before:bg-gray-100 dark:hover:before:bg-gray-800/60 dark:focus:before:bg-gray-800/60;
 }
 
 @media (hover: hover) {

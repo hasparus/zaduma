@@ -3,8 +3,7 @@ import { createEffect, type JSX, splitProps } from "solid-js";
 
 import { useFocusTrap } from "./useFocusTrap";
 
-export interface DialogProps
-  extends JSX.DialogHtmlAttributes<HTMLDialogElement> {
+export interface DialogProps extends JSX.DialogHtmlAttributes<HTMLDialogElement> {
   open?: boolean;
   onClose?: () => void;
   children: JSX.Element;
@@ -54,8 +53,10 @@ export function Dialog(props: DialogProps) {
   );
 }
 
-export interface DialogCloseButtonProps
-  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "value"> {}
+export interface DialogCloseButtonProps extends Omit<
+  JSX.ButtonHTMLAttributes<HTMLButtonElement>,
+  "value"
+> {}
 
 export function DialogCloseButton(props: DialogCloseButtonProps) {
   return (
