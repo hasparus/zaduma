@@ -9,6 +9,12 @@
 
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
+
+  NOTE: this project keeps its theme in a legacy JS config (see @config above),
+  which means Tailwind v4 inlines color values instead of exposing them as
+  `--color-*` CSS variables. The `var(--color-gray-200, …)` reference the
+  upgrade codemod generated therefore always fell back to `currentcolor`
+  (black), so we apply the utility directly instead.
 */
 @layer base {
   *,
@@ -16,7 +22,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    @apply border-gray-200;
   }
 }
 
