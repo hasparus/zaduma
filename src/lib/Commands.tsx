@@ -155,7 +155,7 @@ export function CommandsPalette({
       onClose={() => setPage(undefined)}
       ref={(ref) => (dialog = ref)}
       class={
-        "relative mx-auto w-96 max-w-full transform flex-col overflow-hidden rounded-xl bg-white p-0 shadow-2xl ring-1 ring-black ring-opacity-5 transition-all backdrop:bg-white backdrop:bg-opacity-30 dark:bg-gray-900 dark:backdrop:bg-black dark:backdrop:bg-opacity-30 open:flex"
+        "relative mx-auto w-96 max-w-full transform flex-col overflow-hidden rounded-xl bg-white p-0 shadow-2xl ring-1 ring-black/5 transition-all backdrop:bg-white/30 open:flex dark:bg-gray-900 dark:backdrop:bg-black/30"
       }
     >
       <div class="flex justify-end">
@@ -222,8 +222,10 @@ export function CommandsPalette({
   );
 }
 
-interface CommonCommandItemProps
-  extends Omit<CommandCenterItemProps, "onClick"> {}
+interface CommonCommandItemProps extends Omit<
+  CommandCenterItemProps,
+  "onClick"
+> {}
 export type CommandItemProps = CommonCommandItemProps &
   (
     | {
@@ -265,7 +267,7 @@ function CommandItem(props: CommandItemProps) {
 
 function GroupHeading(props: { children: JSX.Element }) {
   return (
-    <span class="p-2 text-xs font-semibold uppercase leading-none tracking-wider text-gray-400 dark:text-gray-500">
+    <span class="p-2 text-xs leading-none font-semibold tracking-wider text-gray-400 uppercase dark:text-gray-500">
       {props.children}
     </span>
   );

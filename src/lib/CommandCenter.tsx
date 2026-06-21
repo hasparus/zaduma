@@ -43,8 +43,7 @@ const CommandCenterCtx = createContext<CommandCenterCtx>({
 
 export const useCommandCenterCtx = () => useContext(CommandCenterCtx);
 
-export interface CommandCenterTriggerProps
-  extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CommandCenterTriggerProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: (event: MouseEvent) => void;
 }
 export function CommandCenterTrigger(props: CommandCenterTriggerProps) {
@@ -278,8 +277,10 @@ export function CommandItem(props: CommandItemProps) {
   return res;
 }
 
-export interface CommandInputProps
-  extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "onChange" | "id"> {
+export interface CommandInputProps extends Omit<
+  JSX.InputHTMLAttributes<HTMLInputElement>,
+  "onChange" | "id"
+> {
   "aria-label": string;
 }
 
