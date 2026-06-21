@@ -1,20 +1,76 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@config '../../tailwind.config.cjs';
+@source "../**/*.{astro,ts,tsx,css}";
+
+/* Tailwind v3 used `class` dark mode; replicate it for the `.dark` class on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Ported from the former tailwind.config.cjs `plugins` (addVariant). */
+@custom-variant selected (&[aria-selected='true']);
+@custom-variant current (&[aria-current='true']);
+
+@theme {
+  /*
+    Drop Tailwind's default color palettes. This project only uses a neutral
+    gray scale (plus black/white), exactly as the v3 JS config did by replacing
+    `theme.colors`. Defining these as real `--color-*` variables (rather than
+    relying on a JS config, which v4 inlines as literals) keeps `var(--color-*)`
+    references working.
+  */
+  --color-*: initial;
+  --color-inherit: inherit;
+  --color-current: currentcolor;
+  --color-transparent: transparent;
+  --color-black: #000;
+  --color-white: #fff;
+
+  /* gray === Tailwind's `neutral` palette */
+  --color-gray-50: oklch(98.5% 0 0);
+  --color-gray-100: oklch(97% 0 0);
+  --color-gray-200: oklch(92.2% 0 0);
+  --color-gray-300: oklch(87% 0 0);
+  --color-gray-400: oklch(70.8% 0 0);
+  --color-gray-500: oklch(55.6% 0 0);
+  --color-gray-600: oklch(43.9% 0 0);
+  --color-gray-700: oklch(37.1% 0 0);
+  --color-gray-800: oklch(26.9% 0 0);
+  --color-gray-900: oklch(20.5% 0 0);
+  --color-gray-950: oklch(14.5% 0 0);
+
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif:
+    "Brygada 1918", ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --font-mono:
+    "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+
+  --container-container: 43rem;
+
+  --animate-scale-up: scale-up 150ms ease-in;
+
+  @keyframes scale-up {
+    0% {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    70% {
+      transform: scale(1.02);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
 
 /*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-
-  NOTE: this project keeps its theme in a legacy JS config (see @config above),
-  which means Tailwind v4 inlines color values instead of exposing them as
-  `--color-*` CSS variables. The `var(--color-gray-200, …)` reference the
-  upgrade codemod generated therefore always fell back to `currentcolor`
-  (black), so we apply the utility directly instead.
+  The default border color changed to `currentcolor` in Tailwind v4, so we
+  restore the v3 default (gray-200) for any element that relies on a bare
+  `border` utility without an explicit color (e.g. the <kbd> keys).
 */
 @layer base {
   *,
@@ -22,7 +78,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    @apply border-gray-200;
+    border-color: var(--color-gray-200, currentcolor);
   }
 }
 
@@ -46,7 +102,7 @@ html {
 }
 
 body {
-  @apply relative min-h-screen bg-white px-0 pb-20 pt-4 text-gray-800 dark:bg-gray-900 dark:text-gray-300 md:px-4 md:pb-48 md:pt-8;
+  @apply relative min-h-screen bg-white px-0 pt-4 pb-20 text-gray-800 md:px-4 md:pt-8 md:pb-48 dark:bg-gray-900 dark:text-gray-300;
 }
 
 body,
