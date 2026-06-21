@@ -2,21 +2,12 @@
 
 @source "../**/*.{astro,ts,tsx,css}";
 
-/* Tailwind v3 used `class` dark mode; replicate it for the `.dark` class on <html>. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Ported from the former tailwind.config.cjs `plugins` (addVariant). */
 @custom-variant selected (&[aria-selected='true']);
 @custom-variant current (&[aria-current='true']);
 
 @theme {
-  /*
-    Drop Tailwind's default color palettes. This project only uses a neutral
-    gray scale (plus black/white), exactly as the v3 JS config did by replacing
-    `theme.colors`. Defining these as real `--color-*` variables (rather than
-    relying on a JS config, which v4 inlines as literals) keeps `var(--color-*)`
-    references working.
-  */
   --color-*: initial;
   --color-inherit: inherit;
   --color-current: currentcolor;
@@ -24,7 +15,6 @@
   --color-black: #000;
   --color-white: #fff;
 
-  /* gray === Tailwind's `neutral` palette */
   --color-gray-50: oklch(98.5% 0 0);
   --color-gray-100: oklch(97% 0 0);
   --color-gray-200: oklch(92.2% 0 0);
@@ -67,11 +57,6 @@
   }
 }
 
-/*
-  The default border color changed to `currentcolor` in Tailwind v4, so we
-  restore the v3 default (gray-200) for any element that relies on a bare
-  `border` utility without an explicit color (e.g. the <kbd> keys).
-*/
 @layer base {
   *,
   ::after,
