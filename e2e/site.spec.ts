@@ -13,6 +13,29 @@ test.describe("Homepage", () => {
     await expect(page.getByText("Shiki Twoslash")).toBeVisible();
     await expect(page.getByText("Markdown Cheat Sheet")).toBeVisible();
   });
+
+  test("article hover uses dark hover background in dark mode", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.goto("/");
+
+    const firstArticle = page.locator("ul li a").first();
+    await firstArticle.hover();
+
+    await expect
+      .poll(() =>
+        firstArticle.evaluate(
+          (element) => getComputedStyle(element, "::before").backgroundColor,
+        ),
+      )
+      .toMatch(/0\.6|60%/);
+
+    const hoverBackground = await firstArticle.evaluate(
+      (element) => getComputedStyle(element, "::before").backgroundColor,
+    );
+    expect(hoverBackground).not.toContain("0.97");
+  });
 });
 
 test.describe("Article pages", () => {
@@ -43,7 +66,6 @@ test.describe("Asides render as side notes on wide viewports", () => {
     page,
     browserName,
   }, testInfo) => {
-    
     await page.goto("/features/asides/");
     const aside = page.locator("aside").first();
     await expect(aside).toBeVisible();
@@ -65,8 +87,6 @@ test.describe("Code blocks render with syntax highlighting", () => {
   });
 });
 
-  
-
 test.describe("OG images", () => {
   test("og meta tags are present on article pages", async ({ page }) => {
     await page.goto("/features/og-images/");
@@ -87,13 +107,15 @@ test("homepage is readable on mobile", async ({ page }, testInfo) => {
   expect(box!.width).toBeLessThanOrEqual(375);
 });
 
-test("color scheme switches with command palette and responds to media preference", async ({ page }, testInfo) => {
+test("color scheme switches with command palette and responds to media preference", async ({
+  page,
+}, testInfo) => {
   await page.goto("/");
   await page.waitForLoadState("domcontentloaded");
-  
+
   if (testInfo.project.name !== "mobile") {
     await page.getByLabel("Open command palette").waitFor({ state: "visible" });
-    
+
     try {
       await page.keyboard.press("ControlOrMeta+K");
     } catch {
@@ -122,7 +144,7 @@ test("color scheme switches with command palette and responds to media preferenc
     await expect(page.getByText("Set Theme to System")).toBeVisible();
     await page.keyboard.press("3");
     await expect(page.locator("html")).not.toHaveClass(/dark/);
-    await expect(page.getByRole("dialog")).not.toBeVisible();    
+    await expect(page.getByRole("dialog")).not.toBeVisible();
   }
 
   await page.emulateMedia({ colorScheme: "dark" });
