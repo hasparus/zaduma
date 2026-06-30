@@ -89,6 +89,13 @@ function makePublicURL() {
   const VERCEL_URL = process.env.VERCEL_URL;
   const DEPLOYMENT_ALIAS = process.env.DEPLOYMENT_ALIAS;
 
+  // Prod build on CI: DEPLOYMENT_ALIAS isn't written to the env until *after*
+  // `vercel build` runs, so detect the main-branch CI build directly and return
+  // the canonical URL. Without this, OG image URLs fall through to localhost.
+  if (process.env.CI && process.env.GITHUB_REF === "refs/heads/main") {
+    return site;
+  }
+
   // If the site is built on vercel, we can just use VERCEL_URL.
   if (VERCEL_URL) return VERCEL_URL;
 
