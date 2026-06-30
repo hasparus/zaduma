@@ -8,7 +8,7 @@ test.describe("agent-ready endpoints", () => {
     expect(res.status()).toBe(200);
     const body = await res.text();
 
-    expect(body).toMatch(/^User-agent: \*\nAllow: \//m);
+    expect(body).toMatch(/^User-agent: \*\nContent-Signal: [^\n]+\nAllow: \//m);
 
     const bots = [
       "GPTBot",
@@ -22,10 +22,14 @@ test.describe("agent-ready endpoints", () => {
       "Amazonbot",
     ];
     for (const bot of bots) {
-      expect(body).toContain(`User-agent: ${bot}`);
+      expect(body).toMatch(
+        new RegExp(
+          `^User-agent: ${bot}\\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\\nAllow: /$`,
+          "m",
+        ),
+      );
     }
 
-    expect(body).toContain("Content-Signals: search, ai-train: yes");
     expect(body).toMatch(/^Sitemap: https?:\/\/.+\/sitemap-index\.xml$/m);
   });
 
