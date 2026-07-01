@@ -35,8 +35,6 @@
     "@types/unist": "^3.0.3",
     "@vercel/og": "^0.6.2",
     "astro": "^6.4.6",
-    "astro-eslint-parser": "^1.4.0",
-    "eslint-plugin-markdown": "^5.0.0",
     "estree-util-value-to-estree": "^3.5.0",
     "gray-matter": "4.0.3",
     "plaiceholder": "^3.0.0",
@@ -55,17 +53,13 @@
   },
   "devDependencies": {
     "@astrojs/rss": "^4.0.18",
-    "@eslint/compat": "2.1.0",
-    "@hasparus/eslint-config": "^2.2.0",
+    "@hasparus/eslint-config": "^2.3.0",
     "@playwright/test": "1.60.0",
     "@types/hast": "3.0.4",
     "@types/node": "^22.0.0",
-    "@typescript-eslint/parser": "8.62.1",
     "cssnano": "^7.1.5",
     "eslint": "^10.6.0",
-    "eslint-plugin-better-tailwindcss": "4.6.0",
     "eslint-plugin-check-file": "3.3.1",
-    "eslint-plugin-solid": "0.14.5",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
@@ -78,9 +72,9 @@
   },
   "pnpm": {
     "overrides": {
-      "@typescript-eslint/utils": "8.62.1",
-      "@typescript-eslint/type-utils": "8.62.1",
-      "@typescript-eslint/eslint-plugin": "8.62.1"
+      "@typescript-eslint/utils": "8.61.1",
+      "@typescript-eslint/type-utils": "8.61.1",
+      "@typescript-eslint/eslint-plugin": "8.61.1"
     },
     "peerDependencyRules": {
       "ignoreMissing": [
