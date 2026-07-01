@@ -8,6 +8,7 @@ import {
   Show,
   splitProps,
   Switch,
+  For,
 } from "solid-js";
 
 import { type ColorScheme, setScheme } from "./color-scheme";
@@ -30,27 +31,21 @@ import { Shortcut } from "./Shortcut";
 
 const INPUT_ID = "command-input";
 
-export function Commands({
-  posts,
-}: {
-  posts: { title: string; href: string }[];
-}) {
+export function Commands(props: { posts: { title: string; href: string }[] }) {
   const [clientside, setClientside] = createSignal(false);
   onMount(() => setClientside(true)); // workaround for Astro + Solid Hydration issue
 
   return (
     <CommandCenter inputId={INPUT_ID}>
-      <CommandCenterTrigger class="zaduma-hover-before -mx-4 h-12 w-12 rounded-xs dark:text-gray-400 dark:hover:text-gray-300" />
+      <CommandCenterTrigger class="zaduma-hover-before -mx-4 size-12 rounded-xs dark:text-gray-400 dark:hover:text-gray-300" />
       <Show when={clientside()} keyed>
-        <CommandsPalette posts={posts} />
+        <CommandsPalette posts={props.posts} />
       </Show>
     </CommandCenter>
   );
 }
 
-export function CommandsPalette({
-  posts,
-}: {
+export function CommandsPalette(props: {
   posts: { title: string; href: string }[];
 }) {
   type CommandsPage = "posts" | "theme" | undefined;
@@ -154,9 +149,7 @@ export function CommandsPalette({
     <CommandCenterDialog
       onClose={() => setPage(undefined)}
       ref={(ref) => (dialog = ref)}
-      class={
-        "relative mx-auto w-96 max-w-full transform flex-col overflow-hidden rounded-xl bg-white p-0 shadow-2xl ring-1 ring-black/5 transition-all backdrop:bg-white/30 open:flex dark:bg-gray-900 dark:backdrop:bg-black/30"
-      }
+      class="relative mx-auto w-96 max-w-full transform flex-col overflow-hidden rounded-xl bg-white p-0 shadow-2xl ring-1 ring-black/5 transition-all backdrop:bg-white/30 open:flex dark:bg-gray-900 dark:backdrop:bg-black/30"
     >
       <div class="flex justify-end">
         <DialogCloseButton class="group cursor-pointer p-2 focus:outline-hidden">
@@ -211,9 +204,9 @@ export function CommandsPalette({
           </Match>
           <Match when={page() === "posts"}>
             <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
-              {posts.map((p) => (
-                <CommandItem href={p.href}>{p.title}</CommandItem>
-              ))}
+              <For each={props.posts}>
+                {(p) => <CommandItem href={p.href}>{p.title}</CommandItem>}
+              </For>
             </CommandGroup>
           </Match>
         </Switch>
@@ -250,12 +243,9 @@ function CommandItem(props: CommandItemProps) {
 
   return (
     <CommandCenterItem
-      class={
-        "zaduma-hover-before relative flex w-full cursor-pointer justify-between p-2 text-gray-700 focus-visible:outline-black dark:text-gray-300"
-      }
+      class="zaduma-hover-before relative flex w-full cursor-pointer justify-between p-2 text-gray-700 focus-visible:outline-black dark:text-gray-300"
       tabIndex={-1}
       onClick={() => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         if (own.shortcut) own.onClick!(own.shortcut);
       }}
       {...rest}

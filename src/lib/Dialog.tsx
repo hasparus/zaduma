@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { createEffect, type JSX, splitProps } from "solid-js";
 
 import { useFocusTrap } from "./useFocusTrap";
@@ -40,6 +39,8 @@ export function Dialog(props: DialogProps) {
   };
 
   return (
+    // dialog dismiss-on-backdrop-click; <dialog> handles Escape/keyboard natively
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
     <dialog
       onClick={dismissOnBackdropClick}
       ref={(dialog) => {

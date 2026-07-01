@@ -16,7 +16,7 @@ export const asidesPlugin: Plugin<[AsidesPluginOptions], Root, Root> = (
   return (root) => {
     let children = [...root.children];
 
-    const childrenToRemove: Set<RootContent> = new Set();
+    const childrenToRemove = new Set<RootContent>();
 
     for (let i = 0; i < children.length; i++) {
       const node = children[i];
