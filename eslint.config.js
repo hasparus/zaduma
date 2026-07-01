@@ -17,14 +17,6 @@ export default [
   {
     rules: { "unicorn/consistent-function-scoping": "off" },
   },
-  {
-    files: ["**/*.astro"],
-    rules: { "no-undef": "off" },
-  },
-  {
-    files: ["**/*.tsx"],
-    rules: { "react/display-name": "off" },
-  },
 
   {
     files: ["src/**/*.ts"],
