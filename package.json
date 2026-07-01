@@ -33,7 +33,7 @@
     "@tailwindcss/postcss": "4.3.1",
     "@types/react": "^19.2.17",
     "@types/unist": "^3.0.3",
-    "@vercel/og": "^0.6.2",
+    "@vercel/og": "^0.11.1",
     "astro": "^6.4.6",
     "estree-util-value-to-estree": "^3.5.0",
     "gray-matter": "4.0.3",
