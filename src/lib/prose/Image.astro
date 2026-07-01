@@ -107,7 +107,7 @@ if (isRaw) {
         await allImages[pathToImage.replace("../src/", "")]!();
       importedImage = importedModule.default;
     } catch (error) {
-      console.error({ allImages, pathToImage });
+      console.error({ availableImages: Object.keys(allImages), pathToImage });
       throw error;
     }
     props.width ??= importedImage.width;
