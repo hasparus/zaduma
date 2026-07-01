@@ -81,14 +81,15 @@ if (isRaw) {
       "../../../public/content/**/*",
     );
     const path = "../../../public" + src;
-    const imported = (await globbed[path]!()).default;
+    const importedModule = await globbed[path]!();
+    const imported = importedModule.default;
 
     // I'm preserving the aspect ratio of the imported image, because
     // the 'raw' images can contain text or important details that should
     // not be cut off.
     height =
-      parseFloat(props.width as string) /
-      parseFloat(props.aspectRatio as string);
+      Number.parseFloat(props.width as string) /
+      Number.parseFloat(props.aspectRatio as string);
     props.aspectRatio = imported.width / imported.height;
     width = height * (imported.width / imported.height);
   }
@@ -102,11 +103,12 @@ if (isRaw) {
     >("../../../src/images/**/*");
 
     try {
-      importedImage = (await allImages[pathToImage.replace("../src/", "")]!())
-        .default;
-    } catch (err) {
+      const importedModule =
+        await allImages[pathToImage.replace("../src/", "")]!();
+      importedImage = importedModule.default;
+    } catch (error) {
       console.error({ allImages, pathToImage });
-      throw err;
+      throw error;
     }
     props.width ??= importedImage.width;
     props.height ??= importedImage.height;
@@ -115,15 +117,19 @@ if (isRaw) {
     }
   }
 
-  const imageForPlaceholder = await (pathToImage.startsWith("http")
-    ? fetch(pathToImage).then(async (res) =>
-        Buffer.from(await res.arrayBuffer()),
-      )
-    : // Resolve the source image from the project root. `pathToImage` is
-      // relative to this component (`../../../src/images/...`); strip the
-      // leading `../` segments and join onto cwd so the lookup is independent
-      // of Astro's emitted chunk layout (which changed in Astro 6).
-      readFile(join(process.cwd(), pathToImage.replace(/^(?:\.\.\/)+/, ""))));
+  let imageForPlaceholder: Buffer;
+  if (pathToImage.startsWith("http")) {
+    const res = await fetch(pathToImage);
+    imageForPlaceholder = Buffer.from(await res.arrayBuffer());
+  } else {
+    // Resolve the source image from the project root. `pathToImage` is
+    // relative to this component (`../../../src/images/...`); strip the
+    // leading `../` segments and join onto cwd so the lookup is independent
+    // of Astro's emitted chunk layout (which changed in Astro 6).
+    imageForPlaceholder = await readFile(
+      join(process.cwd(), pathToImage.replace(/^(?:\.\.\/)+/, "")),
+    );
+  }
 
   const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
     size: 10,
@@ -134,13 +140,13 @@ if (isRaw) {
     width ??= metadata.width;
     props.aspectRatio ??= metadata.width / metadata.height;
     width = Math.min(width, WIDE_CONTAINER_WIDTH);
-    height = Math.round(width / parseFloat(props.aspectRatio as string));
+    height = Math.round(width / Number.parseFloat(props.aspectRatio as string));
   }
 }
 
 height ??=
   typeof props.aspectRatio === "number"
-    ? parseFloat(width as unknown as string) / props.aspectRatio
+    ? Number.parseFloat(width as unknown as string) / props.aspectRatio
     : undefined;
 
 props.alt ||= "";

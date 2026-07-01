@@ -3,7 +3,7 @@ import solid from "@hasparus/eslint-config/solid";
 import checkFile from "eslint-plugin-check-file";
 
 export default [
-  { ignores: ["**/*.mdx", "**/*.md"] },
+  { ignores: ["**/*.mdx", "**/*.md", "**/*.gitignored.*"] },
 
   ...astro,
   ...solid,
@@ -12,6 +12,18 @@ export default [
     settings: {
       "better-tailwindcss": { entryPoint: "src/global-styles/base.css" },
     },
+  },
+
+  {
+    rules: { "unicorn/consistent-function-scoping": "off" },
+  },
+  {
+    files: ["**/*.astro"],
+    rules: { "no-undef": "off" },
+  },
+  {
+    files: ["**/*.tsx"],
+    rules: { "react/display-name": "off" },
   },
 
   {

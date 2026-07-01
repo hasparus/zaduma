@@ -31,11 +31,11 @@ export function Kbd(props: KbdProps) {
 
 function setDataPressedOnKeyDown(props: KbdProps, ref: HTMLElement) {
   const onKeyDown = (event: KeyboardEvent) => {
-    if (currentKeyPressed(props, event)) ref.setAttribute("data-pressed", "");
+    if (currentKeyPressed(props, event)) ref.dataset.pressed = "";
   };
 
   const onKeyUp = (event: KeyboardEvent) => {
-    if (currentKeyPressed(props, event)) ref.removeAttribute("data-pressed");
+    if (currentKeyPressed(props, event)) delete ref.dataset.pressed;
   };
 
   window.addEventListener("keydown", onKeyDown);
@@ -48,7 +48,7 @@ function setDataPressedOnKeyDown(props: KbdProps, ref: HTMLElement) {
 
 function currentKeyPressed(props: KbdProps, event: KeyboardEvent) {
   const { code, key } = parseKeys(event);
-  const children = props.children;
+  const { children } = props;
 
   return (
     props.code === code ||
