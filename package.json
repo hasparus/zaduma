@@ -56,7 +56,7 @@
     "@hasparus/eslint-config": "3.0.0",
     "@playwright/test": "1.60.0",
     "@types/hast": "3.0.4",
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.1.0",
     "cssnano": "^7.1.5",
     "eslint": "^10.6.0",
     "eslint-plugin-check-file": "3.3.1",
