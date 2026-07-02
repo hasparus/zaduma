@@ -95,8 +95,8 @@ importers:
         specifier: ^51.7.0
         version: 51.7.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(rollup@4.57.1)(typescript@5.8.3)
       yargs-parser:
-        specifier: ^21.1.1
-        version: 21.1.1
+        specifier: ^22.0.0
+        version: 22.0.0
     devDependencies:
       '@astrojs/rss':
         specifier: ^4.0.18
@@ -6051,10 +6051,6 @@ packages:
     resolution: {integrity: sha512-B3VqDZ+JAg1nZpaEmWtTXUlBneoGx6CPM9b0TENK6aoSu5t73dItudwdgmi6tHlIZZId4dZ9skcAQ2UbcyAeVA==}
     engines: {node: '>= 14'}
     hasBin: true
-
-  yargs-parser@21.1.1:
-    resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
-    engines: {node: '>=12'}
 
   yargs-parser@22.0.0:
     resolution: {integrity: sha512-rwu/ClNdSMpkSrUb+d6BRsSkLUq1fmfsY6TOpYzTwvwkg1/NRG85KBy3kq++A8LKQwX6lsu+aWad+2khvuXrqw==}
@@ -12830,8 +12826,6 @@ snapshots:
       yaml: 2.4.2
 
   yaml@2.4.2: {}
-
-  yargs-parser@21.1.1: {}
 
   yargs-parser@22.0.0: {}
 
