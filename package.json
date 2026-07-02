@@ -29,7 +29,7 @@
     "@fontsource-variable/brygada-1918": "^5.2.8",
     "@fontsource-variable/inter": "^5.2.8",
     "@mdx-js/mdx": "3.1.1",
-    "@shikijs/twoslash": "^3.22.0",
+    "@shikijs/twoslash": "^4.3.0",
     "@tailwindcss/postcss": "4.3.1",
     "@types/react": "^19.2.17",
     "@types/unist": "^3.0.3",
