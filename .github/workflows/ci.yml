@@ -96,7 +96,7 @@ jobs:
       - name: Deploy Preview to Vercel
         if:
           ${{ github.event_name != 'push' && github.event_name != 'workflow_dispatch' &&
-          (!github.event.pull_request.head.repo.fork ||
+          ((!github.event.pull_request.head.repo.fork && github.actor != 'dependabot[bot]') ||
           (github.event_name == 'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
@@ -104,7 +104,7 @@ jobs:
       - name: Create GitHub Preview Deployment
         if:
           ${{ github.event_name != 'push' && github.event_name != 'workflow_dispatch' &&
-          (!github.event.pull_request.head.repo.fork ||
+          ((!github.event.pull_request.head.repo.fork && github.actor != 'dependabot[bot]') ||
           (github.event_name == 'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         uses: chrnorm/deployment-action@500aa6a23c81ffa1acf71072aee3cfa2cc2e556a
@@ -132,7 +132,7 @@ jobs:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     if:
-      ${{ !github.event.pull_request.head.repo.fork ||
+      ${{ (!github.event.pull_request.head.repo.fork && github.actor != 'dependabot[bot]') ||
       (github.event_name == 'pull_request_target' &&
       contains(github.event.pull_request.labels.*.name, 'trusted')) }}
     steps:
