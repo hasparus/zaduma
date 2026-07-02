@@ -42,21 +42,21 @@
     "reading-time": "^1.5.0",
     "remark-supersub": "^1.0.0",
     "sharp": "0.32.6",
-    "shiki": "^3.22.0",
+    "shiki": "^4.3.0",
     "solid-js": "^1.8.17",
     "tailwindcss": "^4.3.1",
     "twoslash": "^0.3.8",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
     "vercel": "^51.7.0",
-    "yargs-parser": "^21.1.1"
+    "yargs-parser": "^22.0.0"
   },
   "devDependencies": {
     "@astrojs/rss": "^4.0.18",
     "@hasparus/eslint-config": "3.0.0",
     "@playwright/test": "1.60.0",
     "@types/hast": "3.0.4",
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.1.0",
     "cssnano": "^7.1.5",
     "eslint": "^10.6.0",
     "eslint-plugin-check-file": "3.3.1",
@@ -68,7 +68,7 @@
     "vite": "^8.1.2"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.9.5"
+    "@rollup/rollup-linux-x64-gnu": "4.62.2"
   },
   "pnpm": {
     "peerDependencyRules": {
