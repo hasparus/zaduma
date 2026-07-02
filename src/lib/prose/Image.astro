@@ -120,6 +120,11 @@ if (isRaw) {
   let imageForPlaceholder: Buffer;
   if (pathToImage.startsWith("http")) {
     const res = await fetch(pathToImage);
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch image ${pathToImage}: ${res.status} ${res.statusText}`,
+      );
+    }
     imageForPlaceholder = Buffer.from(await res.arrayBuffer());
   } else {
     // Resolve the source image from the project root. `pathToImage` is
