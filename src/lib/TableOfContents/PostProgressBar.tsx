@@ -26,14 +26,14 @@ export function PostProgressBar(props: { children: JSX.Element }) {
       disposeScrollListener();
       window.removeEventListener("resize", onScroll);
     });
-  }, []);
+  });
 
   return (
     <div class="relative">
       <div class="absolute -left-4 h-full w-[2px] overflow-hidden rounded-xs bg-gray-100 dark:bg-gray-800">
         <div
           class={
-            "absolute h-full w-full rounded-xs bg-gray-300 dark:bg-gray-700 " +
+            "absolute size-full rounded-xs bg-gray-300 dark:bg-gray-700 " +
             "-translate-y-(--y,100%) transition-transform duration-300 ease-linear"
           }
           ref={progressThumb}
@@ -56,13 +56,13 @@ function createScrollListener(callback: (scrollY: number) => void) {
     if (animatedKilled) return;
 
     const newPos = window.scrollY;
-    if (scrollY !== newPos) {
+    if (scrollY === newPos) {
+      window.addEventListener("scroll", animate);
+    } else {
       window.removeEventListener("scroll", animate);
       scrollY = window.scrollY;
       callback(scrollY);
       animate();
-    } else {
-      window.addEventListener("scroll", animate);
     }
   }
 

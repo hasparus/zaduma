@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-/* eslint-disable jsx-a11y/heading-has-content */
-
 import { Show, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";

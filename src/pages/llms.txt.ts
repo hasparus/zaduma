@@ -24,13 +24,14 @@ export const GET: APIRoute = ({ site }) => {
         new Date(a.frontmatter.date).getTime(),
     );
 
-  const lines: string[] = [];
-  lines.push(`# ${SITE_NAME}`);
-  lines.push("");
-  lines.push(`> ${SITE_BLURB}`);
-  lines.push("");
-  lines.push("## Posts");
-  lines.push("");
+  const lines: string[] = [
+    `# ${SITE_NAME}`,
+    "",
+    `> ${SITE_BLURB}`,
+    "",
+    "## Posts",
+    "",
+  ];
 
   for (const { frontmatter } of posts) {
     const url = new URL(frontmatter.path, site).href;

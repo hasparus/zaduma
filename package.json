@@ -35,8 +35,6 @@
     "@types/unist": "^3.0.3",
     "@vercel/og": "^0.6.2",
     "astro": "^6.4.6",
-    "astro-eslint-parser": "^1.4.0",
-    "eslint-plugin-markdown": "^5.0.0",
     "estree-util-value-to-estree": "^3.5.0",
     "gray-matter": "4.0.3",
     "plaiceholder": "^3.0.0",
@@ -44,23 +42,24 @@
     "reading-time": "^1.5.0",
     "remark-supersub": "^1.0.0",
     "sharp": "0.32.6",
-    "shiki": "^3.22.0",
+    "shiki": "^4.3.0",
     "solid-js": "^1.8.17",
     "tailwindcss": "^4.3.1",
     "twoslash": "^0.3.8",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
     "vercel": "^51.7.0",
-    "yargs-parser": "^21.1.1"
+    "yargs-parser": "^22.0.0"
   },
   "devDependencies": {
     "@astrojs/rss": "^4.0.18",
-    "@edgeandnode/eslint-config": "^2.0.3",
+    "@hasparus/eslint-config": "3.0.0",
     "@playwright/test": "1.60.0",
     "@types/hast": "3.0.4",
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.1.0",
     "cssnano": "^7.1.5",
-    "eslint": "^8.57.0",
+    "eslint": "^10.6.0",
+    "eslint-plugin-check-file": "3.3.1",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
@@ -69,7 +68,7 @@
     "vite": "^8.1.2"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.9.5"
+    "@rollup/rollup-linux-x64-gnu": "4.62.2"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -83,6 +82,9 @@
       "core-js-pure",
       "puppeteer",
       "sharp"
-    ]
+    ],
+    "patchedDependencies": {
+      "prettier-plugin-astro@0.14.0": "patches/prettier-plugin-astro@0.14.0.patch"
+    }
   }
 }
