@@ -5,21 +5,24 @@ export type ColorScheme = "light" | "dark" | /* system */ null;
 const setClass = (isDark: boolean) =>
   document.documentElement.classList.toggle("dark", isDark);
 
+const handleSchemeChange = (e: MediaQueryListEvent) => setClass(e.matches);
+
 export const setScheme = (scheme: ColorScheme): void => {
   {
     let isDark: boolean;
     if (scheme) {
-      if (window.ⲍ_schemeMql) window.ⲍ_schemeMql.onchange = null;
+      if (window.ⲍ_schemeMql)
+        window.ⲍ_schemeMql.removeEventListener("change", handleSchemeChange);
 
       isDark = scheme === "dark";
     } else {
       // This seems like a bug in TS ESLint.
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
       const mql = (window.ⲍ_schemeMql ||= window.matchMedia(
         "(prefers-color-scheme: dark)",
       ));
 
-      mql.onchange = (e) => setClass(e.matches);
+      mql.addEventListener("change", handleSchemeChange);
       isDark = mql.matches;
     }
 

@@ -38,9 +38,8 @@ export const remarkMdxReadingTimePlugin: RemarkPlugin<[]> = () => {
   return function transformer(tree, file) {
     const data = file.data as { astro: PostProps };
 
-    const readingTime = data.astro.frontmatter.readingTime;
+    const { readingTime } = data.astro.frontmatter;
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (readingTime === undefined) return;
 
     (tree as unist.Parent).children.unshift({

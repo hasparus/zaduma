@@ -1,0 +1,30 @@
+diff --git a/dist/index.js b/dist/index.js
+index 6b9f37eac7baa92be5d3a7d6e6054886f99dcac4..817f3c7381c67dfe07f5de53228c161c6e12e963 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -747,10 +747,21 @@ async function embedStyle(lang, content, path, print, textToDoc, options) {
+         case 'less':
+         case 'css':
+         case 'scss': {
+-            let formattedStyles = await wrapParserTryCatch(textToDoc, content, {
+-                ...options,
+-                parser: lang,
+-            });
++            let formattedStyles;
++            try {
++                formattedStyles = await textToDoc(content, {
++                    ...options,
++                    parser: lang,
++                });
++            }
++            catch {
++                const node = path.getNode();
++                return node
++                    ? Buffer.from(options.originalText)
++                        .subarray(options.locStart(node), options.locEnd(node))
++                        .toString()
++                    : undefined;
++            }
+             formattedStyles = stripTrailingHardline(formattedStyles);
+             const attributes = path.map(print, 'attributes');
+             const openingTag = group(['<style', indent(group(attributes)), softline, '>']);

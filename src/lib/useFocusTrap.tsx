@@ -12,8 +12,7 @@ export function useFocusTrap(ref: { current: HTMLElement | undefined }) {
 
       const focusableContent = modal.querySelectorAll(FOCUSABLE_ELEMENTS);
       const firstFocusableElement = focusableContent[0];
-      const lastFocusableElement =
-        focusableContent[focusableContent.length - 1];
+      const lastFocusableElement = [...focusableContent].at(-1);
 
       const isTabPressed = e.key === "Tab" || e.keyCode === 9;
 
@@ -22,23 +21,19 @@ export function useFocusTrap(ref: { current: HTMLElement | undefined }) {
       if (e.shiftKey) {
         if (
           document.activeElement === firstFocusableElement &&
-          lastFocusableElement
+          lastFocusableElement &&
+          "focus" in lastFocusableElement
         ) {
-          if ("focus" in lastFocusableElement) {
-            (lastFocusableElement as HTMLElement).focus();
-            e.preventDefault();
-          }
+          (lastFocusableElement as HTMLElement).focus();
+          e.preventDefault();
         }
-      } else {
-        if (
-          document.activeElement === lastFocusableElement &&
-          firstFocusableElement
-        ) {
-          if ("focus" in firstFocusableElement) {
-            (firstFocusableElement as HTMLElement).focus();
-            e.preventDefault();
-          }
-        }
+      } else if (
+        document.activeElement === lastFocusableElement &&
+        firstFocusableElement &&
+        "focus" in firstFocusableElement
+      ) {
+        (firstFocusableElement as HTMLElement).focus();
+        e.preventDefault();
       }
     };
 
