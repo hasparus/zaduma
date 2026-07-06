@@ -81,6 +81,7 @@ const websiteData = websiteSchema({
 
     <SocialCardMetaTags ogImage={ogImage} />
 
+    <meta property="og:url" content={canonical} />
     <link rel="canonical" href={canonical} />
     {
       isPostRoute && (
