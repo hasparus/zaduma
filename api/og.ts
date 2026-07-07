@@ -14,7 +14,7 @@ const author = {
 
 type Author = typeof author;
 
-export const config = { runtime: "edge" };
+export const config = { runtime: "nodejs" };
 
 const interRegular = fetchFont(
   new URL("../assets/og/Inter-Regular.ttf", import.meta.url)
