@@ -123,14 +123,14 @@ importers:
         specifier: 3.3.1
         version: 3.3.1(eslint@10.8.0(jiti@2.7.0))
       prettier:
-        specifier: ^3.8.3
-        version: 3.8.3
+        specifier: ^3.9.6
+        version: 3.9.6
       prettier-plugin-astro:
         specifier: ^0.14.0
         version: 0.14.0(patch_hash=b888d18555366707c73371350512c90ede5932314ae78c738e212b8e1a62435e)
       prettier-plugin-tailwindcss:
         specifier: ^0.8.0
-        version: 0.8.0(prettier-plugin-astro@0.14.0(patch_hash=b888d18555366707c73371350512c90ede5932314ae78c738e212b8e1a62435e))(prettier@3.8.3)
+        version: 0.8.0(prettier-plugin-astro@0.14.0(patch_hash=b888d18555366707c73371350512c90ede5932314ae78c738e212b8e1a62435e))(prettier@3.9.6)
       tsx:
         specifier: ^4.23.1
         version: 4.23.1
@@ -5131,8 +5131,8 @@ packages:
       prettier-plugin-svelte:
         optional: true
 
-  prettier@3.8.3:
-    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
+  prettier@3.9.6:
+    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -12004,16 +12004,16 @@ snapshots:
   prettier-plugin-astro@0.14.0(patch_hash=b888d18555366707c73371350512c90ede5932314ae78c738e212b8e1a62435e):
     dependencies:
       '@astrojs/compiler': 1.8.2
-      prettier: 3.8.3
+      prettier: 3.9.6
       sass-formatter: 0.7.9
 
-  prettier-plugin-tailwindcss@0.8.0(prettier-plugin-astro@0.14.0(patch_hash=b888d18555366707c73371350512c90ede5932314ae78c738e212b8e1a62435e))(prettier@3.8.3):
+  prettier-plugin-tailwindcss@0.8.0(prettier-plugin-astro@0.14.0(patch_hash=b888d18555366707c73371350512c90ede5932314ae78c738e212b8e1a62435e))(prettier@3.9.6):
     dependencies:
-      prettier: 3.8.3
+      prettier: 3.9.6
     optionalDependencies:
       prettier-plugin-astro: 0.14.0(patch_hash=b888d18555366707c73371350512c90ede5932314ae78c738e212b8e1a62435e)
 
-  prettier@3.8.3: {}
+  prettier@3.9.6: {}
 
   pretty-ms@7.0.1:
     dependencies:
