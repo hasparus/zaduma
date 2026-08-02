@@ -25,7 +25,7 @@
     "@astrojs/markdown-remark": "^7.2.0",
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/sitemap": "^3.7.3",
-    "@astrojs/solid-js": "^6.0.1",
+    "@astrojs/solid-js": "^7.0.1",
     "@fontsource-variable/brygada-1918": "^5.3.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@mdx-js/mdx": "3.1.1",
