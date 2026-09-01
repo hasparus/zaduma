@@ -6,6 +6,7 @@ import { transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig, envField } from "astro/config";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { ShikiTransformer } from "shiki";
 
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
 import { getHiddenPostPaths } from "./src/build-time/hiddenPostPaths";
@@ -53,7 +54,10 @@ export default defineConfig({
               types: ["node"],
             },
           },
-        }),
+          // @shikijs/twoslash still resolves its own @shikijs/types, so its
+          // ShikiTransformer is structurally identical to but nominally
+          // distinct from the one this project's shiki version expects.
+        }) as unknown as ShikiTransformer,
       ],
     },
     processor: unified({
