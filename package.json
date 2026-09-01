@@ -48,7 +48,7 @@
     "twoslash": "^0.3.8",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "vercel": "^58.4.0",
+    "vercel": "^59.10.0",
     "yargs-parser": "^22.0.0"
   },
   "devDependencies": {
