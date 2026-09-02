@@ -35,8 +35,8 @@ importers:
         specifier: 3.1.1
         version: 3.1.1
       '@shikijs/twoslash':
-        specifier: ^4.3.0
-        version: 4.3.0(typescript@5.9.3)
+        specifier: ^4.4.3
+        version: 4.4.3(typescript@5.9.3)
       '@tailwindcss/postcss':
         specifier: 4.3.1
         version: 4.3.1
@@ -1921,10 +1921,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@shikijs/core@4.3.0':
-    resolution: {integrity: sha512-EooU3i9F6IAE8kEu+AnGf9DFZWkQBZ+hJn3tLVbsH+61mtQiva5biai66fAA6nvFPXkLgvrh7BrR7YcJU83xQQ==}
-    engines: {node: '>=20'}
-
   '@shikijs/core@4.4.3':
     resolution: {integrity: sha512-QCR4q2ZO/ILJEuwiBMel4wdcTDb1JGwfjKTxPDF6x8ixOaluPrVqIn06C99AcRPhmYlBR56d/Fb+GN58GzExpg==}
     engines: {node: '>=20'}
@@ -1941,10 +1937,6 @@ packages:
     resolution: {integrity: sha512-ePic0yfAJGOF83D5wBHK/00EjK65oahBYxFk5epgq33WRv7X9UuxLEV8PtR0szC0z8dl7INIpIodB99JRFlR+A==}
     engines: {node: '>=20'}
 
-  '@shikijs/primitive@4.3.0':
-    resolution: {integrity: sha512-CPkz64PTa5diRW1ggzMZH9VM/du4RNChYgVtgqrFcgruvIybmCvySv8GkiHSczUHXYuuR8TdKEwFx+UnZMpgdg==}
-    engines: {node: '>=20'}
-
   '@shikijs/primitive@4.4.3':
     resolution: {integrity: sha512-m0wBeLDQDeIxRdUmrCPdQqfuUamDwRL5isCfYbguKD6NiaKpVbsv+3J81DyIKgNW5h4WAIIr8T4EkgQrBBxvaQ==}
     engines: {node: '>=20'}
@@ -1953,15 +1945,11 @@ packages:
     resolution: {integrity: sha512-w8UHjeUnIR965KMWJHUPXOc2mNJUnK3vpVLYLvw5IYU2mnTTJ89E24OrJDBNiJDQ0qzb0tc4l7mrIXx5cFeIyw==}
     engines: {node: '>=20'}
 
-  '@shikijs/twoslash@4.3.0':
-    resolution: {integrity: sha512-9tM/GWduKcWCU2jJIUqJZBxnyX/6iXtWov5rWmqcTnokHWIOxBL6nktx+HuzqB7/v3ApTahKT/TfRqBl+mFsOQ==}
+  '@shikijs/twoslash@4.4.3':
+    resolution: {integrity: sha512-m7HNzunEIHRk1jCya3ngGsO3+8pYxrPIIxtdJewg/W8ceW/+m/mSsm4jM3L9DvYYNa8Rvbu7Dabt3BOpCclz8Q==}
     engines: {node: '>=20'}
     peerDependencies:
       typescript: '>=5.5.0'
-
-  '@shikijs/types@4.3.0':
-    resolution: {integrity: sha512-oc8b9U2SYvofKZk8e/737nIX0qwf6eV2vHFATeObAu7r+mUVpLs8Re0BmVkIjAWAYgkmG/CzLNo7rzuBzRu/wQ==}
-    engines: {node: '>=20'}
 
   '@shikijs/types@4.4.3':
     resolution: {integrity: sha512-UEJxmRR++MAGR6hugn0vgVS2W/6lWAts84FFSrnlH9sP0LNol7E5+NQ792pH8liWUhyMyjhTgSUH3k7iD7tc5g==}
@@ -7955,14 +7943,6 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.57.1':
     optional: true
 
-  '@shikijs/core@4.3.0':
-    dependencies:
-      '@shikijs/primitive': 4.3.0
-      '@shikijs/types': 4.3.0
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.4
-      hast-util-to-html: 9.0.5
-
   '@shikijs/core@4.4.3':
     dependencies:
       '@shikijs/primitive': 4.4.3
@@ -7986,12 +7966,6 @@ snapshots:
     dependencies:
       '@shikijs/types': 4.4.3
 
-  '@shikijs/primitive@4.3.0':
-    dependencies:
-      '@shikijs/types': 4.3.0
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.4
-
   '@shikijs/primitive@4.4.3':
     dependencies:
       '@shikijs/types': 4.4.3
@@ -8002,19 +7976,14 @@ snapshots:
     dependencies:
       '@shikijs/types': 4.4.3
 
-  '@shikijs/twoslash@4.3.0(typescript@5.9.3)':
+  '@shikijs/twoslash@4.4.3(typescript@5.9.3)':
     dependencies:
-      '@shikijs/core': 4.3.0
-      '@shikijs/types': 4.3.0
+      '@shikijs/core': 4.4.3
+      '@shikijs/types': 4.4.3
       twoslash: 0.3.9(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
-
-  '@shikijs/types@4.3.0':
-    dependencies:
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.4
 
   '@shikijs/types@4.4.3':
     dependencies:
