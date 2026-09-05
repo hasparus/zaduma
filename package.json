@@ -48,7 +48,7 @@
     "twoslash": "^0.3.8",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "vercel": "^58.4.0",
+    "vercel": "^59.10.0",
     "yargs-parser": "^22.0.0"
   },
   "devDependencies": {
@@ -65,7 +65,7 @@
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tsx": "^4.23.1",
     "typescript": "^5.9.3",
-    "vite": "^8.1.2"
+    "vite": "^8.2.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.63.1"
