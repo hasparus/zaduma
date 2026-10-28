@@ -1,21 +1,42 @@
 ---
 interface Props {
   ogImage: string | undefined;
+  ogVideo?: string | undefined;
 }
 
-let { ogImage } = Astro.props;
+let { ogImage, ogVideo } = Astro.props;
 
-ogImage &&= ogImage.startsWith("/api/og")
-  ? new URL(ogImage, import.meta.env.PUBLIC_URL).href
-  : ogImage;
+const absolute = (url: string) =>
+  url.startsWith("/") ? new URL(url, import.meta.env.PUBLIC_URL).href : url;
+
+ogImage &&= ogImage.startsWith("/api/og") ? absolute(ogImage) : ogImage;
 ---
 
 {
   ogImage && (
     <>
       <meta property="og:image" content={ogImage} />
-      <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image" content={ogImage} />
     </>
+  )
+}
+{
+  ogVideo ? (
+    <>
+      <meta property="og:video" content={absolute(ogVideo)} />
+      <meta property="og:video:secure_url" content={absolute(ogVideo)} />
+      <meta property="og:video:type" content="video/mp4" />
+      <meta property="og:video:width" content="1200" />
+      <meta property="og:video:height" content="630" />
+      <meta name="twitter:card" content="player" />
+      <meta
+        name="twitter:player"
+        content={absolute(`/og/player/?v=${encodeURIComponent(ogVideo)}`)}
+      />
+      <meta name="twitter:player:width" content="1200" />
+      <meta name="twitter:player:height" content="630" />
+    </>
+  ) : (
+    ogImage && <meta name="twitter:card" content="summary_large_image" />
   )
 }

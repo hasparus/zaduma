@@ -1,0 +1,36 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta name="viewport" content="width=device-width" />
+    <title>video</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #000;
+      }
+      video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <video autoplay loop muted playsinline></video>
+    <script is:inline>
+      const src = new URL(
+        new URLSearchParams(location.search).get("v") ?? "",
+        location.origin,
+      );
+      if (
+        src.origin === location.origin &&
+        src.pathname.startsWith("/content/")
+      )
+        document.querySelector("video").src = src.pathname;
+    </script>
+  </body>
+</html>

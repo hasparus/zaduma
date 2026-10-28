@@ -72,8 +72,10 @@ export default defineConfig({
     }),
     solidJs(),
     sitemap({
-      filter: (page) =>
-        !hiddenPaths.has(stripTrailingSlash(new URL(page).pathname)),
+      filter: (page) => {
+        const pathname = stripTrailingSlash(new URL(page).pathname);
+        return !hiddenPaths.has(pathname) && !pathname.startsWith("/og/");
+      },
     }),
   ],
   vite: {

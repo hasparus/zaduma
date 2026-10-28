@@ -25,9 +25,10 @@ interface Props {
   description: string;
   children: astroHTML.JSX.Element;
   ogImage?: string;
+  ogVideo?: string;
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, ogVideo } = Astro.props;
 
 const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
   "../../posts/**/*.mdx",
@@ -79,7 +80,7 @@ const websiteData = websiteSchema({
       ))
     }
 
-    <SocialCardMetaTags ogImage={ogImage} />
+    <SocialCardMetaTags ogImage={ogImage} ogVideo={ogVideo} />
 
     <meta property="og:url" content={canonical} />
     <link rel="canonical" href={canonical} />
