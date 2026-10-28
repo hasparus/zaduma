@@ -103,7 +103,7 @@ function makePublicURL() {
   }
 
   // If the site is built on vercel, we can just use VERCEL_URL.
-  if (VERCEL_URL) return VERCEL_URL;
+  if (VERCEL_URL) return `https://${VERCEL_URL}/`;
 
   if (!DEPLOYMENT_ALIAS) {
     // If there's no DEPLOYMENT_ALIAS nor VERCEL_URL, we assume we're building locally.

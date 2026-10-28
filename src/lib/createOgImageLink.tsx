@@ -4,9 +4,19 @@ import { createHmac } from "node:crypto";
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
 
+/** Normalizes `img` frontmatter, rejecting an `ogVideo` the /og/player page won't play. */
+export function postImages({ img }: PostFrontmatter) {
+  const { og, src, ogVideo } = typeof img === "object" ? img : { src: img };
+  if (ogVideo !== undefined && !/^\/content\/.+\.mp4$/.test(ogVideo)) {
+    throw new Error(
+      `img.ogVideo must be a /content/<slug>/<name>.mp4 path under public/, got "${ogVideo}"`,
+    );
+  }
+  return { og: og || src, ogVideo, src };
+}
+
 export function createOgImageLink(frontmatter: PostFrontmatter) {
-  let { img } = frontmatter;
-  if (typeof img === "object") img = img.og || img.src;
+  const img = postImages(frontmatter).og;
 
   const timestamp = new Date(frontmatter.date).getTime();
   const { minutes } = frontmatter.readingTime;

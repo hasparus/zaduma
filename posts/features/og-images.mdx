@@ -9,16 +9,19 @@ Links:
 - https://vercel.com/docs/concepts/functions/edge-functions/og-image-api
 - https://vercel.com/docs/concepts/functions/edge-functions/edge-functions-api
 
-For a looping video card, put a 1200×630 mp4 in `public/` and point
-`img.ogVideo` at it. The generated image stays its still frame.
+For a looping video card, put a 1200×630 mp4 at `public/content/<slug>/og.mp4`
+and point `img.ogVideo` at it. The build fails on paths outside `/content/`. The
+generated image stays its still frame.
 
 ```yaml
 img:
   ogVideo: /content/my-post/og.mp4
 ```
 
-It emits `og:video` for Discord, Telegram, and iMessage, and an X player card
-that loops it in `/og/player/`.
+It emits `og:video` for Discord, Telegram, and iMessage. X needs a
+`twitter:site` handle for player cards, so set `X_HANDLE` in
+`src/lib/siteMeta.tsx`; then posts with a video also get an X player card that
+loops it in `/og/player/`, and without it they keep `summary_large_image`.
 
 You can test your social cards with
 

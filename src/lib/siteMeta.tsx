@@ -6,3 +6,5 @@
 export const SITE_NAME = "Zaduma";
 export const SITE_BLURB =
   "An Astro starter template for understated personal websites.";
+/** Emitted as `twitter:site`. X player cards (from `img.ogVideo`) need it; without it, posts fall back to `summary_large_image`. */
+export const X_HANDLE: string | undefined = "@hasparus";

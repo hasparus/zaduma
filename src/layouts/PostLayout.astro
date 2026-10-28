@@ -1,7 +1,7 @@
 ---
 import type { MarkdownHeading, MDXInstance } from "astro";
 
-import { createOgImageLink } from "../lib/createOgImageLink";
+import { createOgImageLink, postImages } from "../lib/createOgImageLink";
 import { formatDate } from "../lib/formatDate";
 import Image from "../lib/prose/Image.astro";
 import { blogPostingSchema } from "../lib/seo/jsonLd";
@@ -21,12 +21,9 @@ interface Props extends Omit<MDXInstance<{}>, "frontmatter"> {
 const { frontmatter, headings } = Astro.props;
 
 const ogImage = createOgImageLink(frontmatter);
-const ogVideo =
-  typeof frontmatter.img === "object" ? frontmatter.img.ogVideo : undefined;
+const { ogVideo, src: imgSrc } = postImages(frontmatter);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
-const imgSrc =
-  typeof frontmatter.img === "object" ? frontmatter.img.src : frontmatter.img;
 const description = frontmatter.description || ""
 
 const canonical = Astro.site
