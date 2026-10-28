@@ -11,6 +11,8 @@ import {
   For,
 } from "solid-js";
 
+import { bind, play } from "cuelume";
+
 import { type ColorScheme, setScheme } from "./color-scheme";
 import {
   CommandCenter,
@@ -28,16 +30,21 @@ import { isMac } from "./isMac";
 import { Kbd } from "./Kbd";
 import { parseKeys } from "./parseKeys";
 import { Shortcut } from "./Shortcut";
+import { isSoundOn, setSound } from "./sound";
 
 const INPUT_ID = "command-input";
 
 export function Commands(props: { posts: { title: string; href: string }[] }) {
   const [clientside, setClientside] = createSignal(false);
   onMount(() => setClientside(true)); // workaround for Astro + Solid Hydration issue
+  onMount(() => onCleanup(bind()));
 
   return (
     <CommandCenter inputId={INPUT_ID}>
-      <CommandCenterTrigger class="zaduma-hover-before -mx-4 size-12 rounded-xs dark:text-gray-400 dark:hover:text-gray-300" />
+      <CommandCenterTrigger
+        data-cuelume-tap
+        class="zaduma-hover-before -mx-4 size-12 rounded-xs dark:text-gray-400 dark:hover:text-gray-300"
+      />
       <Show when={clientside()} keyed>
         <CommandsPalette posts={props.posts} />
       </Show>
@@ -52,6 +59,7 @@ export function CommandsPalette(props: {
   const { getInputValue } = useCommandCenterCtx();
 
   const [page, setPage] = createSignal<CommandsPage>();
+  const [soundOn, setSoundOn] = createSignal(isSoundOn());
   let dialog: HTMLDialogElement | undefined;
 
   const setColorScheme = (scheme: ColorScheme) => {
@@ -110,6 +118,15 @@ export function CommandsPalette(props: {
     ["2", () => setColorScheme("dark")],
     ["3", () => setColorScheme(null)],
     [
+      "alt+s",
+      () => {
+        const on = !soundOn();
+        setSound(on);
+        setSoundOn(on);
+        if (on) void play("tap");
+      },
+    ],
+    [
       "alt+slash",
       () => {
         if (dialog && !dialog.open) dialog.showModal();
@@ -152,7 +169,10 @@ export function CommandsPalette(props: {
       class="relative mx-auto w-96 max-w-full transform flex-col overflow-hidden rounded-xl bg-white p-0 shadow-2xl ring-1 ring-black/5 transition-all backdrop:bg-white/30 open:flex dark:bg-gray-900 dark:backdrop:bg-black/30"
     >
       <div class="flex justify-end">
-        <DialogCloseButton class="group cursor-pointer p-2 focus:outline-hidden">
+        <DialogCloseButton
+          data-cuelume-tap
+          class="group cursor-pointer p-2 focus:outline-hidden"
+        >
           <Kbd aria-hidden>esc</Kbd>
           <span class="sr-only">Close</span>
         </DialogCloseButton>
@@ -170,6 +190,9 @@ export function CommandsPalette(props: {
             <>
               <CommandItem shortcut="alt+t" onClick={handleShortcut}>
                 Set Theme
+              </CommandItem>
+              <CommandItem shortcut="alt+s" onClick={handleShortcut}>
+                {soundOn() ? "Turn Sound Off" : "Turn Sound On"}
               </CommandItem>
               <CommandGroup heading={<GroupHeading>Posts</GroupHeading>}>
                 <CommandItem shortcut="alt+slash" onClick={handleShortcut}>
@@ -245,6 +268,7 @@ function CommandItem(props: CommandItemProps) {
     <CommandCenterItem
       class="zaduma-hover-before relative flex w-full cursor-pointer justify-between p-2 text-gray-700 focus-visible:outline-black dark:text-gray-300"
       tabIndex={-1}
+      data-cuelume-tap
       onClick={() => {
         if (own.shortcut) own.onClick!(own.shortcut);
       }}
