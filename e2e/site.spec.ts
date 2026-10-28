@@ -93,6 +93,24 @@ test.describe("OG images", () => {
     const ogImage = page.locator('meta[property="og:image"]');
     await expect(ogImage).toHaveAttribute("content", /.+/);
   });
+
+  test("a post with img.ogVideo gets og:video and an X player card", async ({
+    page,
+    request,
+  }) => {
+    await page.goto("/features/og-images/");
+    const meta = (attribute: string) =>
+      page.locator(`meta[${attribute}]`).getAttribute("content");
+    expect(await meta('name="twitter:card"')).toBe("player");
+    const video = new URL((await meta('property="og:video"'))!);
+    expect(
+      (await request.get(video.pathname)).headers()["content-type"],
+    ).toMatch(/^video\/mp4/);
+
+    const player = new URL((await meta('name="twitter:player"'))!);
+    await page.goto(player.pathname);
+    await expect(page.locator("video")).toHaveAttribute("src", video.pathname);
+  });
 });
 
 test("homepage is readable on mobile", async ({ page }, testInfo) => {

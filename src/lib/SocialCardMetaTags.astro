@@ -1,21 +1,56 @@
 ---
+import type { SocialCard } from "./createOgImageLink";
+import { X_HANDLE } from "./siteMeta";
+
 interface Props {
-  ogImage: string | undefined;
+  title: string;
+  socialCard: SocialCard | undefined;
 }
 
-let { ogImage } = Astro.props;
+const { title, socialCard } = Astro.props;
 
-ogImage &&= ogImage.startsWith("/api/og")
-  ? new URL(ogImage, import.meta.env.PUBLIC_URL).href
-  : ogImage;
+const absolute = (url: string) =>
+  url.startsWith("/") ? new URL(url, import.meta.env.PUBLIC_URL).href : url;
 ---
 
+<meta property="og:title" content={title} />
+<meta name="twitter:title" content={title} />
+{X_HANDLE && <meta name="twitter:site" content={X_HANDLE} />}
 {
-  ogImage && (
+  socialCard && (
     <>
-      <meta property="og:image" content={ogImage} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content={ogImage} />
+      <meta property="og:image" content={absolute(socialCard.image)} />
+      <meta name="twitter:image" content={absolute(socialCard.image)} />
+      <meta
+        name="twitter:card"
+        content={
+          socialCard.video && X_HANDLE ? "player" : "summary_large_image"
+        }
+      />
+    </>
+  )
+}
+{
+  socialCard?.video && (
+    <>
+      <meta property="og:video" content={absolute(socialCard.video.src)} />
+      <meta
+        property="og:video:secure_url"
+        content={absolute(socialCard.video.src)}
+      />
+      <meta property="og:video:type" content="video/mp4" />
+      <meta property="og:video:width" content="1200" />
+      <meta property="og:video:height" content="630" />
+      {X_HANDLE && (
+        <>
+          <meta
+            name="twitter:player"
+            content={absolute(socialCard.video.player)}
+          />
+          <meta name="twitter:player:width" content="1200" />
+          <meta name="twitter:player:height" content="630" />
+        </>
+      )}
     </>
   )
 }
