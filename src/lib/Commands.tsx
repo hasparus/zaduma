@@ -11,7 +11,7 @@ import {
   For,
 } from "solid-js";
 
-import { bind, unlock } from "cuelume";
+import { bind, play } from "cuelume";
 
 import { type ColorScheme, setScheme } from "./color-scheme";
 import {
@@ -123,7 +123,7 @@ export function CommandsPalette(props: {
         const on = !soundOn();
         setSound(on);
         setSoundOn(on);
-        if (on) void unlock();
+        if (on) void play("tap");
       },
     ],
     [

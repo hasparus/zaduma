@@ -14,9 +14,8 @@ export function setSound(on: boolean) {
   setEnabled(on);
   try {
     localStorage.setItem(STORAGE_KEY, on ? "on" : "off");
-    return true;
   } catch {
-    return false;
+    // Sound still follows `on` until the page reloads.
   }
 }
 
