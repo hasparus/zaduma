@@ -15,6 +15,29 @@ export function postImages({ img }: PostFrontmatter) {
   return { og: og || src, ogVideo, src };
 }
 
+export interface SocialCard {
+  image: string;
+  /** A looping mp4 and the page X's player card embeds to play it. */
+  video?: { player: string; src: string };
+}
+
+/** The `[...path]` param of a post's /og/player page. */
+export const playerParamOf = ({ path }: PostFrontmatter) =>
+  path.replace(/^\//, "");
+
+export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
+  const { ogVideo } = postImages(frontmatter);
+  return {
+    image: createOgImageLink(frontmatter),
+    ...(ogVideo && {
+      video: {
+        player: `/og/player/${playerParamOf(frontmatter)}/`,
+        src: ogVideo,
+      },
+    }),
+  };
+}
+
 export function createOgImageLink(frontmatter: PostFrontmatter) {
   const img = postImages(frontmatter).og;
 

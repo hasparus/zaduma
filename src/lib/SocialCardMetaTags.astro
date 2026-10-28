@@ -1,55 +1,56 @@
 ---
+import type { SocialCard } from "./createOgImageLink";
 import { X_HANDLE } from "./siteMeta";
 
 interface Props {
   title: string;
-  ogImage: string | undefined;
-  ogVideo: string | undefined;
+  socialCard: SocialCard | undefined;
 }
 
-const { title, ogImage, ogVideo } = Astro.props;
+const { title, socialCard } = Astro.props;
 
 const absolute = (url: string) =>
   url.startsWith("/") ? new URL(url, import.meta.env.PUBLIC_URL).href : url;
-
-const image = ogImage && absolute(ogImage);
-const video = ogVideo && absolute(ogVideo);
-const card =
-  video && X_HANDLE ? "player" : image ? "summary_large_image" : undefined;
 ---
 
 <meta property="og:title" content={title} />
 <meta name="twitter:title" content={title} />
 {X_HANDLE && <meta name="twitter:site" content={X_HANDLE} />}
-{card && <meta name="twitter:card" content={card} />}
 {
-  image && (
+  socialCard && (
     <>
-      <meta property="og:image" content={image} />
-      <meta name="twitter:image" content={image} />
+      <meta property="og:image" content={absolute(socialCard.image)} />
+      <meta name="twitter:image" content={absolute(socialCard.image)} />
+      <meta
+        name="twitter:card"
+        content={
+          socialCard.video && X_HANDLE ? "player" : "summary_large_image"
+        }
+      />
     </>
   )
 }
 {
-  video && (
+  socialCard?.video && (
     <>
-      <meta property="og:video" content={video} />
-      <meta property="og:video:secure_url" content={video} />
+      <meta property="og:video" content={absolute(socialCard.video.src)} />
+      <meta
+        property="og:video:secure_url"
+        content={absolute(socialCard.video.src)}
+      />
       <meta property="og:video:type" content="video/mp4" />
       <meta property="og:video:width" content="1200" />
       <meta property="og:video:height" content="630" />
-    </>
-  )
-}
-{
-  card === "player" && (
-    <>
-      <meta
-        name="twitter:player"
-        content={absolute(`/og/player/?v=${encodeURIComponent(ogVideo!)}`)}
-      />
-      <meta name="twitter:player:width" content="1200" />
-      <meta name="twitter:player:height" content="630" />
+      {X_HANDLE && (
+        <>
+          <meta
+            name="twitter:player"
+            content={absolute(socialCard.video.player)}
+          />
+          <meta name="twitter:player:width" content="1200" />
+          <meta name="twitter:player:height" content="630" />
+        </>
+      )}
     </>
   )
 }

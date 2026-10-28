@@ -119,7 +119,9 @@ jobs:
           environment: Preview
           production-environment: false
           initial-status: success
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          ref:
+            "${{ github.event_name == 'pull_request' && github.sha ||
+            github.event.pull_request.merge_commit_sha }}"
 
       - name: Create GitHub Production Deployment
         if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main' }}

@@ -1,5 +1,6 @@
 /**
- * Override these per-site. Consumed by BaseLayout (JSON-LD WebSite),
+ * Override these per-site. `X_HANDLE` ships as the template author's: replace it
+ * with yours or set it to `undefined`. Consumed by BaseLayout (JSON-LD WebSite),
  * llms.txt, and llms-full.txt. Consumers may extend this module with
  * an AUTHOR and thread it through PostLayout / rss.
  */

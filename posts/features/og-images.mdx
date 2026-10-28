@@ -1,5 +1,7 @@
 ---
 title: "OG Images"
+img:
+  ogVideo: /content/og-images/og.mp4
 ---
 
 Links:
@@ -18,10 +20,14 @@ img:
   ogVideo: /content/my-post/og.mp4
 ```
 
+This post has one. Share it on Discord or X to see it loop.
+
 It emits `og:video` for Discord, Telegram, and iMessage. X needs a
-`twitter:site` handle for player cards, so set `X_HANDLE` in
-`src/lib/siteMeta.tsx`; then posts with a video also get an X player card that
-loops it in `/og/player/`, and without it they keep `summary_large_image`.
+`twitter:site` handle for player cards. `X_HANDLE` in `src/lib/siteMeta.tsx`
+ships as the template author's, so replace it with your own handle, or set it to
+`undefined` to drop `twitter:site` and keep `summary_large_image`. With a
+handle, posts with a video also get an X player card that loops it on a
+generated `/og/player/<post>/` page.
 
 You can test your social cards with
 
