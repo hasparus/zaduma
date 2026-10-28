@@ -23,8 +23,13 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          # Empty on push/workflow_dispatch — falls back to default ref
-          ref: "${{ github.event.pull_request.merge_commit_sha }}"
+          # On `pull_request`, github.sha is this push's merge commit; the
+          # payload's merge_commit_sha can still point at the previous push's.
+          # `pull_request_target` runs on the base, so it needs the payload's.
+          # Empty on push/workflow_dispatch — falls back to default ref.
+          ref:
+            "${{ github.event_name == 'pull_request' && github.sha ||
+            github.event.pull_request.merge_commit_sha }}"
 
       - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
 
