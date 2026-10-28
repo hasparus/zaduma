@@ -4,6 +4,8 @@ import { createHmac } from "node:crypto";
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
 
+import { routeParamOf } from "./posts";
+
 /** Normalizes `img` frontmatter, rejecting an `ogVideo` that isn't the mp4 `og:video:type` announces. */
 export function postImages({ img }: PostFrontmatter) {
   const { og, src, ogVideo } = typeof img === "object" ? img : { src: img };
@@ -25,7 +27,7 @@ export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
     image: createOgImageLink(frontmatter),
     ...(ogVideo && {
       video: {
-        player: `/og/player${frontmatter.path}/`,
+        player: `/og/player/${routeParamOf(frontmatter)}/`,
         src: ogVideo,
       },
     }),

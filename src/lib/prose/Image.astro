@@ -78,7 +78,7 @@ if (isRaw) {
 
   if (src.startsWith(PUBLIC_IMAGES_PREFIX)) {
     const globbed = import.meta.glob<false, string, { default: ImageMetadata }>(
-      "../../../public/content/**/*",
+      "../../../public/content/**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
     );
     const path = "../../../public" + src;
     const importedModule = await globbed[path]!();
