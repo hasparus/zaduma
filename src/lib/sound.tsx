@@ -29,37 +29,59 @@ export function setSound(on: boolean) {
   }
 }
 
-let context: AudioContext | undefined;
-let noise: AudioBuffer | undefined;
+let audio:
+  | { context: AudioContext; noise: AudioBuffer; output: GainNode }
+  | null
+  | undefined;
 
+function setUpAudio() {
+  const context = new AudioContext();
+  const noise = context.createBuffer(1, context.sampleRate, context.sampleRate);
+  const samples = noise.getChannelData(0);
+  for (let i = 0; i < samples.length; i++) samples[i] = Math.random() * 2 - 1;
+  const output = context.createGain();
+  output.gain.value = VOLUME;
+  output.connect(context.destination);
+  return { context, noise, output };
+}
+
+/** The shared audio graph, resumed if the browser suspended or interrupted it; `null` without Web Audio. */
 function resumed() {
-  context ??= new AudioContext();
-  if (context.state === "suspended") void context.resume();
-  return context;
+  if (audio === undefined) {
+    try {
+      audio = setUpAudio();
+    } catch {
+      audio = null;
+    }
+  }
+  if (audio && audio.context.state !== "running") void resume(audio.context);
+  return audio;
+}
+
+async function resume(context: AudioContext) {
+  try {
+    await context.resume();
+  } catch {
+    // Outside a gesture the browser accepts; the next click tries again.
+  }
 }
 
 /** Plays the click, if sound is on. */
 export function tap() {
   if (!soundOn) return;
-  const audio = resumed();
-  if (!noise) {
-    noise = audio.createBuffer(1, audio.sampleRate, audio.sampleRate);
-    const samples = noise.getChannelData(0);
-    for (let i = 0; i < samples.length; i++) samples[i] = Math.random() * 2 - 1;
-  }
+  const graph = resumed();
+  if (!graph) return;
+  const { context, noise, output } = graph;
 
-  const start = audio.currentTime;
-  const output = audio.createGain();
-  output.gain.value = VOLUME;
-  output.connect(audio.destination);
+  const start = context.currentTime;
   for (const { frequency, peak, q } of CLICK) {
-    const source = audio.createBufferSource();
+    const source = context.createBufferSource();
     source.buffer = noise;
-    const filter = audio.createBiquadFilter();
+    const filter = context.createBiquadFilter();
     filter.type = "bandpass";
     filter.frequency.value = frequency;
     filter.Q.value = q;
-    const gain = audio.createGain();
+    const gain = context.createGain();
     gain.gain.setValueAtTime(0, start);
     gain.gain.linearRampToValueAtTime(peak, start + ATTACK);
     gain.gain.setTargetAtTime(0, start + ATTACK, DECAY / (3 * Math.LN10));
