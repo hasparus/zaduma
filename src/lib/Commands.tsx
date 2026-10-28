@@ -28,6 +28,7 @@ import { isMac } from "./isMac";
 import { Kbd } from "./Kbd";
 import { parseKeys } from "./parseKeys";
 import { Shortcut } from "./Shortcut";
+import { tap } from "./tap";
 
 const INPUT_ID = "command-input";
 
@@ -246,6 +247,7 @@ function CommandItem(props: CommandItemProps) {
       class="zaduma-hover-before relative flex w-full cursor-pointer justify-between p-2 text-gray-700 focus-visible:outline-black dark:text-gray-300"
       tabIndex={-1}
       onClick={() => {
+        tap();
         if (own.shortcut) own.onClick!(own.shortcut);
       }}
       {...rest}

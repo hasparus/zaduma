@@ -1,5 +1,6 @@
 import { createEffect, type JSX, splitProps } from "solid-js";
 
+import { tap } from "./tap";
 import { useFocusTrap } from "./useFocusTrap";
 
 export interface DialogProps extends JSX.DialogHtmlAttributes<HTMLDialogElement> {
@@ -63,6 +64,7 @@ export function DialogCloseButton(props: DialogCloseButtonProps) {
   return (
     <button
       onClick={(event) => {
+        tap();
         event.currentTarget.closest("dialog")?.close("dismiss");
       }}
       {...props}

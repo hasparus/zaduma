@@ -15,6 +15,7 @@ import {
 } from "solid-js";
 
 import { Dialog, type DialogProps } from "./Dialog";
+import { tap } from "./tap";
 
 type CommandCenterCtx = {
   listId: string;
@@ -56,6 +57,7 @@ export function CommandCenterTrigger(props: CommandCenterTriggerProps) {
       {...props}
       aria-label="Open command palette"
       onClick={(event) => {
+        tap();
         ctx.open();
         props.onClick?.(event);
       }}
