@@ -52,9 +52,6 @@ importers:
       astro:
         specifier: ^6.4.6
         version: 6.4.6(@types/node@26.6.3)(@vercel/blob@2.8.0)(jiti@2.7.0)(lightningcss@1.33.0)(rollup@4.57.1)(tsx@4.23.1)(yaml@2.4.2)
-      cuelume:
-        specifier: 0.2.8
-        version: 0.2.8
       estree-util-value-to-estree:
         specifier: ^3.5.0
         version: 3.5.0
@@ -3227,9 +3224,6 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
-
-  cuelume@0.2.8:
-    resolution: {integrity: sha512-jnwAdMMUK4emaUWRd9l2RjpfixAMFOFrVkjoVK59FIfk7D3Vuvt+vBBJvU/J+2EiXrDlduialwDKJZorS5Nxqg==}
 
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
@@ -9864,8 +9858,6 @@ snapshots:
       css-tree: 2.2.1
 
   csstype@3.2.3: {}
-
-  cuelume@0.2.8: {}
 
   damerau-levenshtein@1.0.8: {}
 
