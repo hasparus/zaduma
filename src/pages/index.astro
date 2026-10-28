@@ -2,17 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate } from "../lib/formatDate";
 import { Link } from "../lib/Link";
-import { visiblePosts } from "../lib/posts";
+import { visiblePosts as posts } from "../lib/posts";
 import { Paragraph } from "../lib/prose/Paragraph";
-
-const posts = [...visiblePosts];
-
-posts.sort((a, b) => {
-  return (
-    new Date(b.frontmatter.date).getTime() -
-    new Date(a.frontmatter.date).getTime()
-  );
-});
 ---
 
 <BaseLayout

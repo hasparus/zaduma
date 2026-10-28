@@ -1,18 +1,12 @@
 import type { APIRoute } from "astro";
 
-import { visiblePosts } from "../lib/posts";
+import { visiblePosts as posts } from "../lib/posts";
 import { SITE_BLURB, SITE_NAME } from "../lib/siteMeta";
 
 export const GET: APIRoute = ({ site }) => {
   if (!site) {
     throw new Error("`site` must be set in astro.config for llms.txt");
   }
-
-  const posts = [...visiblePosts].sort(
-    (a, b) =>
-      new Date(b.frontmatter.date).getTime() -
-      new Date(a.frontmatter.date).getTime(),
-  );
 
   const lines: string[] = [
     `# ${SITE_NAME}`,

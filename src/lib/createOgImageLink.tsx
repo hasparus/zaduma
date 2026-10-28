@@ -4,13 +4,11 @@ import { createHmac } from "node:crypto";
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
 
-/** Normalizes `img` frontmatter, rejecting an `ogVideo` the /og/player page won't play. */
+/** Normalizes `img` frontmatter, rejecting an `ogVideo` that isn't the mp4 `og:video:type` announces. */
 export function postImages({ img }: PostFrontmatter) {
   const { og, src, ogVideo } = typeof img === "object" ? img : { src: img };
-  if (ogVideo !== undefined && !/^\/content\/.+\.mp4$/.test(ogVideo)) {
-    throw new Error(
-      `img.ogVideo must be a /content/<slug>/<name>.mp4 path under public/, got "${ogVideo}"`,
-    );
+  if (ogVideo !== undefined && !/\.mp4$/.test(ogVideo)) {
+    throw new Error(`img.ogVideo must be an .mp4, got "${ogVideo}"`);
   }
   return { og: og || src, ogVideo, src };
 }
@@ -21,17 +19,13 @@ export interface SocialCard {
   video?: { player: string; src: string };
 }
 
-/** The `[...path]` param of a post's /og/player page. */
-export const playerParamOf = ({ path }: PostFrontmatter) =>
-  path.replace(/^\//, "");
-
 export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
   const { ogVideo } = postImages(frontmatter);
   return {
     image: createOgImageLink(frontmatter),
     ...(ogVideo && {
       video: {
-        player: `/og/player/${playerParamOf(frontmatter)}/`,
+        player: `/og/player${frontmatter.path}/`,
         src: ogVideo,
       },
     }),

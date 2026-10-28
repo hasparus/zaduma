@@ -9,6 +9,18 @@ const postModules = import.meta.glob<MDXInstance<PostFrontmatter>>(
   { eager: true },
 );
 
-export const visiblePosts = Object.values(postModules).filter((post) =>
-  isPostVisible(post.frontmatter, { isProd: import.meta.env.PROD }),
-);
+/** Posts visible in this build, newest first. */
+export const visiblePosts: readonly MDXInstance<PostFrontmatter>[] =
+  Object.values(postModules)
+    .filter((post) =>
+      isPostVisible(post.frontmatter, { isProd: import.meta.env.PROD }),
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.frontmatter.date).getTime() -
+        new Date(a.frontmatter.date).getTime(),
+    );
+
+/** The `[...path]` route param for a post. */
+export const routeParamOf = ({ path }: PostFrontmatter) =>
+  path.replace(/^\//, "");

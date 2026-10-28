@@ -1,6 +1,7 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 
 import { isPostVisible } from "../lib/isPostVisible";
+import { routeParamOf } from "../lib/posts";
 import type { PostFrontmatter } from "../types";
 
 const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
@@ -27,7 +28,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   );
 
   return entries.map(([key, mod]) => ({
-    params: { path: mod.frontmatter.path.replace(/^\//, "") },
+    params: { path: routeParamOf(mod.frontmatter) },
     props: { raw: rawModules[key] ?? "", title: mod.frontmatter.title },
   }));
 };

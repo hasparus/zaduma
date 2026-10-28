@@ -29,13 +29,11 @@ interface Props {
 
 const { title, description, socialCard } = Astro.props;
 
-const posts = visiblePosts
-  .map((p) => ({
-    href: p.frontmatter.path,
-    title: p.frontmatter.title,
-    date: p.frontmatter.date,
-  }))
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const posts = visiblePosts.map((p) => ({
+  href: p.frontmatter.path,
+  title: p.frontmatter.title,
+  date: p.frontmatter.date,
+}));
 
 const postPaths = new Set(posts.map((p) => p.href));
 

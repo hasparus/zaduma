@@ -1,12 +1,12 @@
 ---
-import { playerParamOf, postImages } from "../../../lib/createOgImageLink";
-import { visiblePosts } from "../../../lib/posts";
+import { postImages } from "../../../lib/createOgImageLink";
+import { routeParamOf, visiblePosts } from "../../../lib/posts";
 
 export const getStaticPaths = () =>
   visiblePosts.flatMap(({ frontmatter }) => {
     const src = postImages(frontmatter).ogVideo;
     return src
-      ? [{ params: { path: playerParamOf(frontmatter) }, props: { src } }]
+      ? [{ params: { path: routeParamOf(frontmatter) }, props: { src } }]
       : [];
   });
 
