@@ -55,7 +55,7 @@
   "devDependencies": {
     "@astrojs/rss": "^4.0.18",
     "@hasparus/eslint-config": "3.0.0",
-    "@playwright/test": "1.63.0",
+    "@playwright/test": "1.64.1",
     "@types/hast": "3.0.4",
     "@types/node": "^26.6.3",
     "cssnano": "^7.1.5",
