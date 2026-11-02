@@ -1,0 +1,40 @@
+---
+import { postImages } from "../../../lib/createOgImageLink";
+import { routeParamOf, visiblePosts } from "../../../lib/posts";
+
+export const getStaticPaths = () =>
+  visiblePosts.flatMap(({ frontmatter }) => {
+    const src = postImages(frontmatter).ogVideo;
+    return src
+      ? [{ params: { path: routeParamOf(frontmatter) }, props: { src } }]
+      : [];
+  });
+
+const { src } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta name="viewport" content="width=device-width" />
+    <title>video</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #000;
+      }
+      video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <video src={src} autoplay loop muted playsinline></video>
+  </body>
+</html>

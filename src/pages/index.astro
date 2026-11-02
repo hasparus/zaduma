@@ -1,25 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate } from "../lib/formatDate";
-import { isPostVisible } from "../lib/isPostVisible";
 import { Link } from "../lib/Link";
+import { visiblePosts as posts } from "../lib/posts";
 import { Paragraph } from "../lib/prose/Paragraph";
-import type { PostFrontmatter } from "../types";
-
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
-  "../../posts/**/*.mdx",
-  { eager: true },
-);
-const posts = Object.values(postModules).filter((post) =>
-  isPostVisible(post.frontmatter, { isProd: import.meta.env.PROD }),
-);
-
-posts.sort((a, b) => {
-  return (
-    new Date(b.frontmatter.date).getTime() -
-    new Date(a.frontmatter.date).getTime()
-  );
-});
 ---
 
 <BaseLayout

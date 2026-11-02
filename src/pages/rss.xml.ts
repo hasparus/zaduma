@@ -1,14 +1,6 @@
 import rss from "@astrojs/rss";
 
-import { isPostVisible } from "../lib/isPostVisible";
-import type { PostProps } from "../types";
-
-const postImportResult = import.meta.glob<PostProps>("../../posts/**/*.mdx", {
-  eager: true,
-});
-const posts = Object.values(postImportResult).filter((p) =>
-  isPostVisible(p.frontmatter, { isProd: import.meta.env.PROD }),
-);
+import { visiblePosts as posts } from "../lib/posts";
 
 export const GET = () =>
   rss({

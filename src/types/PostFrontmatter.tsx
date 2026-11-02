@@ -14,6 +14,8 @@ export interface PostFrontmatter {
     | {
         /** Image for the Open Graph social card. */
         og?: string;
+        /** Looping mp4 for the social card, with `og` as its still frame. */
+        ogVideo?: string;
         /** Image for the post header.` */
         src?: string;
       };
