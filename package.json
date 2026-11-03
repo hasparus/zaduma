@@ -35,7 +35,6 @@
     "@types/unist": "^3.0.3",
     "@vercel/og": "^1.0.2",
     "astro": "^6.4.6",
-    "cuelume": "0.2.8",
     "estree-util-value-to-estree": "^3.5.0",
     "gray-matter": "4.0.3",
     "plaiceholder": "^3.0.0",

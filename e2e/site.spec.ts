@@ -172,3 +172,49 @@ test("color scheme switches with command palette and responds to media preferenc
 
   await page.emulateMedia({ colorScheme: null });
 });
+
+declare global {
+  interface Window {
+    clicks: number;
+  }
+}
+
+test("buttons click quietly until sound is turned off", async ({ page }) => {
+  await page.addInitScript(() => {
+    const start = AudioBufferSourceNode.prototype.start;
+    window.clicks = 0;
+    AudioBufferSourceNode.prototype.start = function (...args) {
+      window.clicks++;
+      return start.apply(this, args);
+    };
+  });
+  const clicks = () => page.evaluate(() => window.clicks);
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "Open command palette" }).click();
+  await expect.poll(clicks).toBeGreaterThan(0);
+
+  await page.getByRole("option", { name: "Turn Sound Off" }).click();
+  await page.keyboard.press("Escape");
+  const silenced = await clicks();
+  await page.getByRole("button", { name: "Open command palette" }).click();
+  expect(await clicks()).toBe(silenced);
+
+  await page.getByRole("option", { name: "Turn Sound On" }).click();
+  await page.keyboard.press("Escape");
+  const resumed = await clicks();
+  await page.getByRole("button", { name: "Open command palette" }).click();
+  await expect.poll(clicks).toBeGreaterThan(resumed);
+});
+
+test("buttons still work without Web Audio", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    Reflect.deleteProperty(window, "AudioContext");
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open command palette" }).click();
+  await expect(page.getByRole("option").first()).toBeVisible();
+  expect(errors).toEqual([]);
+});
