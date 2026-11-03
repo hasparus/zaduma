@@ -202,8 +202,9 @@ test("buttons click quietly until sound is turned off", async ({ page }) => {
 
   await page.getByRole("option", { name: "Turn Sound On" }).click();
   await page.keyboard.press("Escape");
+  const resumed = await clicks();
   await page.getByRole("button", { name: "Open command palette" }).click();
-  await expect.poll(clicks).toBeGreaterThan(silenced);
+  await expect.poll(clicks).toBeGreaterThan(resumed);
 });
 
 test("buttons still work without Web Audio", async ({ page }) => {
