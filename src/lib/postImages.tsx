@@ -29,7 +29,10 @@ export async function resolvePostImages(
   if (og.image && og.backgroundImage) {
     throw new Error(`${file}: set og.image or og.backgroundImage, not both`);
   }
-  if (og.video !== undefined && !/^(\/|https:\/\/).+\.mp4$/.test(og.video)) {
+  if (
+    og.video !== undefined &&
+    !/^(\/|https:\/\/)[^?#]+\.mp4([?#].*)?$/.test(og.video)
+  ) {
     throw new Error(
       `${file}: og.video must be an absolute path or URL to an .mp4, got "${og.video}"`,
     );
