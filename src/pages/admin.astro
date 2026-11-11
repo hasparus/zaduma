@@ -12,8 +12,8 @@ const postModules = import.meta.glob<{
 
 const linksToOGImages = await Promise.all(
   Object.values(postModules).map(async ({ frontmatter, file }) => {
-    const images = await resolvePostImages(frontmatter, file);
-    return socialCardOf(frontmatter, images).image;
+    const { og } = await resolvePostImages(frontmatter, file);
+    return socialCardOf(frontmatter, og).image;
   }),
 );
 ---

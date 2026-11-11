@@ -6,20 +6,17 @@ export interface PostFrontmatter {
    * Optional description for the post, visible in Open Graph cards.
    */
   description?: string;
-  /**
-   * Optional URL to a picture or a dict of URLs to pictures.
-   * */
-  img?:
-    | string
-    | {
-        /** A ready-made Open Graph image, served instead of the generated
-         *  /api/og card. Relative (`./og.png`) or absolute. */
-        og?: string;
-        /** Looping mp4 for the social card, with the OG image as its still frame. */
-        ogVideo?: string;
-        /** Image for the post header.` */
-        src?: string;
-      };
+  /** Header image, relative (`./header.png`) or absolute. Also the default OG card background. */
+  img?: string;
+  /** The social card. Without `image`, `/api/og` generates one. */
+  og?: {
+    /** A ready-made Open Graph image, served as is. */
+    image?: string;
+    /** Background of the generated card, if it shouldn't be `img`. */
+    backgroundImage?: string;
+    /** Looping mp4, with the OG image as its still frame. */
+    video?: string;
+  };
   /**
    * @computed by derivedTitleAndDatePlugin from file name
    *           if not given

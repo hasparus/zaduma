@@ -21,9 +21,8 @@ interface Props extends Omit<MDXInstance<{}>, "frontmatter"> {
 
 const { frontmatter, headings, file } = Astro.props;
 
-const images = await resolvePostImages(frontmatter, file);
-const socialCard = socialCardOf(frontmatter, images);
-const imgSrc = images.src;
+const { img, og } = await resolvePostImages(frontmatter, file);
+const socialCard = socialCardOf(frontmatter, og);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
 const description = frontmatter.description || "";
@@ -70,8 +69,8 @@ const postSchema = blogPostingSchema({
       </div>
     </header>
     {
-      imgSrc && (
-        <Image alt="" src={imgSrc} format="webp" width={774} aspectRatio={2} />
+      img && (
+        <Image alt="" src={img} format="webp" width={774} aspectRatio={2} />
       )
     }
     <slot />

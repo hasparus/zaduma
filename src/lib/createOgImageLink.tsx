@@ -13,20 +13,15 @@ export interface SocialCard {
   video?: { player: string; src: string };
 }
 
-/** A ready-made `img.og` is served as is. Otherwise `/api/og` draws a card over `img.src`. */
+/** A ready-made `og.image` is served as is. Otherwise `/api/og` draws a card over `og.backgroundImage`. */
 export function socialCardOf(
   frontmatter: PostFrontmatter,
-  { og, src, ogVideo }: ResolvedPostImages,
+  { image, backgroundImage, video }: ResolvedPostImages["og"],
 ): SocialCard {
   return {
-    image:
-      og ??
-      createOgImageLink(frontmatter, typeof src === "object" ? src.src : src),
-    ...(ogVideo && {
-      video: {
-        player: `/og/player/${routeParamOf(frontmatter)}/`,
-        src: ogVideo,
-      },
+    image: image ?? createOgImageLink(frontmatter, backgroundImage),
+    ...(video && {
+      video: { player: `/og/player/${routeParamOf(frontmatter)}/`, src: video },
     }),
   };
 }

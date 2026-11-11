@@ -7,35 +7,46 @@ const postImageGlob = import.meta.glob<{ default: ImageMetadata }>(
   "/posts/**/*.{png,jpg,jpeg,webp,avif,gif}",
 );
 
-/** Normalizes `img` frontmatter, rejecting an `ogVideo` that isn't the mp4 `og:video:type` announces. */
-export function postImages({ img }: PostFrontmatter) {
-  const { og, src, ogVideo } = typeof img === "object" ? img : { src: img };
-  if (ogVideo !== undefined && !/\.mp4$/.test(ogVideo)) {
-    throw new Error(`img.ogVideo must be an .mp4, got "${ogVideo}"`);
+/**
+ * Validates `img` and `og` frontmatter and imports their `./` paths from next
+ * to the post, so Astro emits and optimizes them. `file` is the post's
+ * absolute path (`MDXInstance.file`).
+ */
+export async function resolvePostImages(
+  { img, og = {} }: PostFrontmatter,
+  file: string,
+) {
+  if (og.image && og.backgroundImage) {
+    throw new Error(`${file}: set og.image or og.backgroundImage, not both`);
   }
-  return { og, ogVideo, src };
+  if (og.video !== undefined && !og.video.endsWith(".mp4")) {
+    throw new Error(`${file}: og.video must be an .mp4, got "${og.video}"`);
+  }
+
+  const [header, image, backgroundImage] = await Promise.all([
+    img?.startsWith(".") ? importPostImage(file, img) : img,
+    urlOf(file, og.image),
+    urlOf(file, og.backgroundImage),
+  ]);
+  return {
+    img: header,
+    og: {
+      image,
+      backgroundImage:
+        backgroundImage ?? (typeof header === "object" ? header.src : header),
+      video: og.video,
+    },
+  };
 }
 
 export type ResolvedPostImages = Awaited<ReturnType<typeof resolvePostImages>>;
 
-/**
- * `postImages` with `./` paths imported from next to the post, so Astro emits
- * and optimizes them. `file` is the post's absolute path (`MDXInstance.file`).
- */
-export async function resolvePostImages(
-  frontmatter: PostFrontmatter,
-  file: string,
-) {
-  const { og, src, ogVideo } = postImages(frontmatter);
-  const resolve = (path: string | undefined) =>
-    path?.startsWith(".") ? importPostImage(file, path) : path;
-
-  const [srcImage, ogImage] = await Promise.all([resolve(src), resolve(og)]);
-  return {
-    src: srcImage,
-    og: typeof ogImage === "object" ? ogImage.src : ogImage,
-    ogVideo,
-  };
+/** Keeps the query, e.g. card options like `./bg.png?paddingBottom=112px`. */
+async function urlOf(file: string, path: string | undefined) {
+  if (!path?.startsWith(".")) return path;
+  const [pathname, query] = path.split("?");
+  const { src } = await importPostImage(file, pathname!);
+  return query ? `${src}?${query}` : src;
 }
 
 async function importPostImage(file: string, path: string) {

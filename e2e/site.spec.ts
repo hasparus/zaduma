@@ -118,7 +118,7 @@ test.describe("OG images", () => {
     expect(card.searchParams.get("post")).toMatch(/\/_astro\/huike-thinking/);
   });
 
-  test("a post with img.og serves it as is", async ({ page, request }) => {
+  test("a post with og.image serves it as is", async ({ page, request }) => {
     await page.goto("/features/og-images/");
     const ogImage = await page
       .locator('meta[property="og:image"]')
@@ -128,7 +128,7 @@ test.describe("OG images", () => {
     expect((await request.get(pathname)).ok()).toBe(true);
   });
 
-  test("a post with img.ogVideo gets og:video and an X player card", async ({
+  test("a post with og.video gets og:video and an X player card", async ({
     page,
     request,
   }) => {
