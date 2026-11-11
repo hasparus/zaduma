@@ -1,10 +1,9 @@
 ---
-import { postImages } from "../../../lib/createOgImageLink";
 import { routeParamOf, visiblePosts } from "../../../lib/posts";
 
 export const getStaticPaths = () =>
   visiblePosts.flatMap(({ frontmatter }) => {
-    const src = postImages(frontmatter).ogVideo;
+    const src = frontmatter.og?.video;
     return src
       ? [{ params: { path: routeParamOf(frontmatter) }, props: { src } }]
       : [];

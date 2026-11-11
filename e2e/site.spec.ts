@@ -61,6 +61,26 @@ test.describe("Article pages", () => {
   });
 });
 
+test("images colocated with posts are optimized", async ({ page }) => {
+  for (const [path, count] of [
+    ["/features/asides/", 2],
+    ["/features/post-with-frontmatter/", 1],
+  ] as const) {
+    await page.goto(path);
+    const images = page.locator("[zaduma-image] img");
+    await expect(images).toHaveCount(count);
+    for (const image of await images.all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect(image).toHaveAttribute("src", /\.webp/);
+      await expect
+        .poll(() =>
+          image.evaluate((img: HTMLImageElement) => img.naturalWidth > 0),
+        )
+        .toBe(true);
+    }
+  }
+});
+
 test.describe("Asides render as side notes on wide viewports", () => {
   test("aside positioned to the right on desktop", async ({
     page,
@@ -88,13 +108,27 @@ test.describe("Code blocks render with syntax highlighting", () => {
 });
 
 test.describe("OG images", () => {
-  test("og meta tags are present on article pages", async ({ page }) => {
-    await page.goto("/features/og-images/");
-    const ogImage = page.locator('meta[property="og:image"]');
-    await expect(ogImage).toHaveAttribute("content", /.+/);
+  test("posts get a generated card", async ({ page }) => {
+    await page.goto("/features/post-with-frontmatter/");
+    const ogImage = await page
+      .locator('meta[property="og:image"]')
+      .getAttribute("content");
+    const card = new URL(ogImage!);
+    expect(card.pathname).toBe("/api/og");
+    expect(card.searchParams.get("post")).toMatch(/\/_astro\/huike-thinking/);
   });
 
-  test("a post with img.ogVideo gets og:video and an X player card", async ({
+  test("a post with og.image serves it as is", async ({ page, request }) => {
+    await page.goto("/features/og-images/");
+    const ogImage = await page
+      .locator('meta[property="og:image"]')
+      .getAttribute("content");
+    const { pathname } = new URL(ogImage!);
+    expect(pathname).toMatch(/^\/_astro\/og\..+\.webp$/);
+    expect((await request.get(pathname)).ok()).toBe(true);
+  });
+
+  test("a post with og.video gets og:video and an X player card", async ({
     page,
     request,
   }) => {

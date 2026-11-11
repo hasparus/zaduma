@@ -6,6 +6,7 @@ export function postPath(postsDir: string, filePath: string): string {
     relative(postsDir, filePath)
       .replaceAll("\\", "/")
       .replace(/\.mdx?$/, "")
+      .replace(/\/index$/, "")
       .replaceAll(" ", "-")
   );
 }

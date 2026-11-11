@@ -16,7 +16,7 @@
     "serve": "astro preview",
     "astro": "astro",
     "lint": "eslint src",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "astro check && tsc --noEmit",
     "format": "prettier --write src",
     "ci": "pnpm lint && prettier --check src",
     "test": "playwright test"
@@ -52,6 +52,7 @@
     "yargs-parser": "^22.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "0.9.12",
     "@astrojs/rss": "^4.0.18",
     "@hasparus/eslint-config": "3.0.0",
     "@playwright/test": "1.64.1",

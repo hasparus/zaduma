@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { basename } from "node:path";
 import type { Plugin } from "unified";
 
 import type { PostFrontmatter, PostProps } from "../types";
@@ -10,7 +11,10 @@ export const derivedTitleAndDatePlugin: Plugin<
     const data = file.data as { astro: PostProps };
     const frontmatter = data.astro.frontmatter as Partial<PostFrontmatter>;
 
-    frontmatter.title ||= title(file.stem || "");
+    // `posts/my-post/index.mdx` is titled after its folder.
+    const stem =
+      file.stem === "index" ? basename(file.dirname || "") : file.stem;
+    frontmatter.title ||= title(stem || "");
 
     if (!frontmatter.date) {
       let createdAt: string;
