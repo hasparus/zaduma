@@ -14,7 +14,6 @@
  *
  * Accepted `src`s:
  * - `ImageMetadata`: imported, e.g. by MDX from `![](./image.png)` next to the post
- * - `/name.png`: from `src/images/`
  * - `https://…`: remote
  * - `/content/…`: from `public/`, served as is in its own aspect ratio
  * - `raw!…`: served as is
@@ -42,9 +41,6 @@ type Source =
   | { optimize: true; image: ImageMetadata | string; bytes: Buffer }
   | { optimize: false; src: string; intrinsic?: ImageMetadata };
 
-const srcImages = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/images/**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
-);
 const publicImages = import.meta.glob<{ default: ImageMetadata }>(
   "/public/content/**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
 );
@@ -80,7 +76,8 @@ if (source.optimize) {
   // Raw images can contain text or important details that shouldn't be cut
   // off, so they keep their own aspect ratio.
   const ratio = source.intrinsic.width / source.intrinsic.height;
-  height = Number(width) / Number(aspectRatio);
+  height =
+    Number(width ?? source.intrinsic.width) / Number(aspectRatio ?? ratio);
   width = height * ratio;
   aspectRatio = ratio;
 }
@@ -120,30 +117,17 @@ async function resolveSource(src: Props["src"]): Promise<Source> {
 
   const raw = resolved.replace(/^raw!/, "");
   if (raw.startsWith("/content/")) {
-    const [path] = raw.split("?");
-    const intrinsic = await load(publicImages, `/public${path}`);
+    const key = decodeURIComponent(`/public${raw.split("?")[0]}`);
+    const importImage = publicImages[key];
+    if (!importImage) throw new Error(`Image ${key} not found`);
+    const { default: intrinsic } = await importImage();
     return { optimize: false, src: raw, intrinsic };
   }
   if (raw !== resolved) return { optimize: false, src: raw };
 
-  if (resolved.startsWith("/")) {
-    const image = await load(srcImages, `/src/images${resolved}`);
-    return { optimize: true, image, bytes: await readImported(image) };
-  }
-
   throw new Error(
-    `Unsupported image src "${resolved}". Use an image imported next to the post, a path in src/images/ or public/content/, or a URL.`,
+    `Unsupported image src "${resolved}". Put the image next to the post and import it (\`![](./image.png)\`), or use a public/content/ path or a URL.`,
   );
-}
-
-async function load(
-  glob: Record<string, () => Promise<{ default: ImageMetadata }>>,
-  key: string,
-) {
-  const importImage = glob[decodeURIComponent(key)];
-  if (!importImage) throw new Error(`Image ${key} not found`);
-  const { default: image } = await importImage();
-  return image;
 }
 
 /** Astro attaches the source path to imported images, but leaves it out of `ImageMetadata`'s type. */
@@ -161,7 +145,7 @@ function readImported(image: ImageMetadata & { fsPath?: string }) {
   zaduma-image
   class:list={[
     "zaduma-image-box relative block overflow-hidden",
-    !placeholder &&
+    !source.optimize &&
       "inline-flex! w-(--wide-content-width) justify-center bg-current/10 [&>img]:h-full [&>img]:object-contain",
   ]}
 >

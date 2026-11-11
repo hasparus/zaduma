@@ -16,11 +16,23 @@ export async function resolvePostImages(
   { img, og = {} }: PostFrontmatter,
   file: string,
 ) {
+  if (img !== undefined && typeof img !== "string") {
+    throw new TypeError(
+      `${file}: img must be a path. img.src, img.og and img.ogVideo moved to img, og.image and og.video`,
+    );
+  }
+  if (typeof og !== "object" || og === null) {
+    throw new TypeError(
+      `${file}: og must be { image?, backgroundImage?, video? }`,
+    );
+  }
   if (og.image && og.backgroundImage) {
     throw new Error(`${file}: set og.image or og.backgroundImage, not both`);
   }
-  if (og.video !== undefined && !og.video.endsWith(".mp4")) {
-    throw new Error(`${file}: og.video must be an .mp4, got "${og.video}"`);
+  if (og.video !== undefined && !/^(\/|https:\/\/).+\.mp4$/.test(og.video)) {
+    throw new Error(
+      `${file}: og.video must be an absolute path or URL to an .mp4, got "${og.video}"`,
+    );
   }
 
   const [header, image, backgroundImage] = await Promise.all([
@@ -41,7 +53,7 @@ export async function resolvePostImages(
 
 export type ResolvedPostImages = Awaited<ReturnType<typeof resolvePostImages>>;
 
-/** Keeps the query, e.g. card options like `./bg.png?paddingBottom=112px`. */
+/** Keeps the query, which `/api/og` may read as card options. */
 async function urlOf(file: string, path: string | undefined) {
   if (!path?.startsWith(".")) return path;
   const [pathname, query] = path.split("?");

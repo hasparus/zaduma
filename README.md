@@ -52,7 +52,6 @@ Inside of your Astro project, you'll see the following folders and files:
 │   │   ├── BaseLayout.astro — <i>UI shared between all pages</i>
 │   │   └── PostLayout.astro — <i>layout for all posts</i>
 │   ├── lib/* — <i>reusable utils and UI components</i>
-│   ├── images/* — <i>shared pictures, referenced as <code>/name.png</code></i>
 │   ├── pages/
 │   │   ├── [path].astro — <i>Astro dynamic route for posts, supplies MDX components</i>
 │   │   └── index.astro — <i>index page, lists all posts</i>
