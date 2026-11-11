@@ -20,12 +20,8 @@
  * - `raw!…`: served as is
  */
 
-import type { ImageMetadata, ImageTransform } from "astro";
-import {
-  getImage,
-  type LocalImageProps,
-  type RemoteImageProps,
-} from "astro:assets";
+import type { GetImageResult, ImageMetadata, ImageTransform } from "astro";
+import { getImage, type LocalImageProps } from "astro:assets";
 import { readFile } from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
 
@@ -35,8 +31,11 @@ import "./Image.css";
 // TODO: Support High DPI screens by ensuring Astro emits images 2x of that.
 const WIDE_CONTAINER_WIDTH = 774;
 
-type Sizing = { aspectRatio?: number | string; height?: number | string };
-export type Props = (LocalImageProps | RemoteImageProps) & Sizing;
+export type Props = Omit<LocalImageProps, "src" | "height"> & {
+  src: LocalImageProps["src"] | string;
+  aspectRatio?: number | string;
+  height?: number | string;
+};
 
 type Source =
   | { optimize: true; image: ImageMetadata | string; bytes: Buffer }
@@ -86,15 +85,16 @@ if (source.optimize) {
 height ??=
   typeof aspectRatio === "number" ? Number(width) / aspectRatio : undefined;
 
-const { src, attributes } = source.optimize
-  ? await getImage({
-      ...props,
-      src: source.image,
-      format: "webp",
-      width,
-      height,
-    } as ImageTransform)
-  : { src: source.src, attributes: {} };
+const { src, attributes }: Pick<GetImageResult, "src" | "attributes"> =
+  source.optimize
+    ? await getImage({
+        ...props,
+        src: source.image,
+        format: "webp",
+        width,
+        height,
+      } as ImageTransform)
+    : { src: source.src, attributes: {} };
 const { class: className, ...imgAttributes } = attributes;
 
 async function resolveSource(src: Props["src"]): Promise<Source> {

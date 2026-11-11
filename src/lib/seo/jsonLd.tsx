@@ -45,7 +45,7 @@ export function blogPostingSchema(input: {
   headline: string;
   datePublished: string;
   dateModified?: string;
-  description?: string;
+  description?: string | undefined;
   author?: AuthorRef;
   canonical: string;
   inLanguage?: string;
