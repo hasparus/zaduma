@@ -24,6 +24,7 @@ import type { GetImageResult, ImageMetadata, ImageTransform } from "astro";
 import { getImage, type LocalImageProps } from "astro:assets";
 import { readFile } from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
+import sharp from "sharp";
 
 import "./Image.css";
 
@@ -66,7 +67,9 @@ let placeholder: Awaited<ReturnType<typeof getPlaiceholder>>["css"] | null =
 
 if (source.optimize) {
   const { metadata, css } = await getPlaiceholder(source.bytes, { size: 10 });
-  placeholder = css;
+  // A blurred placeholder would show through transparent pixels.
+  const { isOpaque } = await sharp(source.bytes).stats();
+  if (isOpaque) placeholder = css;
 
   if (!width && !height && !aspectRatio) {
     width = Math.min(metadata.width, WIDE_CONTAINER_WIDTH);
