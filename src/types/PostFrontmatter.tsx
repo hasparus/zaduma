@@ -12,9 +12,10 @@ export interface PostFrontmatter {
   img?:
     | string
     | {
-        /** Image for the Open Graph social card. */
+        /** A ready-made Open Graph image, served instead of the generated
+         *  /api/og card. Relative (`./og.png`) or absolute. */
         og?: string;
-        /** Looping mp4 for the social card, with `og` as its still frame. */
+        /** Looping mp4 for the social card, with the OG image as its still frame. */
         ogVideo?: string;
         /** Image for the post header.` */
         src?: string;

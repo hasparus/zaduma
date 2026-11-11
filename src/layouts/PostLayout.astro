@@ -3,7 +3,7 @@ import type { MarkdownHeading, MDXInstance } from "astro";
 
 import { socialCardOf } from "../lib/createOgImageLink";
 import { formatDate } from "../lib/formatDate";
-import { postImages } from "../lib/postImages";
+import { resolvePostImages } from "../lib/postImages";
 import Image from "../lib/prose/Image.astro";
 import { blogPostingSchema } from "../lib/seo/jsonLd";
 import JsonLd from "../lib/seo/JsonLd.astro";
@@ -21,8 +21,9 @@ interface Props extends Omit<MDXInstance<{}>, "frontmatter"> {
 
 const { frontmatter, headings, file } = Astro.props;
 
-const socialCard = await socialCardOf(frontmatter, file);
-const imgSrc = postImages(frontmatter).src;
+const images = await resolvePostImages(frontmatter, file);
+const socialCard = socialCardOf(frontmatter, images);
+const imgSrc = images.src;
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
 const description = frontmatter.description || "";
@@ -70,14 +71,7 @@ const postSchema = blogPostingSchema({
     </header>
     {
       imgSrc && (
-        <Image
-          alt=""
-          src={imgSrc}
-          format="webp"
-          width={774}
-          aspectRatio={2}
-          relativeTo={file}
-        />
+        <Image alt="" src={imgSrc} format="webp" width={774} aspectRatio={2} />
       )
     }
     <slot />

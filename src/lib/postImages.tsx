@@ -1,5 +1,5 @@
 import type { ImageMetadata } from "astro";
-import { dirname, join } from "node:path";
+import { dirname, join, relative, sep } from "node:path";
 
 import type { PostFrontmatter } from "../types/PostFrontmatter";
 
@@ -13,26 +13,37 @@ export function postImages({ img }: PostFrontmatter) {
   if (ogVideo !== undefined && !/\.mp4$/.test(ogVideo)) {
     throw new Error(`img.ogVideo must be an .mp4, got "${ogVideo}"`);
   }
-  return { og: og || src, ogVideo, src };
+  return { og, ogVideo, src };
 }
 
-/** Resolves an image colocated with a post (`./diagram.png`) against the post's file path. */
-export async function resolvePostImage(file: string, src: string) {
-  const postsAt = file.indexOf("/posts/");
-  if (postsAt === -1) {
-    throw new Error(`Expected a post under /posts/, got ${file}`);
-  }
-  const key = join(dirname(file.slice(postsAt)), src);
+export type ResolvedPostImages = Awaited<ReturnType<typeof resolvePostImages>>;
+
+/**
+ * `postImages` with `./` paths imported from next to the post, so Astro emits
+ * and optimizes them. `file` is the post's absolute path (`MDXInstance.file`).
+ */
+export async function resolvePostImages(
+  frontmatter: PostFrontmatter,
+  file: string,
+) {
+  const { og, src, ogVideo } = postImages(frontmatter);
+  const resolve = (path: string | undefined) =>
+    path?.startsWith(".") ? importPostImage(file, path) : path;
+
+  const [srcImage, ogImage] = await Promise.all([resolve(src), resolve(og)]);
+  return {
+    src: srcImage,
+    og: typeof ogImage === "object" ? ogImage.src : ogImage,
+    ogVideo,
+  };
+}
+
+async function importPostImage(file: string, path: string) {
+  const fromRoot = relative(process.cwd(), join(dirname(file), path));
+  const key = "/" + fromRoot.split(sep).join("/");
   const load = postImageGlob[key];
-  if (!load) throw new Error(`Image not found: ${key} (from ${file})`);
+  if (!load) throw new Error(`Image ${key} not found, referenced from ${file}`);
 
   const { default: image } = await load();
-  return { image, fsPath: join(process.cwd(), key) };
-}
-
-/** Resolves `./`-relative paths to the URL Astro emits for the colocated image. */
-export async function resolveIfRelative(file: string, src: string | undefined) {
-  if (!src?.startsWith(".")) return src;
-  const { image } = await resolvePostImage(file, src);
-  return image.src;
+  return image;
 }

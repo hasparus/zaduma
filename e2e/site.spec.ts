@@ -108,10 +108,24 @@ test.describe("Code blocks render with syntax highlighting", () => {
 });
 
 test.describe("OG images", () => {
-  test("og meta tags are present on article pages", async ({ page }) => {
+  test("posts get a generated card", async ({ page }) => {
+    await page.goto("/features/post-with-frontmatter/");
+    const ogImage = await page
+      .locator('meta[property="og:image"]')
+      .getAttribute("content");
+    const card = new URL(ogImage!);
+    expect(card.pathname).toBe("/api/og");
+    expect(card.searchParams.get("post")).toMatch(/\/_astro\/huike-thinking/);
+  });
+
+  test("a post with img.og serves it as is", async ({ page, request }) => {
     await page.goto("/features/og-images/");
-    const ogImage = page.locator('meta[property="og:image"]');
-    await expect(ogImage).toHaveAttribute("content", /.+/);
+    const ogImage = await page
+      .locator('meta[property="og:image"]')
+      .getAttribute("content");
+    const { pathname } = new URL(ogImage!);
+    expect(pathname).toMatch(/^\/_astro\/og\..+\.webp$/);
+    expect((await request.get(pathname)).ok()).toBe(true);
   });
 
   test("a post with img.ogVideo gets og:video and an X player card", async ({

@@ -11,6 +11,13 @@
  * @changes
  * - Added placeholder powered by `plaiceholder` CSS strategy.
  * - Limited the width of the image to wide container width, to get smaller & ligher images.
+ *
+ * Accepted `src`s:
+ * - `ImageMetadata`: imported, e.g. by MDX from `![](./image.png)` next to the post
+ * - `/name.png`: from `src/images/`
+ * - `https://…`: remote
+ * - `/content/…`: from `public/`, served as is in its own aspect ratio
+ * - `raw!…`: served as is
  */
 
 import type { ImageMetadata, ImageTransform } from "astro";
@@ -20,178 +27,130 @@ import {
   type RemoteImageProps,
 } from "astro:assets";
 import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { getPlaiceholder } from "plaiceholder";
 
-import { resolvePostImage } from "../postImages";
-
 import "./Image.css";
-
-// All* images with `src`s starting from / are imported from `src/images/` folder.
-const SRC_IMAGES_PREFIX = "/";
-
-// Images with `src` starting with /content/ live in public dir.
-const PUBLIC_IMAGES_PREFIX = "/content/";
 
 // No image needs to be wider than this.
 // TODO: Support High DPI screens by ensuring Astro emits images 2x of that.
 const WIDE_CONTAINER_WIDTH = 774;
 
-type LocalProps = LocalImageProps & {
-  aspectRatio?: number | string;
-  height?: number | string;
-};
-type RemoteProps = RemoteImageProps & {
-  aspectRatio?: number | string;
-  height?: number | string;
-};
-export type Props = (LocalProps | RemoteProps) & {
-  /** Path of the post's `.mdx` file. Enables `src="./image.png"` colocated with the post. */
-  relativeTo?: string;
-};
+type Sizing = { aspectRatio?: number | string; height?: number | string };
+export type Props = (LocalImageProps | RemoteImageProps) & Sizing;
+
+type Source =
+  | { optimize: true; image: ImageMetadata | string; bytes: Buffer }
+  | { optimize: false; src: string; intrinsic?: ImageMetadata };
+
+const srcImages = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/images/**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
+);
+const publicImages = import.meta.glob<{ default: ImageMetadata }>(
+  "/public/content/**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
+);
 
 const {
   loading = "lazy",
   decoding = "async",
-  relativeTo,
+  alt = "",
+  src: srcProp,
+  aspectRatio: aspectRatioProp,
   ...props
 } = Astro.props as Props;
 
-let width = props.width;
-let height = props.height;
+const source = await resolveSource(srcProp);
 
-// Colocated with the post: imported by MDX from `![](./image.png)`, or a `./` path.
-let importedImage: (ImageMetadata & { fsPath?: string }) | null = null;
-let fsPath: string | undefined;
+let { width, height } = props;
+let aspectRatio = aspectRatioProp;
+let placeholder: Awaited<ReturnType<typeof getPlaiceholder>>["css"] | null =
+  null;
 
-const srcProp = await props.src;
-if (typeof srcProp === "object") {
-  importedImage = "default" in srcProp ? srcProp.default : srcProp;
-  fsPath = importedImage.fsPath;
-} else if (srcProp.startsWith(".")) {
-  if (!relativeTo) {
-    throw new Error(`Relative image src "${srcProp}" requires relativeTo`);
-  }
-  ({ image: importedImage, fsPath } = await resolvePostImage(
-    relativeTo,
-    srcProp,
-  ));
-}
-let src = importedImage?.src ?? (srcProp as string);
-
-const pathToImage = decodeURIComponent(
-  src.startsWith(SRC_IMAGES_PREFIX)
-    ? `../../../src/images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
-    : src,
-);
-
-let placeholder: null | {
-  backgroundImage: string;
-  backgroundPosition: string;
-  backgroundSize: string;
-  backgroundRepeat: string;
-} = null;
-
-const isRaw = src.startsWith("raw!") || src.startsWith(PUBLIC_IMAGES_PREFIX);
-if (isRaw) {
-  src = src.slice(4);
-
-  if (src.startsWith(PUBLIC_IMAGES_PREFIX)) {
-    const globbed = import.meta.glob<false, string, { default: ImageMetadata }>(
-      "../../../public/content/**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
-    );
-    const path = "../../../public" + src;
-    const importedModule = await globbed[path]!();
-    const imported = importedModule.default;
-
-    // I'm preserving the aspect ratio of the imported image, because
-    // the 'raw' images can contain text or important details that should
-    // not be cut off.
-    height =
-      Number.parseFloat(props.width as string) /
-      Number.parseFloat(props.aspectRatio as string);
-    props.aspectRatio = imported.width / imported.height;
-    width = height * (imported.width / imported.height);
-  }
-} else {
-  if (!importedImage && src.startsWith(SRC_IMAGES_PREFIX)) {
-    src = src.slice(SRC_IMAGES_PREFIX.length - 1);
-    const allImages = import.meta.glob<
-      false,
-      string,
-      { default: ImageMetadata }
-    >("../../../src/images/**/*");
-
-    try {
-      const importedModule =
-        await allImages[pathToImage.replace("../src/", "")]!();
-      importedImage = importedModule.default;
-    } catch (error) {
-      console.error({ availableImages: Object.keys(allImages), pathToImage });
-      throw error;
-    }
-  }
-  if (importedImage) {
-    props.width ??= importedImage.width;
-    props.height ??= importedImage.height;
-    if (importedImage.format === "jpg") {
-      importedImage.format = "webp";
-    }
-  }
-
-  let imageForPlaceholder: Buffer;
-  if (fsPath) {
-    imageForPlaceholder = await readFile(fsPath);
-  } else if (pathToImage.startsWith("http")) {
-    const res = await fetch(pathToImage);
-    if (!res.ok) {
-      throw new Error(
-        `Failed to fetch image ${pathToImage}: ${res.status} ${res.statusText}`,
-      );
-    }
-    imageForPlaceholder = Buffer.from(await res.arrayBuffer());
-  } else {
-    // Resolve the source image from the project root. `pathToImage` is
-    // relative to this component (`../../../src/images/...`); strip the
-    // leading `../` segments and join onto cwd so the lookup is independent
-    // of Astro's emitted chunk layout (which changed in Astro 6).
-    imageForPlaceholder = await readFile(
-      join(process.cwd(), pathToImage.replace(/^(?:\.\.\/)+/, "")),
-    );
-  }
-
-  const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
-    size: 10,
-  });
+if (source.optimize) {
+  const { metadata, css } = await getPlaiceholder(source.bytes, { size: 10 });
   placeholder = css;
 
-  if (!width && !height && !props.aspectRatio) {
-    width ??= metadata.width;
-    props.aspectRatio ??= metadata.width / metadata.height;
-    width = Math.min(width, WIDE_CONTAINER_WIDTH);
-    height = Math.round(width / Number.parseFloat(props.aspectRatio as string));
+  if (!width && !height && !aspectRatio) {
+    width = Math.min(metadata.width, WIDE_CONTAINER_WIDTH);
+    aspectRatio = metadata.width / metadata.height;
+    height = Math.round(width / aspectRatio);
   }
+} else if (source.intrinsic) {
+  // Raw images can contain text or important details that shouldn't be cut
+  // off, so they keep their own aspect ratio.
+  const ratio = source.intrinsic.width / source.intrinsic.height;
+  height = Number(width) / Number(aspectRatio);
+  width = height * ratio;
+  aspectRatio = ratio;
 }
 
 height ??=
-  typeof props.aspectRatio === "number"
-    ? Number.parseFloat(width as unknown as string) / props.aspectRatio
-    : undefined;
+  typeof aspectRatio === "number" ? Number(width) / aspectRatio : undefined;
 
-props.alt ||= "";
-let attrs = { src, class: "", width, height, aspectRatio: props.aspectRatio };
+const { src, attributes } = source.optimize
+  ? await getImage({
+      ...props,
+      src: source.image,
+      format: "webp",
+      width,
+      height,
+    } as ImageTransform)
+  : { src: source.src, attributes: {} };
+const { class: className, ...imgAttributes } = attributes;
 
-if (!isRaw) {
-  let attributes;
-  props.src = src;
-  ({ src, attributes } = await getImage({
-    ...props,
-    src: importedImage || src,
-    format: "webp",
-    width,
-    height,
-  } as ImageTransform));
-  attrs = { ...attrs, ...attributes, src };
+async function resolveSource(src: Props["src"]): Promise<Source> {
+  const resolved = await src;
+  if (typeof resolved === "object") {
+    const image = "default" in resolved ? resolved.default : resolved;
+    return { optimize: true, image, bytes: await readImported(image) };
+  }
+
+  if (resolved.startsWith("http")) {
+    const res = await fetch(resolved);
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch image ${resolved}: ${res.status} ${res.statusText}`,
+      );
+    }
+    const bytes = Buffer.from(await res.arrayBuffer());
+    return { optimize: true, image: resolved, bytes };
+  }
+
+  const raw = resolved.replace(/^raw!/, "");
+  if (raw.startsWith("/content/")) {
+    const [path] = raw.split("?");
+    const intrinsic = await load(publicImages, `/public${path}`);
+    return { optimize: false, src: raw, intrinsic };
+  }
+  if (raw !== resolved) return { optimize: false, src: raw };
+
+  if (resolved.startsWith("/")) {
+    const image = await load(srcImages, `/src/images${resolved}`);
+    return { optimize: true, image, bytes: await readImported(image) };
+  }
+
+  throw new Error(
+    `Unsupported image src "${resolved}". Use an image imported next to the post, a path in src/images/ or public/content/, or a URL.`,
+  );
+}
+
+async function load(
+  glob: Record<string, () => Promise<{ default: ImageMetadata }>>,
+  key: string,
+) {
+  const importImage = glob[decodeURIComponent(key)];
+  if (!importImage) throw new Error(`Image ${key} not found`);
+  const { default: image } = await importImage();
+  return image;
+}
+
+/** Astro attaches the source path to imported images, but leaves it out of `ImageMetadata`'s type. */
+function readImported(image: ImageMetadata & { fsPath?: string }) {
+  if (!image.fsPath) {
+    throw new Error(
+      `Image ${image.src} has no fsPath to read a placeholder from`,
+    );
+  }
+  return readFile(image.fsPath);
 }
 ---
 
@@ -204,10 +163,8 @@ if (!isRaw) {
   ]}
 >
   <img
-    {...attrs}
-    class:list={["rounded-xs dark:opacity-80", attrs.class]}
-    loading={loading}
-    decoding={decoding}
+    {...{ src, width, height, alt, loading, decoding, ...imgAttributes }}
+    class:list={["rounded-xs dark:opacity-80", className]}
   />
   {
     placeholder && (

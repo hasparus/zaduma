@@ -2,17 +2,18 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { socialCardOf } from "../lib/createOgImageLink";
 import { Link } from "../lib/Link";
+import { resolvePostImages } from "../lib/postImages";
 import type { PostFrontmatter } from "../types";
 
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
-  "../../posts/**/*.mdx",
-  { eager: true },
-);
+const postModules = import.meta.glob<{
+  frontmatter: PostFrontmatter;
+  file: string;
+}>("../../posts/**/*.mdx", { eager: true });
 
 const linksToOGImages = await Promise.all(
-  Object.entries(postModules).map(async ([file, post]) => {
-    const { image } = await socialCardOf(post.frontmatter, file);
-    return image;
+  Object.values(postModules).map(async ({ frontmatter, file }) => {
+    const images = await resolvePostImages(frontmatter, file);
+    return socialCardOf(frontmatter, images).image;
   }),
 );
 ---

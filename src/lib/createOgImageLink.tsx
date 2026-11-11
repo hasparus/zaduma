@@ -4,7 +4,7 @@ import { createHmac } from "node:crypto";
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
 
-import { postImages, resolveIfRelative } from "./postImages";
+import type { ResolvedPostImages } from "./postImages";
 import { routeParamOf } from "./posts";
 
 export interface SocialCard {
@@ -13,14 +13,15 @@ export interface SocialCard {
   video?: { player: string; src: string };
 }
 
-/** `file` is the post's path, used to resolve `./`-relative `img` frontmatter. */
-export async function socialCardOf(
+/** A ready-made `img.og` is served as is. Otherwise `/api/og` draws a card over `img.src`. */
+export function socialCardOf(
   frontmatter: PostFrontmatter,
-  file: string,
-): Promise<SocialCard> {
-  const { og, ogVideo } = postImages(frontmatter);
+  { og, src, ogVideo }: ResolvedPostImages,
+): SocialCard {
   return {
-    image: createOgImageLink(frontmatter, await resolveIfRelative(file, og)),
+    image:
+      og ??
+      createOgImageLink(frontmatter, typeof src === "object" ? src.src : src),
     ...(ogVideo && {
       video: {
         player: `/og/player/${routeParamOf(frontmatter)}/`,
