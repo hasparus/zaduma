@@ -4,16 +4,8 @@ import { createHmac } from "node:crypto";
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
 
+import { postImages, resolveIfRelative } from "./postImages";
 import { routeParamOf } from "./posts";
-
-/** Normalizes `img` frontmatter, rejecting an `ogVideo` that isn't the mp4 `og:video:type` announces. */
-export function postImages({ img }: PostFrontmatter) {
-  const { og, src, ogVideo } = typeof img === "object" ? img : { src: img };
-  if (ogVideo !== undefined && !/\.mp4$/.test(ogVideo)) {
-    throw new Error(`img.ogVideo must be an .mp4, got "${ogVideo}"`);
-  }
-  return { og: og || src, ogVideo, src };
-}
 
 export interface SocialCard {
   image: string;
@@ -21,10 +13,14 @@ export interface SocialCard {
   video?: { player: string; src: string };
 }
 
-export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
-  const { ogVideo } = postImages(frontmatter);
+/** `file` is the post's path, used to resolve `./`-relative `img` frontmatter. */
+export async function socialCardOf(
+  frontmatter: PostFrontmatter,
+  file: string,
+): Promise<SocialCard> {
+  const { og, ogVideo } = postImages(frontmatter);
   return {
-    image: createOgImageLink(frontmatter),
+    image: createOgImageLink(frontmatter, await resolveIfRelative(file, og)),
     ...(ogVideo && {
       video: {
         player: `/og/player/${routeParamOf(frontmatter)}/`,
@@ -34,9 +30,10 @@ export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
   };
 }
 
-export function createOgImageLink(frontmatter: PostFrontmatter) {
-  const img = postImages(frontmatter).og;
-
+function createOgImageLink(
+  frontmatter: PostFrontmatter,
+  img: string | undefined,
+) {
   const timestamp = new Date(frontmatter.date).getTime();
   const { minutes } = frontmatter.readingTime;
   const { title } = frontmatter;

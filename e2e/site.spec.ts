@@ -61,6 +61,26 @@ test.describe("Article pages", () => {
   });
 });
 
+test("images colocated with posts are optimized", async ({ page }) => {
+  for (const [path, count] of [
+    ["/features/asides/", 2],
+    ["/features/post-with-frontmatter/", 1],
+  ] as const) {
+    await page.goto(path);
+    const images = page.locator("[zaduma-image] img");
+    await expect(images).toHaveCount(count);
+    for (const image of await images.all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect(image).toHaveAttribute("src", /\.webp/);
+      await expect
+        .poll(() =>
+          image.evaluate((img: HTMLImageElement) => img.naturalWidth > 0),
+        )
+        .toBe(true);
+    }
+  }
+});
+
 test.describe("Asides render as side notes on wide viewports", () => {
   test("aside positioned to the right on desktop", async ({
     page,

@@ -11,7 +11,12 @@ test.beforeAll(async () => {
   const files = await readdir(join(__dirname, "../posts"), { recursive: true });
   postsInFS = files
     .filter((file) => /\.mdx?$/.test(file))
-    .map((file) => file.replace(/\.mdx?$/, "").replaceAll(" ", "-"))
+    .map((file) =>
+      file
+        .replace(/\.mdx?$/, "")
+        .replace(/\/index$/, "")
+        .replaceAll(" ", "-"),
+    )
     .sort();
 });
 

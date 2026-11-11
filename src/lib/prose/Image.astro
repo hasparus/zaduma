@@ -23,6 +23,8 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getPlaiceholder } from "plaiceholder";
 
+import { resolvePostImage } from "../postImages";
+
 import "./Image.css";
 
 // All* images with `src`s starting from / are imported from `src/images/` folder.
@@ -43,27 +45,45 @@ type RemoteProps = RemoteImageProps & {
   aspectRatio?: number | string;
   height?: number | string;
 };
-export type Props = LocalProps | RemoteProps;
+export type Props = (LocalProps | RemoteProps) & {
+  /** Path of the post's `.mdx` file. Enables `src="./image.png"` colocated with the post. */
+  relativeTo?: string;
+};
 
-const { loading = "lazy", decoding = "async", ...props } = Astro.props as Props;
+const {
+  loading = "lazy",
+  decoding = "async",
+  relativeTo,
+  ...props
+} = Astro.props as Props;
 
 let width = props.width;
 let height = props.height;
 
-let src = await props.src;
-if (typeof src === "object") {
-  if ("default" in src) src = src.default;
-  if ("src" in src) {
-    src = src.src;
+// Colocated with the post: imported by MDX from `![](./image.png)`, or a `./` path.
+let importedImage: (ImageMetadata & { fsPath?: string }) | null = null;
+let fsPath: string | undefined;
+
+const srcProp = await props.src;
+if (typeof srcProp === "object") {
+  importedImage = "default" in srcProp ? srcProp.default : srcProp;
+  fsPath = importedImage.fsPath;
+} else if (srcProp.startsWith(".")) {
+  if (!relativeTo) {
+    throw new Error(`Relative image src "${srcProp}" requires relativeTo`);
   }
+  ({ image: importedImage, fsPath } = await resolvePostImage(
+    relativeTo,
+    srcProp,
+  ));
 }
+let src = importedImage?.src ?? (srcProp as string);
 
 const pathToImage = decodeURIComponent(
   src.startsWith(SRC_IMAGES_PREFIX)
     ? `../../../src/images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
     : src,
 );
-let importedImage = null;
 
 let placeholder: null | {
   backgroundImage: string;
@@ -94,7 +114,7 @@ if (isRaw) {
     width = height * (imported.width / imported.height);
   }
 } else {
-  if (src.startsWith(SRC_IMAGES_PREFIX)) {
+  if (!importedImage && src.startsWith(SRC_IMAGES_PREFIX)) {
     src = src.slice(SRC_IMAGES_PREFIX.length - 1);
     const allImages = import.meta.glob<
       false,
@@ -110,6 +130,8 @@ if (isRaw) {
       console.error({ availableImages: Object.keys(allImages), pathToImage });
       throw error;
     }
+  }
+  if (importedImage) {
     props.width ??= importedImage.width;
     props.height ??= importedImage.height;
     if (importedImage.format === "jpg") {
@@ -118,7 +140,9 @@ if (isRaw) {
   }
 
   let imageForPlaceholder: Buffer;
-  if (pathToImage.startsWith("http")) {
+  if (fsPath) {
+    imageForPlaceholder = await readFile(fsPath);
+  } else if (pathToImage.startsWith("http")) {
     const res = await fetch(pathToImage);
     if (!res.ok) {
       throw new Error(

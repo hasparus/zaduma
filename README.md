@@ -40,7 +40,10 @@ Inside of your Astro project, you'll see the following folders and files:
 <pre>
 <code>
 ├── posts/
-│   └── rebuilding-a-blog.mdx — <i>posts written in <a href="https://mdxjs.com/">MDX</a></i>
+│   ├── rebuilding-a-blog.mdx — <i>posts written in <a href="https://mdxjs.com/">MDX</a></i>
+│   └── my-post/
+│       ├── index.mdx — <i>served at /my-post, titled "My Post"</i>
+│       └── diagram.png — <i>colocated image, <code>![](./diagram.png)</code> or <code>img: ./diagram.png</code></i>
 ├── public/ — <i>static assets apart from images</i>
 ├── src/
 │   ├── build-time/* — <i>remark plugins</i>
@@ -49,7 +52,7 @@ Inside of your Astro project, you'll see the following folders and files:
 │   │   ├── BaseLayout.astro — <i>UI shared between all pages</i>
 │   │   └── PostLayout.astro — <i>layout for all posts</i>
 │   ├── lib/* — <i>reusable utils and UI components</i>
-│   ├── images/* — <i>pictures (need to be here to be optimized by Astro Image)</i>
+│   ├── images/* — <i>shared pictures, referenced as <code>/name.png</code></i>
 │   ├── pages/
 │   │   ├── [path].astro — <i>Astro dynamic route for posts, supplies MDX components</i>
 │   │   └── index.astro — <i>index page, lists all posts</i>
