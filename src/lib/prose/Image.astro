@@ -14,6 +14,7 @@
  *
  * Accepted `src`s:
  * - `ImageMetadata`: imported, e.g. by MDX from `![](./image.png)` next to the post
+ * - an imported SVG component: served as is
  * - `https://…`: remote
  * - `/content/…`: from `public/`, served as is in its own aspect ratio
  * - `raw!…`: served as is
@@ -99,6 +100,10 @@ const { class: className, ...imgAttributes } = attributes;
 
 async function resolveSource(src: Props["src"]): Promise<Source> {
   const resolved = await src;
+  if (typeof resolved === "function") {
+    const svg = resolved as unknown as ImageMetadata;
+    return { optimize: false, src: svg.src, intrinsic: svg };
+  }
   if (typeof resolved === "object") {
     const image = "default" in resolved ? resolved.default : resolved;
     return { optimize: true, image, bytes: await readImported(image) };
