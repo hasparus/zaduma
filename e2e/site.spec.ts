@@ -6,7 +6,7 @@ test.describe("Homepage", () => {
     await expect(page.locator("h1")).toHaveText("zaduma");
     // Check that article links are present
     const articles = page.locator("ul li a");
-    await expect(articles).toHaveCount(7);
+    await expect(articles).toHaveCount(8);
     // Verify some known titles
     await expect(page.getByText("OG Images")).toBeVisible();
     await expect(page.getByText("Asides")).toBeVisible();
@@ -81,6 +81,45 @@ test("images colocated with posts are optimized", async ({ page }) => {
   }
 });
 
+test.describe("X posts", () => {
+  test("a link in its own paragraph becomes a picture of the post", async ({
+    page,
+  }, testInfo) => {
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.goto("/features/x-posts/");
+    const embed = page.locator(".zaduma-xeet a").first();
+    await expect(embed).toHaveAttribute("href", "https://x.com/jack/status/20");
+
+    const shown = embed.locator("img:visible");
+    await expect(shown).toHaveCount(1);
+    await expect(shown).toHaveAttribute(
+      "alt",
+      "jack (@jack) on X: just setting up my twttr",
+    );
+    await shown.scrollIntoViewIfNeeded();
+    const lightSrc = await shown.evaluate(
+      (img: HTMLImageElement) => img.currentSrc,
+    );
+    expect(lightSrc).toMatch(
+      testInfo.project.name === "mobile"
+        ? /\/_astro\/20-\w+-lightNarrow\..+\.webp$/
+        : /\/_astro\/20-\w+-light\..+\.webp$/,
+    );
+
+    await page.emulateMedia({ colorScheme: "dark" });
+    await expect
+      .poll(() => shown.evaluate((img: HTMLImageElement) => img.currentSrc))
+      .toMatch(/-dark(Narrow)?\..+\.webp$/);
+  });
+
+  test("a link inside a sentence stays a link", async ({ page }) => {
+    await page.goto("/features/x-posts/");
+    await expect(
+      page.locator("p a[href='https://x.com/jack/status/20']"),
+    ).toHaveText("this one");
+  });
+});
+
 test.describe("Asides render as side notes on wide viewports", () => {
   test("aside positioned to the right on desktop", async ({
     page,
@@ -152,7 +191,7 @@ test("homepage is readable on mobile", async ({ page }, testInfo) => {
   await page.goto("/");
   await expect(page.locator("h1")).toBeVisible();
   const articles = page.locator("ul li a");
-  await expect(articles).toHaveCount(7);
+  await expect(articles).toHaveCount(8);
   // Content should not overflow
   const body = page.locator("body");
   const box = await body.boundingBox();

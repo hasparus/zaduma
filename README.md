@@ -9,6 +9,7 @@ _an [Astro] starter template for understated personal websites_
 - [Shiki Twoslash][shiki-twoslash]
 - [Tailwind CSS][tailwind-css]
 - Vercel and [Vercel OG][vercel-og]
+- [xeet] for pictures of X posts
 - [GitHub Actions][github-actions]
 
 [astro]: https://astro.build/
@@ -21,6 +22,7 @@ _an [Astro] starter template for understated personal websites_
 [vercel-og]:
   https://vercel.com/blog/introducing-vercel-og-image-generation-fast-dynamic-social-card-images
 [github-actions]: https://github.com/features/actions
+[xeet]: https://xeet-rs.vercel.app
 
 ## 🏎️ Usage TLDR
 
@@ -44,6 +46,7 @@ Inside of your Astro project, you'll see the following folders and files:
 │   └── my-post/
 │       ├── index.mdx — <i>served at /my-post, titled "My Post"</i>
 │       └── diagram.png — <i>colocated image, <code>![](./diagram.png)</code> or <code>img: ./diagram.png</code></i>
+├── xeets/ — <i>saved X posts, drawn in place of their links. Commit them.</i>
 ├── public/ — <i>static assets apart from images</i>
 ├── src/
 │   ├── build-time/* — <i>remark plugins</i>

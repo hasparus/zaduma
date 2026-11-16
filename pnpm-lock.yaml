@@ -49,6 +49,9 @@ importers:
       '@vercel/og':
         specifier: ^1.0.2
         version: 1.0.2(@types/node@26.6.3)
+      '@xeet/core':
+        specifier: 0.1.0
+        version: 0.1.0
       astro:
         specifier: ^6.4.6
         version: 6.4.6(@types/node@26.6.3)(@vercel/blob@2.8.0)(jiti@2.7.0)(lightningcss@1.33.0)(rollup@4.57.1)(tsx@4.23.1)(yaml@2.9.1)
@@ -113,6 +116,9 @@ importers:
       '@types/hast':
         specifier: 3.0.4
         version: 3.0.4
+      '@types/mdast':
+        specifier: 4.0.4
+        version: 4.0.4
       '@types/node':
         specifier: ^26.6.3
         version: 26.6.3
@@ -3126,6 +3132,10 @@ packages:
 
   '@workflow/serde@4.1.0-beta.2':
     resolution: {integrity: sha512-8kkeoQKLDaKXefjV5dbhBj2aErfKp1Mc4pb6tj8144cF+Em5SPbyMbyLCHp+BVrFfFVCBluCtMx+jjvaFVZGww==}
+
+  '@xeet/core@0.1.0':
+    resolution: {integrity: sha512-yrC/E6AxD4v9Rs8FaPn3l58ZfOwhlm8tqkTSd2vrzkfUNcgCi4z1gOmnivlGUVs8pVBJSlcBXy5CEOTEbIs6JQ==}
+    engines: {node: '>=20'}
 
   abbrev@2.0.0:
     resolution: {integrity: sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ==}
@@ -10344,6 +10354,8 @@ snapshots:
   '@vscode/l10n@0.0.18': {}
 
   '@workflow/serde@4.1.0-beta.2': {}
+
+  '@xeet/core@0.1.0': {}
 
   abbrev@2.0.0: {}
 

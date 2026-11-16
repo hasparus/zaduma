@@ -1,0 +1,87 @@
+---
+/**
+ * @file A picture of an X post, rendered at build time by xeet.
+ *
+ * Don't use it directly. `xeetPlugin` puts it in place of a paragraph that
+ * holds only a link to an X post. Read posts/features/x-posts/index.mdx.
+ */
+
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+
+export interface Props {
+  url: string;
+  alt: string;
+  light: ImageMetadata;
+  lightNarrow: ImageMetadata;
+  dark: ImageMetadata;
+  darkNarrow: ImageMetadata;
+}
+
+/** xeet renders at device pixel ratio 2. */
+const DPR = 2;
+/** Below this viewport width, the narrow render is easier to read. */
+const NARROW_MEDIA = "(max-width: 639px)";
+
+const { url, alt, light, lightNarrow, dark, darkNarrow } = Astro.props;
+
+const pictureOf = async (wide: ImageMetadata, narrow: ImageMetadata) => {
+  const [wideImage, narrowImage] = await Promise.all(
+    [wide, narrow].map((src) =>
+      getImage({
+        src,
+        width: src.width / DPR,
+        height: src.height / DPR,
+        densities: [1, DPR],
+        format: "webp",
+      }),
+    ),
+  );
+  return { wide: wideImage!, narrow: narrowImage! };
+};
+
+const pictures = [
+  {
+    theme: "light",
+    class: "dark:hidden",
+    ...(await pictureOf(light, lightNarrow)),
+  },
+  {
+    theme: "dark",
+    class: "hidden dark:block",
+    ...(await pictureOf(dark, darkNarrow)),
+  },
+];
+---
+
+<figure class="zaduma-xeet my-8">
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="mx-auto block max-w-[600px] overflow-hidden rounded-2xl border border-current/15"
+  >
+    {
+      pictures.map(({ wide, narrow, class: className }) => (
+        <picture class={className}>
+          <source
+            media={NARROW_MEDIA}
+            srcset={narrow.srcSet.attribute}
+            width={narrow.attributes.width}
+            height={narrow.attributes.height}
+          />
+          <img
+            src={wide.src}
+            srcset={wide.srcSet.attribute}
+            width={wide.attributes.width}
+            height={wide.attributes.height}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            class="block h-auto w-full"
+          />
+        </picture>
+      ))
+    }
+  </a>
+</figure>

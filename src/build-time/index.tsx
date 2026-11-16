@@ -12,6 +12,7 @@ import {
   remarkMdxReadingTimePlugin,
 } from "./readingTimePlugin";
 import { urlOutsideOfPagesDirPlugin } from "./urlOutsideOfPagesDirPlugin";
+import { xeetPlugin } from "./xeetPlugin";
 
 export const remarkPlugins = (projectDir: string): RemarkPlugins => {
   return checkOptions(
@@ -23,6 +24,14 @@ export const remarkPlugins = (projectDir: string): RemarkPlugins => {
     remarkSupersub,
     readingTimePlugin,
     remarkMdxReadingTimePlugin,
+    [
+      xeetPlugin,
+      {
+        snapshotsDir: resolve(projectDir, "./xeets"),
+        rendersDir: resolve(projectDir, "./node_modules/.cache/xeet"),
+        component: resolve(projectDir, "./src/lib/prose/Xeet.astro"),
+      },
+    ],
   ) as RemarkPlugins;
 };
 

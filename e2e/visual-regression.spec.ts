@@ -84,11 +84,15 @@ async function ensurePageStable(page: Page) {
       ].map((p) => p.catch(() => null)),
     );
     await Promise.all(
-      Array.from(document.images).map((img) =>
-        img.complete && img.naturalWidth > 0
-          ? Promise.resolve()
-          : img.decode().catch(() => undefined),
-      ),
+      Array.from(document.images)
+        // A lazy image that isn't shown, like the other color scheme's picture
+        // of an X post, never loads, so `decode()` would never settle.
+        .filter((img) => img.checkVisibility())
+        .map((img) =>
+          img.complete && img.naturalWidth > 0
+            ? Promise.resolve()
+            : img.decode().catch(() => undefined),
+        ),
     );
     await new Promise((resolve) => requestAnimationFrame(resolve));
     await new Promise((resolve) => requestAnimationFrame(resolve));
