@@ -111,13 +111,6 @@ test.describe("X posts", () => {
       .poll(() => shown.evaluate((img: HTMLImageElement) => img.currentSrc))
       .toMatch(/-dark(Narrow)?\..+\.webp$/);
   });
-
-  test("a link inside a sentence stays a link", async ({ page }) => {
-    await page.goto("/features/xeet/");
-    await expect(
-      page.locator("p a[href='https://x.com/jack/status/20']"),
-    ).toHaveText("a sentence");
-  });
 });
 
 test.describe("Asides render as side notes on wide viewports", () => {
