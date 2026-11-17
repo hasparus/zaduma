@@ -1,0 +1,22 @@
+---
+title: "Xeet"
+tags: ["markdown"]
+---
+
+An X link on its own line becomes a picture:
+
+https://x.com/jack/status/20
+
+[xeet](https://xeet-rs.vercel.app) draws it at build time. No iframe, no scripts
+from X.
+
+The first build saves the post to `xeets/<id>.json`. Commit it. Delete it to
+fetch again.
+
+Links in [a sentence](https://x.com/jack/status/20) stay links.
+
+---
+
+```mdx
+https://x.com/jack/status/20
+```

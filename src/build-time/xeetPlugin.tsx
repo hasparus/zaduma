@@ -19,7 +19,7 @@ export type XeetPluginOptions = {
  * Turns a paragraph with nothing but a link to an X post into a picture of
  * that post, rendered at build time by xeet (https://xeet-rs.vercel.app).
  *
- * Read posts/features/x-posts/index.mdx for more information.
+ * Read posts/features/xeet/index.mdx for more information.
  */
 export const xeetPlugin: Plugin<[XeetPluginOptions], Root> = (options) => {
   return async (tree, file) => {

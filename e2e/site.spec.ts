@@ -86,7 +86,7 @@ test.describe("X posts", () => {
     page,
   }, testInfo) => {
     await page.emulateMedia({ colorScheme: "light" });
-    await page.goto("/features/x-posts/");
+    await page.goto("/features/xeet/");
     const embed = page.locator(".zaduma-xeet a").first();
     await expect(embed).toHaveAttribute("href", "https://x.com/jack/status/20");
 
@@ -113,10 +113,10 @@ test.describe("X posts", () => {
   });
 
   test("a link inside a sentence stays a link", async ({ page }) => {
-    await page.goto("/features/x-posts/");
+    await page.goto("/features/xeet/");
     await expect(
       page.locator("p a[href='https://x.com/jack/status/20']"),
-    ).toHaveText("this one");
+    ).toHaveText("a sentence");
   });
 });
 
